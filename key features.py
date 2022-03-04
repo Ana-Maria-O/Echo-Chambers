@@ -183,6 +183,19 @@ def totalScore(sub):
 
     return n_posts, t_scores
 
+# returns a dictionary of all users in a subset of users and their average score for the subreddits taken into account
+# takes as input a dictionary of all users and their scores and a dictionary of all users and the number of comments and posts they made
+# returns dicitonary avg such that avg[user] is the average score of that user
+def averageScore(scores, numbers):
+    avg = {}
+    for user in scores.keys():
+        if numbers[user] == 0:
+            avg[user] = 0
+        else:
+            avg[user] = scores[user] / numbers[user]
+        
+    return avg
+
 # time slice that the program processes
 time = getTime(0)
 
@@ -217,10 +230,12 @@ def main():
 
     # total score
     n_posts_comments, t_score = totalScore(sub)
-    print(t_score)
-    print(n_posts_comments)
+    #print(t_score)
+    #print(n_posts_comments)
 
-# average score
+    # average score
+    a_score = averageScore(t_score, n_posts_comments)
+    print(a_score)
 
 # controversiality
 
