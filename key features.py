@@ -70,39 +70,38 @@ def importComments(time):
 # returns a list of all users in a comment and a post dictionaries
 # takes as inout a post dictionary of dataframes and a comment dictionary of dataframes
 # returns a list of all users in those dictionaries
-def allUsers(posters, commenters, repliees):
+def allUsers(posters, commenters, repliees, sub):
     users = []
-    for sub in posts.keys():
-        # choose which subreddit to pick the comments from
-        cmments = comments[sub]
+    # choose which subreddit to pick the comments from
+    cmments = comments[sub]
         
-        if commenters:
-            # get all authors of comments
-            users.extend(cmments['author'].unique().tolist())
+    if commenters:
+        # get all authors of comments
+        users.extend(cmments['author'].unique().tolist())
 
-        if repliees:
-            # get all people who were replied to
-            users.extend(cmments['reply to user'].unique().tolist())
+    if repliees:
+        # get all people who were replied to
+        users.extend(cmments['reply to user'].unique().tolist())
 
-        if posters:
-            # for each section of posts: hot, new, controversial
-            for sect in posts[sub].keys():
-                psts = posts[sub][sect]
+    if posters:
+        # for each section of posts: hot, new, controversial
+        for sect in posts[sub].keys():
+            psts = posts[sub][sect]
 
-                # get all authors of posts in this section
-                users.extend(psts['author'].unique().tolist())
+            # get all authors of posts in this section
+            users.extend(psts['author'].unique().tolist())
 
     uset = set(users)
     users = list(uset)
     return users
 
 # returns a dictionary with the number of replies from each user to every other user on a certain subreddit at a certain timeslice
-# takes as input the string represting the name of the subreddit
+# takes as input a string which is the name of the subreddit
 # returns a dictionary replies which has usernames as keys. Each key is associated with a different dictionary which also has usernames as keys
 # replies[user1][user2] represents the number of replies by user1 to user2
 def repliesBetweenUsers(sub):
     # list of all active users who wrote comments or were replied to
-    subUsers = allUsers(False, True, True)
+    subUsers = allUsers(False, True, True, sub)
     subUsers = set(subUsers)
 
     replies = {} 
@@ -129,6 +128,26 @@ def repliesBetweenUsers(sub):
     
     return replies
 
+# returns a dictionary of all users and their in-degree
+# takes as input a string which is the name of the subreddit
+# returns a dictionary indeg such that indeg[user] is the value of user's in-degree
+def inDegree(sub):
+
+    # the list of all active users in the subreddit
+    users = allUsers(True, True, True, sub)
+
+    # dictionary holding the indegrees of users
+    indeg = dict.fromkeys(users, 0)
+
+    # all instances where a user was replied to
+    r_instances = comments[sub]['reply to user'].tolist()
+
+    # for every reply update the indegree dictionary
+    for reply in r_instances:
+        indeg[reply] = indeg[reply] + 1
+
+    return indeg
+
 # time slice that the program processes
 time = getTime(0)
 
@@ -141,18 +160,21 @@ comments = importComments(time)
 
 def main():
 
-    # lits of all users
-    #users = allUsers(True, True, True)
+    # list of all users
+    #for subr in comments.keys():
+    #    users = allUsers(True, True, True, subr)
     #print(users)
 
     # subreddit
     sub = 'atheism'
 
     # number of replies from one user to another
-    replies = repliesBetweenUsers(sub)
+    #replies = repliesBetweenUsers(sub)
     #print(replies)
 
     # in degree
+    in_degree = inDegree(sub)
+    print(in_degree)
 
 # out degree
 
