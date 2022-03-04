@@ -70,70 +70,89 @@ def importComments(time):
 # returns a list of all users in a comment and a post dictionaries
 # takes as inout a post dictionary of dataframes and a comment dictionary of dataframes
 # returns a list of all users in those dictionaries
-def allUsers(posts, comments):
+def allUsers(posters, commenters, repliees):
     users = []
     for sub in posts.keys():
+        # choose which subreddit to pick the comments from
         cmments = comments[sub]
-        users.extend(cmments['author'].unique().tolist())
-        users.extend(cmments['reply to user'].unique().tolist())
+        
+        if commenters:
+            # get all authors of comments
+            users.extend(cmments['author'].unique().tolist())
 
-        for sect in posts[sub].keys():
-            psts = posts[sub][sect]
-            users.extend(psts['author'].unique().tolist())
+        if repliees:
+            # get all people who were replied to
+            users.extend(cmments['reply to user'].unique().tolist())
+
+        if posters:
+            # for each section of posts: hot, new, controversial
+            for sect in posts[sub].keys():
+                psts = posts[sub][sect]
+
+                # get all authors of posts in this section
+                users.extend(psts['author'].unique().tolist())
 
     uset = set(users)
     users = list(uset)
     return users
 
 # returns a dictionary with the number of replies from each user to every other user on a certain subreddit at a certain timeslice
-# takes as input the string represting the name of the subreddit and a dictionary of comment dataframes
+# takes as input the string represting the name of the subreddit
 # returns a dictionary replies which has usernames as keys. Each key is associated with a different dictionary which also has usernames as keys
 # replies[user1][user2] represents the number of replies by user1 to user2
-def repliesBetweenUsers(sub, comments):
-    # list of all
-    subUsers = comments[sub]['author'].unique().tolist()
-    subUsers.extend(comments[sub]['reply to user'].unique().tolist())
+def repliesBetweenUsers(sub):
+    # list of all active users who wrote comments or were replied to
+    subUsers = allUsers(False, True, True)
     subUsers = set(subUsers)
 
     replies = {} 
 
+    # for each user compute the users that they replied to and how many times
     for user in subUsers:
         replies[user] = {}
 
+        # all comments user replied to
         userComments = comments[sub].loc[comments[sub]['author'] == user]
+
+        # log of the users replied to
         repliees = userComments['reply to user'].tolist()
 
+        # for each instance of user repying
         for user2 in repliees:
+
+            # increase number of replies to user2
             if user2 in replies[user]:
                 replies[user][user2] = replies[user][user2] + 1
             else:
+                # initiate first reply to user2
                 replies[user][user2] = 1
     
     return replies
 
+# time slice that the program processes
+time = getTime(0)
+
+if time == 'Invalid':
+    raise KeyError('The requested timeslice file does not exist.')
+
+# import post and comment dataframes
+posts = importPosts(time)
+comments = importComments(time)
 
 def main():
-    # time slice that the program processes
-    time = getTime(0)
 
-    if time == 'Invalid':
-        raise KeyError('The requested timeslice file does not exist.')
-
-    # import post and comment dataframes
-    postDataFrames = importPosts(time)
-    commentDataFrames = importComments(time)
-    
     # lits of all users
- #   users = allUsers(postDataFrames, commentDataFrames)
-  #  print(users)
+    #users = allUsers(True, True, True)
+    #print(users)
 
-    # number of replies from one user to another
+    # subreddit
     sub = 'atheism'
 
-    replies = repliesBetweenUsers(sub, commentDataFrames)
+    # number of replies from one user to another
+    replies = repliesBetweenUsers(sub)
     #print(replies)
 
-# in degree
+    # in degree
 
 # out degree
 
