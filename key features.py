@@ -45,6 +45,7 @@ def importPosts(time):
             postDF[sub][sect] = pd.read_csv(path2)
     return postDF
 
+# returns a dictionary with all the comment dataframes
 def importComments(time):
     path = 'D:\\test\\Sent\\' + time + '\\Reddit Data\\Comments\\'
 
@@ -152,6 +153,36 @@ def in_out_Degree(sub, ind):
 
     return deg
 
+# returns a dictionary of all users in a subreddit and their total score in that subreddit and a dictionary
+# which keeps track of how many posts and comments each user has made
+# takes as input a string which is the name of the subreddit
+# returns a dictionary t_scores such that t_scores[user] is the total score of user in the subreddit and a dictionary
+# n_posts where n_posts[user] is the total number of posts and comments that user has made
+def totalScore(sub):
+    # list of all active users in the subreddit
+    users = allUsers(True, True, True, sub)
+
+    # dictionary with all users' scores
+    t_scores = dict.fromkeys(users, 0)
+
+    # dictionary with number of all users' posts and comments
+    n_posts = dict.fromkeys(users, 0)
+
+    # gather all posts scores and all number of posts
+    for sect in posts[sub].keys():
+        for index, row in posts[sub][sect].iterrows():
+            auth = row['author']
+            t_scores[auth] += row['score']
+            n_posts[auth] += 1
+
+    # gather all comment scores
+    for index, row in comments[sub].iterrows():
+        auth = row['author']
+        t_scores[auth] += row['score']
+        n_posts[auth] += 1
+
+    return n_posts, t_scores
+
 # time slice that the program processes
 time = getTime(0)
 
@@ -181,10 +212,13 @@ def main():
     #print(in_degree)
 
     # out degree
-    out_degree = in_out_Degree(sub, False)
-    print(out_degree)
+    #out_degree = in_out_Degree(sub, False)
+    #print(out_degree)
 
-# total score
+    # total score
+    n_posts_comments, t_score = totalScore(sub)
+    print(t_score)
+    print(n_posts_comments)
 
 # average score
 
