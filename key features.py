@@ -196,6 +196,34 @@ def averageScore(scores, numbers):
         
     return avg
 
+# returns a dictionary of all users in a subreddit and their controversiality
+# takes as input a string which is the name of the subreddit
+# returns a dictionary con such that con[user] is the controversilaity score of that user
+def controversiality(sub):
+    # list of all users in the subreddit
+    users = allUsers(True, True, True, sub)
+
+    # dictionary of controversiality
+    con = dict.fromkeys(users, 0)
+
+    # check controversial comments
+    c_comments = comments[sub].loc[comments[sub]['controversial'] == 1] # all controversial comments in subreddit
+
+    # for each controversial comment update the controversial scores in con
+    for index, row in c_comments.iterrows():
+        auth = row['author']
+        con[auth] += 1
+
+    # check controversial posts
+    c_posts = posts[sub]['controversial'] # all controversial posts in subreddit
+
+    # for each controversial comment update the controversial scores in con
+    for index, row in c_posts.iterrows():
+        auth = row['author']
+        con[auth] += 1
+
+    return con
+
 # time slice that the program processes
 time = getTime(0)
 
@@ -229,15 +257,17 @@ def main():
     #print(out_degree)
 
     # total score
-    n_posts_comments, t_score = totalScore(sub)
+    #n_posts_comments, t_score = totalScore(sub)
     #print(t_score)
     #print(n_posts_comments)
 
     # average score
-    a_score = averageScore(t_score, n_posts_comments)
-    print(a_score)
+    #a_score = averageScore(t_score, n_posts_comments)
+    #print(a_score)
 
-# controversiality
+    # controversiality
+    con = controversiality(sub)
+    print(con)
 
 # sorted list of subreddits active on
 
