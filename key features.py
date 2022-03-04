@@ -128,25 +128,29 @@ def repliesBetweenUsers(sub):
     
     return replies
 
-# returns a dictionary of all users and their in-degree
-# takes as input a string which is the name of the subreddit
-# returns a dictionary indeg such that indeg[user] is the value of user's in-degree
-def inDegree(sub):
+# returns a dictionary of all users and their in-degree or their out-degree
+# takes as input a string which is the name of the subreddit and a boolean ind such that
+# ind == true => returns in-degree dictionary, else returns out-degree dictionary
+# returns a dictionary deg such that deg[user] is the value of user's in-degree/out-degree
+def in_out_Degree(sub, ind):
 
     # the list of all active users in the subreddit
     users = allUsers(True, True, True, sub)
 
     # dictionary holding the indegrees of users
-    indeg = dict.fromkeys(users, 0)
+    deg = dict.fromkeys(users, 0)
 
-    # all instances where a user was replied to
-    r_instances = comments[sub]['reply to user'].tolist()
+    # all instances where a user was replied to/ replied to someone
+    if ind:
+        r_instances = comments[sub]['reply to user'].tolist()
+    else:
+        r_instances = comments[sub]['author'].tolist()
 
     # for every reply update the indegree dictionary
     for reply in r_instances:
-        indeg[reply] = indeg[reply] + 1
+        deg[reply] = deg[reply] + 1
 
-    return indeg
+    return deg
 
 # time slice that the program processes
 time = getTime(0)
@@ -173,10 +177,12 @@ def main():
     #print(replies)
 
     # in degree
-    in_degree = inDegree(sub)
-    print(in_degree)
+    #in_degree = in_out_Degree(sub, True)
+    #print(in_degree)
 
-# out degree
+    # out degree
+    out_degree = in_out_Degree(sub, False)
+    print(out_degree)
 
 # total score
 
