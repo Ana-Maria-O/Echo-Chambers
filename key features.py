@@ -1,3 +1,4 @@
+from typing import Counter
 import pandas as pd
 import numpy as np
 
@@ -45,6 +46,25 @@ def importPosts(time):
             postDF[sub][sect] = pd.read_csv(path2)
     return postDF
 
+# returns a dataframe with all the posts from the mentioned sub from the selected sections
+def allPosts(hot, new, controversial, sub):
+    all_posts = pd.DataFrame()
+
+    # choose which subreddit to aggregate posts from
+    psts = posts[sub]
+
+    if hot:
+        all_posts = pd.concat([all_posts, psts['hot']])
+
+    if new:
+        all_posts = pd.concat([all_posts, psts['new']])
+
+    if controversial:
+        all_posts = pd.concat([all_posts, psts['controversial']])
+
+    all_posts = all_posts.drop_duplicates(subset='id', keep='last')
+    return all_posts
+
 # returns a dictionary with all the comment dataframes
 def importComments(time):
     path = 'D:\\test\\Sent\\' + time + '\\Reddit Data\\Comments\\'
@@ -69,7 +89,7 @@ def importComments(time):
     return commentDF
 
 # returns a list of all users in a comment and a post dictionaries
-# takes as inout a post dictionary of dataframes and a comment dictionary of dataframes
+# takes as input a post dictionary of dataframes and a comment dictionary of dataframes
 # returns a list of all users in those dictionaries
 def allUsers(posters, commenters, repliees, sub):
     users = []
@@ -95,6 +115,41 @@ def allUsers(posters, commenters, repliees, sub):
     uset = set(users)
     users = list(uset)
     return users
+
+# computes the depth of a post tree and the number of nodes at each depth, where the depth of the root is given
+# and the widths of the tree at each level of depth
+# takes as input a string id representing the id of the root post, 
+# comms the comment dataframe from which to extract the replies to the post,
+# depth which is the depth of the root and widths which is a dictionary of all the widths of the tree
+# returns the depth of the subtree with id as its root and the dictionary witdths such that such that
+# widths[index] is the number of nodes of depth index
+def Depth(id, comms, depth, widths):
+    # find all direct replies to the root post
+    if depth == 0:
+        replies = comms.loc[comms['reply to comment'].isnull()]
+    else:
+        replies = comms.loc[comms['reply to comment'] == id]
+
+    if depth in widths:
+        widths[depth] += replies.shape[0]
+    else:
+        widths[depth] = replies.shape[0]
+
+    if replies.shape[0] > 0:
+        # compute depth of the deepest subtree
+        depth += 1
+        sub_depth = depth
+        replies_id = replies['id'].tolist()
+
+        # compute depth of each subtree
+        for tree in replies_id:
+            tree_depth, widths = Depth(tree, comms, depth, widths)
+            if tree_depth > sub_depth:
+                sub_depth = tree_depth
+
+        return sub_depth, widths
+    else:
+        return depth, widths
 
 # returns a dictionary with the number of replies from each user to every other user on a certain subreddit at a certain timeslice
 # takes as input a string which is the name of the subreddit
@@ -215,7 +270,7 @@ def controversiality(sub):
         con[auth] += 1
 
     # check controversial posts
-    c_posts = posts[sub]['controversial'] # all controversial posts in subreddit
+    c_posts = allPosts(False, False, True, sub) # all controversial posts in subreddit
 
     # for each controversial comment update the controversial scores in con
     for index, row in c_posts.iterrows():
@@ -223,6 +278,75 @@ def controversiality(sub):
         con[auth] += 1
 
     return con
+
+# returns a dictionary with the depths and a dictionary with the heights of all trees corresponding to posts on a subreddit
+# takes as input a string which is the name of the subreddit
+# returns dictionaries depth and width such that depth[post] is the depth of the tree rooted at post and width[post] is the
+# width of the tree rooted at post
+def treeDepthWidth(sub):
+    # all posts in subreddit
+    all_posts = allPosts(True, True, True, sub)
+
+    # all comments from subreddit
+    all_comments = comments[sub]
+
+    # all ids of all posts in subreddit
+    post_ids = all_posts['id'].tolist()
+
+    # initiate the depth and width dictionaries
+    depth = dict.fromkeys(post_ids, 0)
+    width = dict.fromkeys(post_ids, 0)
+
+    # for each post, compute the depth and widtyh of its tree
+    for post in post_ids:
+        widths = {}
+
+        # compute the depth of the post tree and all its different widths
+        depth[post], widths = Depth(post, all_comments.loc[all_comments['post id'] == post], 0, widths)
+
+        # find the maximum width of the post tree
+        width[post] = max(widths.values())
+
+    return depth, width
+
+# returns a dictionary with every active user on a subreddit and their post/comment ratio
+# takes as input a string sub which is the name of the subreddit
+# returns a dictionary pcRatio such that pcRatio[user] is the post/comment ratio of user on the subreddit sub
+def ratioPostComment(sub):
+    # get a list of all users in the subreddit
+    users = allUsers(True, True, True, sub)
+
+    #initialize pcRatio
+    pcRatio = dict.fromkeys(users, 1)
+
+    # get a list of all posts in the subeddit
+    psts = allPosts(True, True, True, sub)
+    psts = psts.drop_duplicates(subset='id', keep='last')
+
+    # get all comments in the sub
+    cmmts = comments[sub]
+
+    for user in users:
+        # all posts made by user
+        uPosts = psts.loc[psts['author'] == user]
+
+        # number of posts made by user
+        uPosts_num = uPosts.shape[0]
+
+        # all comments made by user
+        uComments = cmmts.loc[cmmts['author'] == user]
+
+        # number of comments made by user
+        uComments_num = uComments.shape[0]
+
+        # compute post/comment ratio
+
+        if uComments_num == 0:
+            pcRatio[user] = 1
+        else:
+            pcRatio[user] = uPosts_num / uComments_num
+    
+    return pcRatio
 
 # time slice that the program processes
 time = getTime(0)
@@ -266,16 +390,23 @@ def main():
     #print(a_score)
 
     # controversiality
-    con = controversiality(sub)
-    print(con)
+    #con = controversiality(sub)
+    #print(con)
 
-# sorted list of subreddits active on
+    #sorted list of subreddits active on
 
-# distribution of subreddits active on
+    # distribution of subreddits active on
 
-# most used words
+    # most used words
 
-# tree depth & width
+    # tree depth & width
+    #depths, widths = treeDepthWidth(sub)
+    #print(depths)
+    #print(widths)
+
+    # post/comment ratio
+    p_c_ratio = ratioPostComment(sub)
+    print(p_c_ratio)
 
 # average score of posts/comments per subreddit
 
