@@ -2,6 +2,89 @@ from typing import Counter
 import pandas as pd
 import numpy as np
 
+# Linked list to represent a tree
+# tree.root is the root of a tree
+# tree.root.id is the id of the post at the root
+# tree.root.next is a list containing the subtrees rooted in the direct responses to the root post
+class Tree:
+    def __init__(self, post):
+        self.root = post
+
+    def __repr__(self) -> str:
+        node = self.head
+        nodes = []
+        while node is not None:
+            nodes.append(node.data)
+            node = node.next
+        nodes.append("None")
+        return " -> ".join(nodes)
+
+# Node in tree
+class Node:
+    def __init__(self, data):
+        self.id = data
+        self.next = []
+
+    def __repr__(self):
+        return self.id
+
+# returns a dataframe with all the posts from the mentioned sub from the selected sections
+def allPosts(hot, new, controversial, sub):
+    all_posts = pd.DataFrame()
+
+    # choose which subreddit to aggregate posts from
+    psts = posts[sub]
+
+    if hot:
+        all_posts = pd.concat([all_posts, psts['hot']])
+
+    if new:
+        all_posts = pd.concat([all_posts, psts['new']])
+
+    if controversial:
+        all_posts = pd.concat([all_posts, psts['controversial']])
+
+    all_posts = all_posts.drop_duplicates(subset='id', keep='last')
+    return all_posts
+
+def addCommentsToTree(node, comms, sub, above=0):
+    
+    replies = []
+    #print(node)
+    if above == 0:
+        replies = comms.loc[comms['reply to comment'].isnull()]
+    else:
+        replies = comms.loc[comms['reply to comment'] == node.id]
+
+    #print(replies.shape[0])
+    if replies.shape[0] > 0:
+        replies_id = replies['id'].tolist()
+
+        for reply in replies_id:
+            r_node = Node(reply)
+            r_node = addCommentsToTree(r_node, comms, sub, 1)
+            node.next.append(r_node)
+
+    return node
+
+# uses the posts and comments dictionaries to create a forest containing all post trees
+# returns a forestDict dictionary such that forestDict[subreddit][post] is the tree with post as its root, 
+# where post was posted on subreddit
+def createForest():
+    forestDict = dict.fromkeys(posts.keys(), None)
+    
+    for sub in forestDict.keys():
+        print(sub)
+        comms = comments[sub].drop_duplicates(subset='id', keep='last')
+        psts = allPosts(True, True, True, sub)
+        forestDict[sub] = dict.fromkeys(psts['id'], None)
+
+        for post in forestDict[sub].keys():
+            forestDict[sub][post] = Tree(Node(post))
+            forestDict[sub][post] = addCommentsToTree(forestDict[sub][post].root, comms.loc[comms['post id'] == post], sub)
+
+    return forestDict
+
 # returns a string with the name of the file
 # correspondimng to the numth timeslice
 # returns 'Invalid' if num is not a valid number
@@ -45,25 +128,6 @@ def importPosts(time):
             path2 = path + sub + '_' + sect + '.csv'
             postDF[sub][sect] = pd.read_csv(path2)
     return postDF
-
-# returns a dataframe with all the posts from the mentioned sub from the selected sections
-def allPosts(hot, new, controversial, sub):
-    all_posts = pd.DataFrame()
-
-    # choose which subreddit to aggregate posts from
-    psts = posts[sub]
-
-    if hot:
-        all_posts = pd.concat([all_posts, psts['hot']])
-
-    if new:
-        all_posts = pd.concat([all_posts, psts['new']])
-
-    if controversial:
-        all_posts = pd.concat([all_posts, psts['controversial']])
-
-    all_posts = all_posts.drop_duplicates(subset='id', keep='last')
-    return all_posts
 
 # returns a dictionary with all the comment dataframes
 def importComments(time):
@@ -125,11 +189,12 @@ def allUsers(posters, commenters, repliees, sub):
 # widths[index] is the number of nodes of depth index
 def Depth(id, comms, depth, widths):
     # find all direct replies to the root post
+    print(id)
     if depth == 0:
         replies = comms.loc[comms['reply to comment'].isnull()]
     else:
         replies = comms.loc[comms['reply to comment'] == id]
-
+    print(replies.shape[0])
     if depth in widths:
         widths[depth] += replies.shape[0]
     else:
@@ -300,7 +365,6 @@ def treeDepthWidth(sub):
     # for each post, compute the depth and widtyh of its tree
     for post in post_ids:
         widths = {}
-
         # compute the depth of the post tree and all its different widths
         depth[post], widths = Depth(post, all_comments.loc[all_comments['post id'] == post], 0, widths)
 
@@ -348,6 +412,25 @@ def ratioPostComment(sub):
     
     return pcRatio
 
+# returns a dictionary with every active user on a subreddit, the posts they made/commented on and a list of
+# how many nodes there are on a thread between their replies
+# takes as input a string which is the name of the subreddit
+# returns a dictionary nodes such that nodes[user][post] is a list of the different amount of nodes
+# in a thread between user's replies on post
+def nodesBetweenReplies(sub):
+    # list of all posts on the subreddit
+    psts = allPosts(True, True, True, sub)
+    psts = psts.drop_duplicates(subset='id', keep='last')
+
+    # list of all comments on the subreddit
+    cmmts = comments[sub]
+
+    # initialize nodes
+    nodes = {}
+
+    #for post in posts:
+        #nodes = computeNodes(nodes, sub, post, 0, cmmts)
+
 # time slice that the program processes
 time = getTime(0)
 
@@ -355,8 +438,20 @@ if time == 'Invalid':
     raise KeyError('The requested timeslice file does not exist.')
 
 # import post and comment dataframes
+print("Start setup ........")
+print("Start importing posts ........")
 posts = importPosts(time)
+print("Posts imported!")
+print("Start importing comments ........")
 comments = importComments(time)
+print("Comments imported!")
+print("Start creating forest ........")
+
+# forest dictionary
+forest = createForest()
+print("Forest created!")
+print("Setup done!")
+
 
 def main():
 
@@ -405,8 +500,12 @@ def main():
     #print(widths)
 
     # post/comment ratio
-    p_c_ratio = ratioPostComment(sub)
-    print(p_c_ratio)
+    #p_c_ratio = ratioPostComment(sub)
+    #print(p_c_ratio)
+
+    # number of levels in post trees between users' replies
+    #nodes = nodesBetweenReplies(sub)
+    #print(nodes)
 
 # average score of posts/comments per subreddit
 
