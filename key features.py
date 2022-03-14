@@ -187,28 +187,23 @@ def allUsers(posters, commenters, repliees, sub):
 # depth which is the depth of the root and widths which is a dictionary of all the widths of the tree
 # returns the depth of the subtree with id as its root and the dictionary witdths such that such that
 # widths[index] is the number of nodes of depth index
-def Depth(id, comms, depth, widths):
+def Depth(node, depth, widths):
     # find all direct replies to the root post
-    print(id)
-    if depth == 0:
-        replies = comms.loc[comms['reply to comment'].isnull()]
-    else:
-        replies = comms.loc[comms['reply to comment'] == id]
-    print(replies.shape[0])
-    if depth in widths:
-        widths[depth] += replies.shape[0]
-    else:
-        widths[depth] = replies.shape[0]
+    replies = node.next
 
-    if replies.shape[0] > 0:
+    # update the witdh at current depth
+    if depth in widths:
+        widths[depth] += len(replies)
+    else:
+        widths[depth] = len(replies)
+
+    if len(replies) > 0:
         # compute depth of the deepest subtree
-        depth += 1
         sub_depth = depth
-        replies_id = replies['id'].tolist()
 
         # compute depth of each subtree
-        for tree in replies_id:
-            tree_depth, widths = Depth(tree, comms, depth, widths)
+        for nextNode in replies:
+            tree_depth, widths = Depth(nextNode, depth + 1, widths)
             if tree_depth > sub_depth:
                 sub_depth = tree_depth
 
@@ -349,14 +344,8 @@ def controversiality(sub):
 # returns dictionaries depth and width such that depth[post] is the depth of the tree rooted at post and width[post] is the
 # width of the tree rooted at post
 def treeDepthWidth(sub):
-    # all posts in subreddit
-    all_posts = allPosts(True, True, True, sub)
-
-    # all comments from subreddit
-    all_comments = comments[sub]
-
     # all ids of all posts in subreddit
-    post_ids = all_posts['id'].tolist()
+    post_ids = forest[sub].keys()
 
     # initiate the depth and width dictionaries
     depth = dict.fromkeys(post_ids, 0)
@@ -366,7 +355,7 @@ def treeDepthWidth(sub):
     for post in post_ids:
         widths = {}
         # compute the depth of the post tree and all its different widths
-        depth[post], widths = Depth(post, all_comments.loc[all_comments['post id'] == post], 0, widths)
+        depth[post], widths = Depth(forest[sub][post], 0, widths)
 
         # find the maximum width of the post tree
         width[post] = max(widths.values())
@@ -495,9 +484,9 @@ def main():
     # most used words
 
     # tree depth & width
-    #depths, widths = treeDepthWidth(sub)
-    #print(depths)
-    #print(widths)
+    depths, widths = treeDepthWidth(sub)
+    print(depths)
+    print(widths)
 
     # post/comment ratio
     #p_c_ratio = ratioPostComment(sub)
