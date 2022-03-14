@@ -21,14 +21,16 @@ class Tree:
 
 # Node in tree
 class Node:
-    def __init__(self, data, auth, score):
+    def __init__(self, data, auth, score, controversial, depth=-1):
         self.id = data
         self.auth = auth
         self.score = score
+        self.controversial = controversial
+        self.depth = depth
         self.next = []
 
     def __repr__(self):
-        return (self.id + " by " + self.user)
+        return (self.id + " by " + self.user + " score: " + self.score)
 
 # returns a dataframe with all the posts from the mentioned sub from the selected sections
 def allPosts(hot, new, controversial, sub):
@@ -65,7 +67,8 @@ def addCommentsToTree(node, comms, sub, above=0):
 
             auth = place.author.item()
             score = place.score.item()
-            r_node = Node(reply, auth, score)
+            controversial = place.controversial.item()
+            r_node = Node(reply, auth, score, controversial)
             r_node = addCommentsToTree(r_node, comms, sub, 1)
             node.next.append(r_node)
 
@@ -79,11 +82,17 @@ def createForest():
     for sub in forestDict.keys():
         print(sub)
         comms = comments[sub]
-        forestDict[sub] = dict.fromkeys(psts['id'], None)
+        forestDict[sub] = dict.fromkeys(psts['id'].tolist(), None)
 
         for post in forestDict[sub].keys():
             place = psts.loc[psts['id'] == post]
-            forestDict[sub][post] = Tree(Node(post, place.author.item(), place.score.item()))
+
+            if post in posts[sub]['controversial']['id'].tolist():
+                controversial = 1
+            else:
+                controversial = 0
+
+            forestDict[sub][post] = Tree(Node(post, place.author.item(), place.score.item(), controversial))
             forestDict[sub][post] = addCommentsToTree(forestDict[sub][post].root, comms.loc[comms['post id'] == post], sub)
 
     return forestDict
@@ -197,6 +206,7 @@ def allUsers(posters, commenters, repliees, sub):
 def Depth(node, depth, widths):
     # find all direct replies to the root post
     replies = node.next
+    node.depth = depth
 
     # update the witdh at current depth
     if depth in widths:
@@ -252,9 +262,6 @@ def repliesBetweenUsers(sub):
 # ind == true => returns in-degree dictionary, else returns out-degree dictionary
 # returns a dictionary deg such that deg[user] is the value of user's in-degree/out-degree
 def in_out_Degree(sub, replies, ind):
-    # the list of all active users in the subreddit
-    users = allUsers(True, True, True, sub)
-
     # dictionary holding the indegrees/outdegrees of users
     deg = dict.fromkeys(users, 0)
 
@@ -267,85 +274,90 @@ def in_out_Degree(sub, replies, ind):
 
     return deg
 
+# returns the modified ct_scores and cn_posts dictionaries as specified in the 
+# description for totalScore()
+def addCommentScores(ct_scores, cn_posts, node):
+    if len(node.next) > 0:
+        for comment in node.next:
+            ct_scores[comment.auth] += comment.score
+            cn_posts[comment.auth] += 1
+
+            ct_scores, cn_posts = addCommentScores(ct_scores, cn_posts, comment)
+    
+    return ct_scores, cn_posts
+
 # returns a dictionary of all users in a subreddit and their total score in that subreddit and a dictionary
 # which keeps track of how many posts and comments each user has made
 # takes as input a string which is the name of the subreddit
 # returns a dictionary t_scores such that t_scores[user] is the total score of user in the subreddit and a dictionary
 # n_posts where n_posts[user] is the total number of posts and comments that user has made
 def totalScore(sub):
-    # list of all users who made at least one post
-    p_users = allUsers(True, False, False, sub)
-
-    # list of all users who made at least one comment
-    c_users = allUsers(False, True, False, sub)
-
     # dictionary with all users' post scores
-    pt_scores = dict.fromkeys(p_users, 0)
+    pt_scores = dict.fromkeys(users, 0)
 
     # dictionary with all users' comment scores
-    ct_scores = dict.fromkeys(c_users, 0)
+    ct_scores = dict.fromkeys(users, 0)
 
     # dictionary with number of all users' posts
-    pn_posts = dict.fromkeys(p_users, 0)
+    pn_posts = dict.fromkeys(users, 0)
 
     # dictionary with number of all users' comments
-    cn_posts = dict.fromkeys(c_users, 0)
+    cn_posts = dict.fromkeys(users, 0)
 
-    # gather all posts scores and all number of posts
-    for sect in posts[sub].keys():
-        for _, row in posts[sub][sect].iterrows():
-            auth = row['author']
-            pt_scores[auth] += row['score']
-            pn_posts[auth] += 1
+    post_ids = psts['id']
+    # gather all posts scores
+    for post in post_ids:
+        node = forest[sub][post]
+        pt_scores[node.auth] += node.score
+        pn_posts[node.auth] += 1
 
-    # gather all comment scores
-    for index, row in comments[sub].iterrows():
-        auth = row['author']
-        ct_scores[auth] += row['score']
-        cn_posts[auth] += 1
+        ct_scores, cn_posts = addCommentScores(ct_scores, cn_posts, node)
 
     return pn_posts, cn_posts, pt_scores, ct_scores
 
 # returns a dictionary of all users in a subset of users and their average score for the subreddits taken into account
 # takes as input a dictionary of all users and their scores and a dictionary of all users and the number of comments and posts they made
 # returns dicitonary avg such that avg[user] is the average score of that user
-def averageScore(scores, numbers):
-    avg = defaultdict(dict)
-    for user in scores.keys():
-        if numbers[user] == 0:
-            avg[user] = 0
+def averageScore(p_scores, c_scores, p_number, c_number):
+    p_avg = defaultdict(dict)
+    c_avg = defaultdict(dict)
+
+    for user in users:
+        if p_number[user] == 0:
+            p_avg[user] = None
         else:
-            avg[user] = scores[user] / numbers[user]
+            p_avg[user] = p_scores[user] / p_number[user]
+
+        if c_number[user] == 0:
+            c_avg[user] = None
+        else:
+            c_avg[user] = c_scores[user] / c_number[user]
         
-    return avg
+    return p_avg, c_avg
+
+def addControversial(c_con, node):
+    if len(node.next) > 0:
+        for reply in node.next:
+            c_con[node.auth] += node.controversial
+
+            c_con = addControversial(c_con, reply)
+    
+    return c_con
 
 # returns a dictionary of all users in a subreddit and their controversiality
 # takes as input a string which is the name of the subreddit
 # returns a dictionary con such that con[user] is the controversilaity score of that user
 def controversiality(sub):
-    # list of all users in the subreddit
-    users = allUsers(True, True, True, sub)
+    # dictionaries of controversiality
+    p_con = dict.fromkeys(users, 0)
+    c_con = dict.fromkeys(users, 0)
 
-    # dictionary of controversiality
-    con = dict.fromkeys(users, 0)
+    for post in forest[sub]:
+        p_con[forest[sub][post].auth] += forest[sub][post].controversial
 
-    # check controversial comments
-    c_comments = comments[sub].loc[comments[sub]['controversial'] == 1] # all controversial comments in subreddit
+        c_con = addControversial(c_con, forest[sub][post])
 
-    # for each controversial comment update the controversial scores in con
-    for index, row in c_comments.iterrows():
-        auth = row['author']
-        con[auth] += 1
-
-    # check controversial posts
-    c_posts = allPosts(False, False, True, sub) # all controversial posts in subreddit
-
-    # for each controversial comment update the controversial scores in con
-    for index, row in c_posts.iterrows():
-        auth = row['author']
-        con[auth] += 1
-
-    return con
+    return p_con, c_con
 
 # returns a dictionary with the depths and a dictionary with the heights of all trees corresponding to posts on a subreddit
 # takes as input a string which is the name of the subreddit
@@ -373,41 +385,39 @@ def treeDepthWidth(sub):
 # returns a dictionary with every active user on a subreddit and their post/comment ratio
 # takes as input a string sub which is the name of the subreddit
 # returns a dictionary pcRatio such that pcRatio[user] is the post/comment ratio of user on the subreddit sub
-def ratioPostComment(sub):
-    # get a list of all users in the subreddit
-    users = allUsers(True, True, True, sub)
-
+def ratioPostComment(n_posts, n_comments, sub):
     #initialize pcRatio
-    pcRatio = dict.fromkeys(users, 1)
-
-    # get a list of all posts in the subeddit
-    psts = allPosts(True, True, True, sub)
-    psts = psts.drop_duplicates(subset='id', keep='last')
-
-    # get all comments in the sub
-    cmmts = comments[sub]
+    pcRatio = defaultdict(dict)
 
     for user in users:
-        # all posts made by user
-        uPosts = psts.loc[psts['author'] == user]
-
-        # number of posts made by user
-        uPosts_num = uPosts.shape[0]
-
-        # all comments made by user
-        uComments = cmmts.loc[cmmts['author'] == user]
-
-        # number of comments made by user
-        uComments_num = uComments.shape[0]
-
-        # compute post/comment ratio
-
-        if uComments_num == 0:
+        if n_comments[user] == 0:
             pcRatio[user] = 1
         else:
-            pcRatio[user] = uPosts_num / uComments_num
-    
+            pcRatio[user] = n_posts[user] / n_comments[user]
+
     return pcRatio
+
+def addNodes(nodes_between, last_nodes, node, post):
+    if node.auth in last_nodes:
+        prev = last_nodes[node.auth]
+        if post not in nodes_between[node.auth]:
+            nodes_between[node.auth][post] = []
+
+        nodes_between[node.auth][post].append(node.depth - last_nodes[node.auth] - 1)
+    else:
+        prev = -1
+    
+    last_nodes[node.auth] = node.depth
+
+    for reply in node.next:
+        nodes_between = addNodes(nodes_between, last_nodes, reply, post)
+
+    if prev == -1:
+        last_nodes.pop(node.auth)
+    else:
+        last_nodes[node.auth] = prev
+
+    return nodes_between
 
 # returns a dictionary with every active user on a subreddit, the posts they made/commented on and a list of
 # how many nodes there are on a thread between their replies
@@ -415,18 +425,14 @@ def ratioPostComment(sub):
 # returns a dictionary nodes such that nodes[user][post] is a list of the different amount of nodes
 # in a thread between user's replies on post
 def nodesBetweenReplies(sub):
-    # list of all posts on the subreddit
-    psts = allPosts(True, True, True, sub)
-    psts = psts.drop_duplicates(subset='id', keep='last')
+    nodes_between = defaultdict(dict)
 
-    # list of all comments on the subreddit
-    cmmts = comments[sub]
+    for post in psts['id']:
+        last_nodes = {}
+        nodes_between[forest[sub][post].auth][post] = []
+        nodes_between = addNodes(nodes_between, last_nodes, forest[sub][post], post)
 
-    # initialize nodes
-    nodes = defaultdict(dict)
-
-    #for post in posts:
-        #nodes = computeNodes(nodes, sub, post, 0, cmmts)
+    return nodes_between
 
 # time slice that the program processes
 time = getTime(0)
@@ -437,16 +443,22 @@ if time == 'Invalid':
 # import post and comment dataframes
 print("Start setup ........")
 print("Start importing posts ........")
+
 posts = importPosts(time)
 psts = allPosts(True, True, True, 'atheism')  # modify this later
+
 print("Posts imported!")
 print("Start importing comments ........")
+
 comments = importComments(time)
+users = allUsers(True, True, True, 'atheism')  # modify this later
+
 print("Comments imported!")
 print("Start creating forest ........")
 
 # forest dictionary
 forest = createForest()
+
 print("Forest created!")
 print("Setup done!")
 
@@ -461,30 +473,42 @@ def main():
     # subreddit
     sub = 'atheism'
 
+    print("Replies between users started............")
     # number of replies from one user to another
     replies = repliesBetweenUsers(sub)
+    print("Replies between users done!")
     #print(replies)
 
+    print("In degree started............")
     # in degree
     in_degree = in_out_Degree(sub, replies, True)
+    print("In degree done!")
     #print(in_degree)
 
+    print("Out degree started............")
     # out degree
     out_degree = in_out_Degree(sub, replies, False)
+    print("Out degree done!")
     #print(out_degree)
 
+    print("Total scores started............")
     # total scores
     n_posts, n_comments, t_score_posts, t_score_comments = totalScore(sub)
+    print("Total scores done!")
     #print(t_score)
-    #print(n_posts_comments)
+    #print(n_comments)
 
+    print("Average scores started............")
     # average score
-    #a_score = averageScore(t_score, n_posts_comments)
+    a_score_posts, a_score_comments = averageScore(t_score_posts, t_score_comments, n_posts, n_comments)
+    print("Average scores done!")
     #print(a_score)
 
+    print("Controversiality started............")
     # controversiality
-    #con = controversiality(sub)
-    #print(con)
+    p_con, c_con = controversiality(sub)
+    print("Controversiality done!")
+    #print(p_con)
 
     #sorted list of subreddits active on
 
@@ -497,12 +521,14 @@ def main():
     #print(depths)
     #print(widths)
 
+    print("Post/comment ratio started............")
     # post/comment ratio
-    #p_c_ratio = ratioPostComment(sub)
+    p_c_ratio = ratioPostComment(n_posts, n_comments, sub)
+    print("Post/comment ratio done!")
     #print(p_c_ratio)
 
     # number of levels in post trees between users' replies
-    #nodes = nodesBetweenReplies(sub)
+    nodes = nodesBetweenReplies(sub)
     #print(nodes)
 
 # average score of posts/comments per subreddit
