@@ -544,8 +544,6 @@ def forestExportTrain():
     pfile.close()
 
 def forestImportTrain():
-    global forest
-    
     # read the file
     pfile = open('forest_train.p', 'rb')
 
