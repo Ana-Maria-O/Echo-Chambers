@@ -2,6 +2,13 @@ from collections import defaultdict
 import pandas as pd
 import numpy as np
 
+time = ''
+posts = {}
+psts = {}
+comments = {}
+users = []
+forest = {}
+
 # Linked list to represent a tree
 # tree.root is the root of a tree
 # tree.root.id is the id of the post at the root
@@ -526,42 +533,40 @@ def nodesBetweenReplies(subs):
 
     return nodes_between
 
-# time slice that the program processes
-time = getTime(0)
+def setup():
+    # time slice that the program processes
+    time = getTime(0)
 
-if time == 'Invalid':
-    raise KeyError('The requested timeslice file does not exist.')
+    if time == 'Invalid':
+       raise KeyError('The requested timeslice file does not exist.')
 
-# import post and comment dataframes
-print("Start setup ........")
-print("Start importing posts ........")
+    # import post and comment dataframes
+    print("Start setup ........")
+    print("Start importing posts ........")
 
-posts = importPosts(time)
-psts = allPosts(posts.keys())
+    posts = importPosts(time)
+    psts = allPosts(posts.keys())
 
-print("Posts imported!")
-print("Start importing comments ........")
+    print("Posts imported!")
+    print("Start importing comments ........")
 
-comments = importComments(time)
-users = allUsers(posts.keys())
+    comments = importComments(time)
+    users = allUsers(posts.keys())
 
-print("Comments imported!")
-print("Start creating forest ........")
+    print("Comments imported!")
+    print("Start creating forest ........")
 
-# forest dictionary
-forest = createForest()
+    # forest dictionary
+    forest = createForest()
 
-print("Forest created!")
-print("Setup done!")
-
+    print("Forest created!")
+    print("Setup done!")
 
 def main():
 
-    # list of all users
-    #for subr in comments.keys():
-    #    users = allUsers(subr)
-    #print(users)
-
+    # setup for the rest of these fucntions to work
+    setup()
+    
     # subreddit
     sub = posts.keys()
 
