@@ -1,13 +1,18 @@
 # Networked Society Honors Track
 ## How to import and use the Post-Comment Network
 ### 1)Importing the Post-Comment Network
-In order to be able to use the Post-Comment forest you have to import it into your python file first. Make sure you have the keyFeatures.py and ffiles forest_train.p files downloaded into the same folder as the python file you want to import them to. Next, you import keyFeatures and the Node and Tree classes into your program:
+In order to be able to use the Post-Comment forest you have to import it into your python file first. Make sure you have the keyFeatures.py and forest_train.p files downloaded into the same folder as the python file you want to import them to. Next, you import keyFeatures and the Node and Tree classes into your program:
+
 ```import keyFeatures as kf```
+
 ```from keyFeatures import Node``` 
+
 ```from keyFeatures import Tree```
 
 When you want to import the actual tree, you use the following code:
+
 ``` forest = kf.forestImportTrain()```
+
 Congrats, now the Post-Comment network is stored in the variable forest :)
 
 ### 2) How to use the forest
