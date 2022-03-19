@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from keyFeatures import Tree, Node
 import keyFeatures as kf
 forest = kf.forestImportTrain()
