@@ -157,21 +157,25 @@ for user in users.values():
 print(max(weight1List))
 fig, axs = plt.subplots(ncols=3, nrows=2, figsize=(16,9))
 
-print(list(filter(lambda x: x >0, weight1List)))
+# print(f"c({','.join(str(i) for i in list(filter(lambda x: x >0, weight1List)))})")
+# print(len(weight1List))
 
-sns.distplot(a=list(filter(lambda x: x >0, weight1List)), ax=axs[0][0])
+# print(f"c({','.join(str(i) for i in list(range(3000)))})")
+# print(len(weight1List))
+
+sns.histplot(data=list(filter(lambda x: x >0, weight1List)),  bins = [0.5 + i for i in range(max(weight1List)+1)], ax=axs[0][0])
 axs[0][0].set_title("Number of replies")
 
-sns.distplot(a=list(filter(lambda x: x >0, weight2List)), ax=axs[0][1])
+sns.histplot(data=list(filter(lambda x: x >0, weight2List)), bins = [0.5 + i for i in range(max(weight2List)+1)],ax=axs[0][1])
 axs[0][1].set_title("Number of sandwiches")
 
-sns.distplot(a=list(filter(lambda x: x >0, weight3List)), ax=axs[0][2])
+sns.histplot(data=list(filter(lambda x: x >0, weight3List)), bins = [0.5 + i for i in range(max(weight3List)+1)],ax=axs[0][2])
 axs[0][2].set_title("Number of post influences")
 
-sns.distplot(a=list(filter(lambda x: x >0, postScoreList)), ax=axs[1][0])
+sns.histplot(data=list(filter(lambda x: x >0, postScoreList)), cumulative=True,ax=axs[1][0])
 axs[1][0].set_title("Post scores")
 
-sns.distplot(a=list(filter(lambda x: x >0, commentScoreList)), ax=axs[1][1])
+sns.histplot(data=list(filter(lambda x: x >0, commentScoreList)), cumulative=True,ax=axs[1][1])
 axs[1][1].set_title("Comment scores")
 plt.show()
 
