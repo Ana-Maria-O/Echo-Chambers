@@ -1,8 +1,11 @@
-from re import A
 from keyFeatures import Tree, Node
 import keyFeatures as kf
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+# Visualise UN
+import networkx as nx
+from pyvis.network import Network as PyvisNetwork
 
 # Post or comment in tree
 class Comment:
@@ -157,11 +160,6 @@ for user in users.values():
 print(max(weight1List))
 fig, axs = plt.subplots(ncols=3, nrows=2, figsize=(16,9))
 
-# print(f"c({','.join(str(i) for i in list(filter(lambda x: x >0, weight1List)))})")
-# print(len(weight1List))
-
-# print(f"c({','.join(str(i) for i in list(range(3000)))})")
-# print(len(weight1List))
 
 sns.histplot(data=list(filter(lambda x: x >0, weight1List)),  bins = [0.5 + i for i in range(max(weight1List)+1)], ax=axs[0][0])
 axs[0][0].set_title("Number of replies")
@@ -177,5 +175,45 @@ axs[1][0].set_title("Post scores")
 
 sns.histplot(data=list(filter(lambda x: x >0, commentScoreList)), cumulative=True,ax=axs[1][1])
 axs[1][1].set_title("Comment scores")
-plt.show()
+# plt.show()
+
+# Visualize UN
+
+def filterUsers(user: User) -> bool:
+    """Determines whether user will be shown in the network"""
+    postThreshold = 750
+    commentThreshold = 750
+    return user.postScore > postThreshold or user.commentScore > commentThreshold
+
+def filterEdges(user1: User, user2ID: str) -> bool:
+    """Determines whether the edge from user1 to user2 will be shown"""
+    replyThreshold = 3
+    replyWeight = user1.outArcs[user2ID][0]
+    return replyWeight >= replyThreshold
+
+# Create a Graph object
+user_graph = nx.Graph()
+
+# Add all users
+for userID in users.keys():
+    if filterUsers(users[userID]):
+        user_graph.add_node(userID)
+
+# Add all (unweighted) edges 
+for user in users.values():
+    for userOutID in user.outArcs.keys():
+        if filterUsers(user) and filterUsers(users[userOutID]) and filterEdges(user, userOutID):
+            user_graph.add_edge(user.id, userOutID)
+
+# Create PyvisNetwork object
+user_network = PyvisNetwork(height="90%", width="100%", bgcolor="white", font_color="black", \
+             notebook=False, heading="User Network")
+
+# Import the Graph object into the Network
+user_network.from_nx(user_graph)
+
+# Show the network
+user_network.barnes_hut(gravity=-80000, central_gravity=1.5, spring_length=250, spring_strength=0.0001, damping=0.09, overlap=0)
+# user_network.show_buttons(filter_=['physics'])
+user_network.show("UN.html")
 
