@@ -70,25 +70,25 @@ class Network:
     def __init__(self, users: list):
         self.users = users
 
+def nodeToComment(node: Node, parent):
+    """Returns the node in the Comment datastructure"""
+    comment = Comment(node.id, node.auth, node.score, node.controversial, parent, node.depth)
+    comment.next = node.next
+    return comment
 
-def getComments(node: Node):
-    """Returns a list with the Comment structures that originate from the PCN tree, with rootnode node."""
-    rootComment = Comment(node.id, node.auth, node.score, node.controversial, 0, node.depth)
-    rootComment.next = node.next
+
+def getComments(rootComment: Comment):
+    """Returns a list with the Comment structures that originate from the PCN tree, starting from a rootComment."""
+
     comments = [rootComment]
-    children = node.next
 
-    childComments = []
-    
+    children = rootComment.next
         
     for child in children:
-        childComment = Comment(child.id, child.auth, child.score, child.controversial, rootComment, child.depth)
-        childComment.next = child.next
-        comments.append(childComment)
-        for comment in getComments(child)[1]:
-            childComments.append(comment)
+        childComment = nodeToComment(child, rootComment)
+        comments += getComments(childComment)
                 
-    return (comments + childComments, childComments)
+    return comments
 
 def createDirectory(path: str):
     """Check existence for path and creates it if necessary."""
@@ -113,8 +113,9 @@ users = dict()
 # Update all user properties and create a users dictionary, with userID as key and a User object as value
 for postID in postDict.keys():
     rootNode = postDict[postID]
-    # Extract Comment datastructures originating from rootNode
-    newComments = getComments(rootNode)[0]
+    # Extract Comment datastructures originating from rootNode (such)
+    rootComment = nodeToComment(rootNode, 0)
+    newComments = getComments(rootComment)
     comments += newComments
 
     for comment in newComments:
@@ -175,6 +176,8 @@ for user in users.values():
         weight1List.append(weight1)
         weight2List.append(weight2)
         weight3List.append(weight3)
+
+
 
 # Create subplots for visualisations.
 figWeights, axsWeights = plt.subplots(ncols=3, nrows=2, figsize=(20,9))
