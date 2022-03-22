@@ -205,6 +205,8 @@ def importComments(time):
             path2 = path + sub + '.csv'
             commentDF[sub] = pd.read_csv(path2)
             commentDF[sub] = commentDF[sub].drop_duplicates(subset='id', keep='last')
+            commentDF[sub] = commentDF[sub].drop(commentDF[sub][commentDF[sub].author == '[deleted]'].index)
+            commentDF[sub] = commentDF[sub].drop(commentDF[sub][commentDF[sub].author == 'AutoModerator'].index)
 
     return commentDF
 
