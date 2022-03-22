@@ -162,19 +162,19 @@ def createUN(subreddit):
     
     fig.suptitle(f"User statistics for r/{subreddit}", weight='bold', size=20)
     
-    sns.histplot(data=list(filter(lambda x: x >0, weight1List)),  bins = [0.5 + i for i in range(max(weight1List)+1)], ax=axs[0][0])
+    sns.histplot(data=list(filter(lambda x: x >2, weight1List)),  bins = [0.5 + i for i in range(max(weight1List)+1)], ax=axs[0][0])
     axs[0][0].set_title("Number of replies per user")
     
-    sns.histplot(data=list(filter(lambda x: x >0, weight2List)), bins = [0.5 + i for i in range(max(weight2List)+1)],ax=axs[0][1])
+    sns.histplot(data=list(filter(lambda x: x >2, weight2List)), bins = [0.5 + i for i in range(max(weight2List)+1)],ax=axs[0][1])
     axs[0][1].set_title("Number of sandwiches per user")
     
-    sns.histplot(data=list(filter(lambda x: x >0, weight3List)), bins = [0.5 + i for i in range(max(weight3List)+1)],ax=axs[0][2])
+    sns.histplot(data=list(filter(lambda x: x >2, weight3List)), bins = [0.5 + i for i in range(max(weight3List)+1)],ax=axs[0][2])
     axs[0][2].set_title("Number of post influences per user")
     
-    sns.histplot(data=list(filter(lambda x: x >0, postScoreList)), cumulative=True,ax=axs[1][0])
+    sns.histplot(data=list(filter(lambda x: x >500, postScoreList)), cumulative=True,ax=axs[1][0])
     axs[1][0].set_title("Post scores")
     
-    sns.histplot(data=list(filter(lambda x: x >0, commentScoreList)), cumulative=True,ax=axs[1][1])
+    sns.histplot(data=list(filter(lambda x: x >1000, commentScoreList)), cumulative=True,ax=axs[1][1])
     axs[1][1].set_title("Comment scores per user")
     # plt.show()
 
