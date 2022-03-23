@@ -42,7 +42,7 @@ def compareScores(users):
         for user in activeInBoth:
             postScoresBothSubs[i].append(users[i][user].postScore)
             commentScoresBothSubs[i].append(users[i][user].commentScore)
-        
+    
     print(f"Post scores mean and CI for inside subs: \n {np.mean(postScoresOneSub[0])}, \
           {1.96*np.std(postScoresOneSub[0])/np.sqrt(len(postScoresOneSub[0]))} and \n {np.mean(postScoresOneSub[1])}, \
            {1.96*np.std(postScoresOneSub[1])/np.sqrt(len(postScoresOneSub[1]))}  for intersection: \n {np.mean(postScoresBothSubs[0])}, \

@@ -129,12 +129,6 @@ def createUN(subreddit):
                 addPost = 0
                 user.addArcWeights(comment.parent.auth, [addReplies, addSandwich, addPost])
     
-            # Check if comment is post
-            if comment.parent == 0:
-                user.addScores(postScore = comment.score, commentScore = 0)
-            else:
-                user.addScores(postScore = 0, commentScore = comment.score)
-    
     # print(users.values())
     
     userID = list(users.keys())
