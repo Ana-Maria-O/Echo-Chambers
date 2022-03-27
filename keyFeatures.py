@@ -1,6 +1,7 @@
 from collections import defaultdict
 import pandas as pd
 import pickle
+import json
 
 time = ''
 posts = {}
@@ -587,7 +588,8 @@ def setup():
     print("Start creating forest ........")
 
     # forest dictionary
-    forest = createForest()
+    # forest = createForest()
+    forest = forestImportTrain()
 
     print("Forest created!")
     print("Setup done!")
@@ -596,7 +598,6 @@ def main():
 
     # setup for the rest of these fucntions to work
     setup()
-    forestExportTrain()
     # subreddit
     sub = posts.keys()
 
@@ -630,12 +631,16 @@ def main():
     a_score_posts, a_score_comments = averageScore(t_score_posts, t_score_comments, n_posts, n_comments, sub)
     print("Average scores done!")
     #print(a_score)
+    fil_1 = open('avg_scores_comments', 'w')
+    json.dump(a_score_comments, fil_1, indent=4)
 
     print("Controversiality started............")
     # controversiality
     p_con, c_con = controversiality(sub)
     print("Controversiality done!")
     #print(p_con)
+    fil_2 = open('controversiality_comments', 'w')
+    json.dump(c_con, fil_2, indent=4)
 
     #sorted list of subreddits active on
 
@@ -645,6 +650,10 @@ def main():
 
     # tree depth & width
     depths, widths = treeDepthWidth(sub)
+    fil_3 = open('depth', 'w')
+    json.dump(depths, fil_3, indent=4)
+    fil_4 = open('width', 'w')
+    json.dump(widths, fil_4, indent=4)
     #print(depths)
     #print(widths)
 
