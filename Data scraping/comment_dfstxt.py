@@ -94,7 +94,7 @@ for i in range(1, 12):
             check = False
 
         for post in df['id']:
-            pst =open(typ + sor + '_' + post + '_comments.txt', 'r')
+            pst =open('Dumped Data//' + typ + sor + '_' + post + '_comments.txt', 'r')
             pst = pst.read()
             pst = json.loads(pst)
 
@@ -102,5 +102,5 @@ for i in range(1, 12):
                 app = df_append(cmt, pst[0]['data']['children'][0])
                 comm = pd.concat([comm, app])
 
-    comm.to_csv('Data\\Comments\\' + typ + '.csv')
+    comm.to_csv('Reddit Data//Comments//' + typ + '.csv')
     print(comm)

@@ -63,7 +63,7 @@ def get_comments(limit, link, file, id):
     #print(limit)
     try:
         comm = requests.get(link, headers = headers, params={'limit':str(limit)}).json()
-        out = open(file +'_' + id + '_comments.txt', 'w')
+        out = open('Dumped Data//' + file +'_' + id + '_comments.txt', 'w')
         json.dump(comm, out)
         out.close()
     except: skip
@@ -89,7 +89,7 @@ def make_dataframe(bas, typ, file):
     print("start " + file)
 
     # open dump file
-    out = open(file + '.txt', 'w')
+    out = open('Dumped Data//' + file + '.txt', 'w')
 
     prev = -1
     curr = 0
@@ -180,13 +180,14 @@ def make_dfs():
         print(type + " hot")
         hot = make_dataframe(base + type, '/hot', type + '_hot')
         print(type + " new")
+
         new = make_dataframe(base + type, '/new', type + '_new')
         print(type + " controversial")
         con = make_dataframe(base + type, '/controversial', type + '_controversial')
 
-        export(hot, 'D:\\test\\Data\\' + type + '_hot.csv')
-        export(new, 'D:\\test\\Data\\' + type + '_new.csv')
-        export(con, 'D:\\test\\Data\\' + type + '_controversial.csv')
+        export(hot, 'Reddit Data//Posts//' + type + '_hot.csv')
+        export(new, 'Dumped Data//Posts//' + type + '_new.csv')
+        export(con, 'Dumped Data//Posts//' + type + '_controversial.csv')
 
 #authentication data
 client_id = 'RxgO9SK7EgvWg9-KZmgTgw'
@@ -195,7 +196,7 @@ secret_key = 'IZ_G3NNOyx1qJnIrAfefMwNAK275Og'
 auth = requests.auth.HTTPBasicAuth(client_id, secret_key)
 
 #read the password from txt file
-with open('pw.txt', 'r') as f:
+with open('//home//aoltenicea//Documents//pw.txt', 'r') as f:
     pw = f.read()
 
 #prepare arguments to pass to the connection request
