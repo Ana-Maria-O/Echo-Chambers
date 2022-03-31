@@ -102,7 +102,7 @@ def createDirectory(path: str):
 forest = kf.forestImportTrain()
 
 # Subreddit to compute the statistics for. Could later be turned into a loop over forest.keys()
-subreddit = 'liberal'
+subreddit = 'lockdownskepticism'
 
 # Dictionary of posts
 postDict = forest[subreddit]
@@ -258,13 +258,13 @@ def filterUsers(user: User) -> bool:
     # postThreshold = 500
     # commentThreshold = 500
     # return user.postScore > postThreshold or user.commentScore > commentThreshold
-    totalScore = 250
+    totalScore = 0
     return user.postScore + user.commentScore > totalScore
 
 # Filter the edges that are displayed
 def filterEdges(user1: User, user2ID: str) -> bool:
     """Determines whether the edge from user1 to user2 will be shown"""
-    replyThreshold = 2
+    replyThreshold = 1
     replyWeight = user1.outArcs[user2ID][0]
     return replyWeight >= replyThreshold
 
@@ -295,6 +295,31 @@ user_network.barnes_hut(gravity=-80000, central_gravity=1.5, spring_length=250, 
 # Save the network
 user_network.save_graph(path + f"UN_{subreddit}.html")
 
+# Additional options for visualisation
 # user_network.show_buttons(filter_=['physics'])
-# user_network.show(path + f"UN_{subreddit}.html")
 
+
+# Extract some key features
+figCent, axs = plt.subplots(ncols=1, nrows=4, figsize=(20,14))
+sns.histplot(data=nx.degree_histogram(user_graph), bins = getBins(nx.degree_histogram(user_graph)), ax = axs[0])
+axs[0].set_title(f"Histogram degree distribution")
+
+
+betweennessValues = list(filter(lambda x: x >0.01 , nx.betweenness_centrality(user_graph).values()))
+sns.histplot(data=betweennessValues, bins=20, ax = axs[1])
+axs[1].set_title(f"Histogram betweenness centrality")
+
+closenessValues = list(filter(lambda x: x >0.01 , nx.closeness_centrality(user_graph).values()))
+sns.histplot(data=closenessValues, bins=100, ax = axs[2])
+axs[2].set_title(f"Histogram closeness centrality")
+
+sns.histplot(data=list(map(lambda x: 1/x, closenessValues)), bins=100, ax = axs[3])
+axs[3].set_title(f"Histogram reciprocal closeness centrality")
+
+
+# Save figure for later use
+figCent.savefig(path + f'centralityMeasures.png', bbox_inches="tight")
+
+
+
+print("DONE")
