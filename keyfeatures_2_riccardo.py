@@ -578,12 +578,17 @@ def active_list(df):
         pass
     else:
         df = pd.concat([df[i] for i in df.keys()]).drop_duplicates().reset_index(drop=True)
+
     auth_unique = list(df.author.unique())
+
     if '[deleted]' in auth_unique:
         auth_unique.remove('[deleted]')
+
     active = []
+
     for i in auth_unique:
         active.append((i, len(df[df['author'] == i])))
+
     return sorted(active, key = lambda x: x[1], reverse = True)
 
 def score_metrics(df):
@@ -591,8 +596,11 @@ def score_metrics(df):
         pass
     else:
         df = pd.concat([df[i] for i in df.keys()]).drop_duplicates().reset_index(drop=True)
+        
     avg = sum(df['score'])/len(df)
+
     maxs = sorted(df.score, reverse = True)[0]
+
     mins = sorted(df.score)[0]
     #print('Average score of subreddit: {}\nMaximum Score: {}\nMinimum Score: {}'.format(avg, maxs, mins))
     return avg, maxs, mins
@@ -614,6 +622,7 @@ def activity_distribution(data):
                 pass
             else:
                 reddict[i] = 0
+                
         for auth in df.author:
             reddict[auth] += 1
 
