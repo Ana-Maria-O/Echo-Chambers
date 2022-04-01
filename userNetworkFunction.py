@@ -89,7 +89,7 @@ def createUN(subreddit):
     comments = []
     users = dict() 
     
-    for postID in postDict.keys():
+    for postID in postDict:
         rootNode = postDict[postID]
         newComments = getComments(rootNode)[0]
         comments += newComments
