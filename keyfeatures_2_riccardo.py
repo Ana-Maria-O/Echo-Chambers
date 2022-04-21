@@ -8,6 +8,7 @@
 from collections import defaultdict
 import pandas as pd
 import pickle
+import json
 
 time = ''
 posts = {}
@@ -45,6 +46,16 @@ class Node:
 
     def __repr__(self):
         return (self.id + " by " + self.user + " score: " + self.score)
+
+def pretty_print(thingy, name):
+    fil = open('Key_Features//' + time + '//' + name + '.txt', 'w')
+
+    if type(thingy) is dict:
+        json.dump(thingy, fil, sort_keys = False, indent = 4)
+    if type(thingy) is list:
+        json.dump(thingy, fil,  indent = 4)
+
+    fil.close()
 
 # returns a dictionary of dataframes with all the posts from the mentioned subreddits
 def allPosts(subs):
@@ -629,7 +640,7 @@ def activity_distribution(data):
 
     return user_dist
 
-def setup():
+def setup(count):
     global time
     global posts
     global psts
@@ -637,7 +648,7 @@ def setup():
     global users
     global forest
     # time slice that the program processes
-    time = getTime(0)
+    time = getTime(count)
 
     if time == 'Invalid':
        raise KeyError('The requested timeslice file does not exist.')
@@ -664,10 +675,10 @@ def setup():
     print("Forest created!")
     print("Setup done!")
 
-def main():
+def computeFeatures(count):
 
     # setup for the rest of these fucntions to work
-    setup()
+    setup(count)
     forestExportTrain()
     # subreddit
     sub = posts.keys()
@@ -675,24 +686,31 @@ def main():
     print("Replies between users started............")
     # number of replies from one user to another
     replies = repliesBetweenUsers(sub)
+    pretty_print(replies, 'RepliedBetweenUsers')
     print("Replies between users done!")
     #print(replies)
 
     print("In degree started............")
     # in degree
     in_degree = in_out_Degree(sub, replies, True)
+    pretty_print(in_degree, 'InDeegree')
     print("In degree done!")
     #print(in_degree)
 
     print("Out degree started............")
     # out degree
     out_degree = in_out_Degree(sub, replies, False)
+    pretty_print(out_degree, 'OutDegree')
     print("Out degree done!")
     #print(out_degree)
 
     print("Total scores started............")
     # total scores
     n_posts, n_comments, t_score_posts, t_score_comments = totalScore(sub)
+    pretty_print(n_posts, 'NumberPosts')
+    pretty_print(n_comments, 'NumberComments')
+    pretty_print(t_score_posts, 'TotalPostScores')
+    pretty_print(t_score_comments, 'TotalCommentScores')
     print("Total scores done!")
     #print(t_score)
     #print(n_comments)
@@ -700,51 +718,57 @@ def main():
     print("Average scores started............")
     # average score
     a_score_posts, a_score_comments = averageScore(t_score_posts, t_score_comments, n_posts, n_comments, sub)
+    pretty_print(a_score_posts, 'AveragePostScores')
+    pretty_print(a_score_comments, 'AverageCommentScores')
     print("Average scores done!")
     #print(a_score)
 
     print("Controversiality started............")
     # controversiality
     p_con, c_con = controversiality(sub)
+    pretty_print(p_con, 'PostControversial')
+    pretty_print(c_con, 'CommentControversial')
     print("Controversiality done!")
     #print(p_con)
 
-    #sorted list of subreddits active on
-
-    # distribution of subreddits active on
-
-    # most used words
-
     # tree depth & width
     depths, widths = treeDepthWidth(sub)
+    pretty_print(depths, 'TreeDepths')
+    pretty_print(widths, 'TreeWidths')
     #print(depths)
     #print(widths)
 
     print("Post/comment ratio started............")
     # post/comment ratio
     p_c_ratio = ratioPostComment(n_posts, n_comments, sub)
+    pretty_print(p_c_ratio, 'PostCommentRatio')
     print("Post/comment ratio done!")
     #print(p_c_ratio)
 
     # number of levels in post trees between users' replies
     nodes = nodesBetweenReplies(sub)
+    pretty_print(nodes, 'NodesBetweenReplies')
     #print(nodes)
-    
-    print(posts, type(posts))
-    print()
-    print(sub, type(sub))
     
 # average score of posts/comments per subreddit
     averagescore = [(su, score_metrics(posts[su])[0]) for su in sub]
+    pretty_print(averagescore, 'AverageScorePerSub')
     print('when the average is scored')
 
 # distribution of posts/comments per subreddit
     averagedist = [activity_distribution(posts[su]) for su in sub]
+    pretty_print(averagedist, 'DistributionPostComment')
     print('distributed the posts/comments')
+
 # most active users per subreddit
     aclist = [active_list(posts[df]) for df in posts]
+    pretty_print(aclist, 'ActiveUsers')
     print('active listed')
     
+
+def main():
+    for i in range(0, 11):
+        computeFeatures(i)
+
 if __name__ == "__main__":
     main()
-

@@ -1,6 +1,4 @@
-from lib2to3.pytree import Node
 import pickle
-from re import sub
 import networkx as nx
 import matplotlib.pyplot as plt
 from community import community_louvain
