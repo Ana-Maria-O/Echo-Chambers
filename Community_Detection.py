@@ -30,10 +30,18 @@ def PullOutChanges(graph: nx.classes.graph.Graph, graph_new: nx.classes.graph.Gr
     return changes
 
 def AddSuperEdges(graph: nx.classes.graph.Graph, supergraph: nx.classes.graph.Graph) -> nx.classes.graph.Graph:
-    edges = []
+    for comm1 in supergraph.nodes:
+        for comm2 in supergraph.nodes and comm2 != comm1:
+            for node1 in supergraph.nodes[comm1]['dt']:
+                for node2 in supergraph.nodes[comm2]['dt']:
+                    if graph.has_edge(node1, node2):
+                        if supergraph.has_edge(comm1, comm2):
+                            supergraph.add_edge(comm1, comm2, weight=supergraph[comm1][comm2]['weight'] + graph[comm1][comm2]['weight'])
+                        else:
+                            supergraph.add_edge(comm1, comm2, weight = graph[comm1][comm2]['weight'])
 
-    # for supernode in supergraph.nodes:
-        # for node in supernode
+    return supergraph
+            
 
 def RemoveNode(node: str, communities: list, graph: nx.classes.graph.Graph, supergraph: nx.classes.graph.Graph):
     global sgraph_nodes
@@ -94,7 +102,7 @@ def RemoveNode(node: str, communities: list, graph: nx.classes.graph.Graph, supe
     return supergraph
 
 
-# TODO: add superedges function -> joi
+# DONE: add superedges function -> joi
 # TODO: test everything -> vineri + sambata
 # TODO: write code in main -> duminica
 def ConstructCompressedGraph(graph: nx.classes.graph.Graph, graph_new: nx.classes.graph.Graph, communities: dict) -> nx.classes.graph.Graph:
@@ -122,7 +130,6 @@ def ConstructCompressedGraph(graph: nx.classes.graph.Graph, graph_new: nx.classe
                 if neighbor in communities:
                     supergraph = RemoveNode(neighbor, communities, graph, supergraph)
 
-        # TODO: make sure this doesn't add supernodes that include a node which is already in a supernode
         if change['type'] == 'add edge':
             u = change['node']
             v = change['node2']
@@ -142,7 +149,7 @@ def ConstructCompressedGraph(graph: nx.classes.graph.Graph, graph_new: nx.classe
                 supergraph = RemoveNode(v, communities[v], graph, supergraph)
 
     
-    supergraph = AddSuperEdges(graph, supergraph)
+    supergraph = AddSuperEdges(graph_new, supergraph)
 
     return supergraph
             
@@ -183,17 +190,15 @@ def main():
     # G = makeGraph(subreddit)
     # print(G.nodes(data="weight"))
     G = nx.Graph()
-    G.add_node(1, dt = [])
-    l = list(G.nodes(data="dt"))
+    G.add_edge(1, 2)
+    # l = list(G.nodes(data="dt"))
     # print(l[0][0])
-    G.remove_node(l[0][0])
-    print(G.nodes)
+    # G.remove_node(l[0][0])
+    # print(G.nodes)
     # communities = Louvain(G)
     #print(Louvain(G))
     # print(G.edges)
-    # for node in G.nodes:
-    #     print(node)
-        # break
+    print(G[1])
 
     # print(G.degree)
     # community = [key for key in communities if communities[key] == 2]
