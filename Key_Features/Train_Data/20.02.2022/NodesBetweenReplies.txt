@@ -1,0 +1,130 @@
+{
+    "atheism": {
+        "Cool_Good4245": {
+            "swpb1y": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "crofton14": {},
+        "SlightlyMadAngus": {},
+        "valley-cpa": {},
+        "Snow_Corn": {},
+        "DiazExMachina": {},
+        "amyaurora": {},
+        "AdBest2178": {},
+        "mMechsnichandyman": {
+            "swpb1y": [
+                1
+            ]
+        },
+        "AupAup": {}
+    },
+    "christianity": {
+        "JCWalrus": {
+            "swfbfi": [
+                1
+            ]
+        },
+        "DJT_47": {}
+    },
+    "conservative": {
+        "xsader_4C": {
+            "swtsgk": []
+        },
+        "Lurkinperpetually": {},
+        "TearsForPeers": {},
+        "Rasskassassmagas": {},
+        "ytilonhdbfgvds": {}
+    },
+    "conspiracy": {
+        "Settlemente": {
+            "swf021": [
+                0
+            ]
+        },
+        "AutoModerator": {},
+        "vinnySTAX": {},
+        "FFS_IsThisNameTaken2": {}
+    },
+    "exchristian": {
+        "ConsistentAmount4": {
+            "swfid1": [
+                0
+            ]
+        },
+        "Icebreakerboys": {},
+        "GastonBastardo": {}
+    },
+    "flatearth": {
+        "I_cant_be_clever": {
+            "swhhxd": []
+        },
+        "AngelOfLight": {},
+        "VisiteProlongee": {},
+        "john_shillsburg": {},
+        "introvertedintooit": {},
+        "M-O-O-P-S": {},
+        "notlikelyevil": {}
+    },
+    "liberal": {
+        "Walk1000Miles": {
+            "sx45d5": [
+                0
+            ]
+        },
+        "Laladen": {},
+        "KenhillChaos": {},
+        "Atticus_of_Amber": {},
+        "monstersammich": {},
+        "skinnyguy699": {},
+        "twistedh8": {},
+        "moreobviousthings": {},
+        "Technomage1": {},
+        "orangesfwr": {},
+        "StartlingCat": {},
+        "DapperDowner": {},
+        "sten45": {},
+        "michaelb1": {
+            "sx45d5": [
+                1
+            ]
+        },
+        "NverEndingPastaBowel": {},
+        "xesaie": {},
+        "PartialToDairyThings": {},
+        "Dark_Ansem": {}
+    },
+    "lockdownskepticism": {
+        "marinakater": {
+            "swjra2": []
+        },
+        "Dr_Pooks": {},
+        "occams_lasercutter": {},
+        "cowlip": {},
+        "AutoModerator": {}
+    },
+    "news": {
+        "AvidLogos": {
+            "sx7v4y": []
+        }
+    },
+    "politics": {
+        "treehousebk": {
+            "sx8bze": []
+        },
+        "AutoModerator": {},
+        "DontWannaUseherName": {},
+        "ZiggyftOJ": {},
+        "coughing_andy": {},
+        "KaleGroundbreaking": {}
+    },
+    "science": {
+        "joosth3": {
+            "swy7qm": []
+        },
+        "AutoModerator": {}
+    }
+}

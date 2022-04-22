@@ -48,7 +48,7 @@ class Node:
         return (self.id + " by " + self.user + " score: " + self.score)
 
 def pretty_print(thingy, name):
-    fil = open('Key_Features//' + time + '//' + name + '.txt', 'w')
+    fil = open('Key_Features//Train_Data//' + time + '//' + name + '.txt', 'w')
 
     if type(thingy) is dict:
         json.dump(thingy, fil, sort_keys = False, indent = 4)
@@ -167,9 +167,9 @@ def getTime(num):
     return switcher.get(num, 'Invalid')
 
 # returns a dictionary with all the post dataframes
-def importPosts(kind):
+def importPosts():
     # replace this with the path for your own files
-    path = 'C://Users//20190819//Reddit Data//Posts//'
+    path = '//home//aoltenicea//Downloads//Train Data//' + time + '//Reddit Data//Posts//'
 
     postDF = {
         'atheism': None,
@@ -202,7 +202,7 @@ def importPosts(kind):
 # returns a dictionary with all the comment dataframes
 def importComments(time):
     # replace this with the path for your own files
-    path = 'C://Users//20190819//Reddit Data//Comments//'
+    path = '//home//aoltenicea//Downloads//Train Data//' + time + '//Reddit Data//Comments//'
 
     commentDF = {
         'atheism': None,
@@ -319,6 +319,9 @@ def addCommentScores(ct_scores, cn_posts, node):
 
         # for each reply to the current node, update the comment score and comment count of the reply's author
         for comment in node.next:
+            if ct_scores[comment.auth] == None:
+                ct_scores[comment.auth] = 0
+                
             ct_scores[comment.auth] += comment.score
             cn_posts[comment.auth] += 1
 
@@ -343,10 +346,10 @@ def totalScore(subs):
 
     for sub in subs:
         # dictionary with all users' post scores
-        pt_scores[sub] = dict.fromkeys(users[sub], 0)
+        pt_scores[sub] = dict.fromkeys(users[sub], None)
 
         # dictionary with all users' comment scores
-        ct_scores[sub] = dict.fromkeys(users[sub], 0)
+        ct_scores[sub] = dict.fromkeys(users[sub], None)
 
         # dictionary with number of all users' posts
         pn_posts[sub] = dict.fromkeys(users[sub], 0)
@@ -360,6 +363,10 @@ def totalScore(subs):
         # gather all post scores and update all post counts
         for post in post_ids:
             node = forest[sub][post]
+
+            if pt_scores[sub][node.auth] == None:
+                pt_scores[sub][node.auth] = 0
+
             pt_scores[sub][node.auth] += node.score
             pn_posts[sub][node.auth] += 1
 
@@ -371,10 +378,13 @@ def totalScore(subs):
 # takes as input a dictionary of all users and their scores and a dictionary of all users and the number of comments and posts they made
 # returns dicitonary avg such that avg[sub][user] is the average score of that user
 def averageScore(p_scores, c_scores, p_number, c_number, subs):
-    p_avg = defaultdict(dict)
-    c_avg = defaultdict(dict)
+    p_avg = {}
+    c_avg = {}
 
     for sub in subs:
+        p_avg[sub] = {}
+        c_avg[sub] = {}
+
         for user in users[sub]:
             if p_number[sub][user] == 0:
                 p_avg[sub][user] = None
@@ -490,9 +500,10 @@ def treeDepthWidth(subs):
 # returns a dictionary pcRatio such that pcRatio[sub][user] is the post/comment ratio of user on the subreddit sub
 def ratioPostComment(n_posts, n_comments, subs):
     #initialize pcRatio
-    pcRatio = defaultdict(dict)
+    pcRatio = {}
 
     for sub in subs:
+        pcRatio[sub] = {}
         for user in users[sub]:
             if n_comments[sub][user] == 0:
                 pcRatio[sub][user] = 1
@@ -504,6 +515,9 @@ def ratioPostComment(n_posts, n_comments, subs):
 # returns the modified dictionary nodes_between such that the numbers of nodes between each user's replies in the thread starting at node
 # are talen into account
 def addNodes(nodes_between, last_nodes, node, post):
+    if node.auth not in nodes_between:
+        nodes_between[node.auth] = {}
+
     # if the author of the current node has written another comment earlier in the thread
     if node.auth in last_nodes:
         prev = last_nodes[node.auth]
@@ -537,14 +551,17 @@ def addNodes(nodes_between, last_nodes, node, post):
 # returns a dictionary nodes such that nodes[sub][user][post] is a list of the different amount of nodes
 # in a thread between user's replies on post in the subreddit sub
 def nodesBetweenReplies(subs):
-    nodes_between = defaultdict(dict)
+    nodes_between = {}
 
     # for each subreddit
     for sub in subs:
         # for each post in the sub, check every thread under the post and update nodes_between
         for post in psts[sub]['id']:
             last_nodes = {}
-            nodes_between[sub] = defaultdict(dict)
+            nodes_between[sub] = {}
+
+            if forest[sub][post].auth not in nodes_between[sub]:
+                nodes_between[sub][forest[sub][post].auth] = {}
 
             nodes_between[sub][forest[sub][post].auth][post] = []
             nodes_between[sub] = addNodes(nodes_between[sub], last_nodes, forest[sub][post], post)
@@ -553,7 +570,7 @@ def nodesBetweenReplies(subs):
 
 def forestExportTrain():
     # create file
-    pfile = open('forest_train.p', 'wb')
+    pfile = open('Forests//forest_train_' + time + '.p', 'wb')
 
     # dump forest to file
     pickle.dump(forest, pfile)
@@ -657,7 +674,7 @@ def setup(count):
     print("Start setup ........")
     print("Start importing posts ........")
 
-    posts = importPosts(time)
+    posts = importPosts()
     psts = allPosts(posts.keys())
 
     print("Posts imported!")
@@ -686,7 +703,7 @@ def computeFeatures(count):
     print("Replies between users started............")
     # number of replies from one user to another
     replies = repliesBetweenUsers(sub)
-    pretty_print(replies, 'RepliedBetweenUsers')
+    pretty_print(replies, 'RepliesBetweenUsers')
     print("Replies between users done!")
     #print(replies)
 
@@ -764,7 +781,6 @@ def computeFeatures(count):
     aclist = [active_list(posts[df]) for df in posts]
     pretty_print(aclist, 'ActiveUsers')
     print('active listed')
-    
 
 def main():
     for i in range(0, 11):

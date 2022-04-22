@@ -1,0 +1,213 @@
+{
+    "atheism": {
+        "Additional_Bluebird9": {
+            "schika": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "ZedBot9": {
+            "schika": [
+                1,
+                1
+            ]
+        },
+        "Modtec": {
+            "schika": [
+                1,
+                1,
+                1
+            ]
+        }
+    },
+    "christianity": {
+        "BOPGX3": {
+            "scmq1j": []
+        }
+    },
+    "conservative": {
+        "theradiostarz": {
+            "scaxeu": []
+        },
+        "Dr_Juice_": {},
+        "Mikemagni": {},
+        "[deleted]": {}
+    },
+    "conspiracy": {
+        "rfox84": {
+            "sc9rsc": [
+                0
+            ]
+        },
+        "AutoModerator": {}
+    },
+    "exchristian": {
+        "DeeEssEmFive": {
+            "sc7d6z": []
+        },
+        "Jacks_Flaps": {},
+        "sselinsea": {},
+        "Tylomin": {},
+        "PStorm78": {},
+        "the_reflexxx": {},
+        "SlowJogger47": {},
+        "Newstapler": {},
+        "Silverstar_2610": {},
+        "LavenderandLamb": {},
+        "DJ_Hastings013": {},
+        "OggMakeFire": {}
+    },
+    "flatearth": {
+        "DanujCZ": {
+            "scp9by": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "RegebroRepairs": {},
+        "huuaaang": {},
+        "Beffanator": {},
+        "SunGazing8": {},
+        "Due-Warning549": {},
+        "SoberFarmer": {
+            "scp9by": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "chuffmunky": {},
+        "mynameistory": {},
+        "M-O-O-P-S": {
+            "scp9by": [
+                2,
+                1,
+                1,
+                1
+            ]
+        },
+        "freegator7": {},
+        "Kriss3d": {
+            "scp9by": [
+                1
+            ]
+        },
+        "SkippyMcSkippster": {},
+        "Lockon_43": {},
+        "RepThePlantDawg420": {},
+        "reficius1": {
+            "scp9by": [
+                1
+            ]
+        },
+        "Shockwave743000": {}
+    },
+    "liberal": {
+        "progress18": {
+            "schg0r": []
+        },
+        "WTFOMGBBQ": {
+            "schg0r": [
+                1,
+                1
+            ]
+        },
+        "MatthewofHouseGray": {},
+        "[deleted]": {},
+        "FreedomsPower": {},
+        "Yohi_Mitsu": {}
+    },
+    "lockdownskepticism": {
+        "KiteBright": {
+            "sc9y9c": []
+        },
+        "justsomefatwhiteguy": {},
+        "recipe881": {},
+        "alrightfrankie": {},
+        "SHALL_NOT_BE_REEE": {},
+        "KitKatHasClaws": {},
+        "PulltheNugsApart": {},
+        "Pretend_Summer_688": {},
+        "VaporizedPlanet": {}
+    },
+    "news": {
+        "AudibleNod": {
+            "schk0a": [
+                0
+            ]
+        },
+        "oDDmON": {},
+        "LashOutIrrationally": {},
+        "KumagawaUshio": {
+            "schk0a": [
+                1
+            ]
+        },
+        "shaidyn": {},
+        "TraditionalGap1": {},
+        "Ok_Improvement_5897": {},
+        "Inconceivable-2020": {
+            "schk0a": [
+                1
+            ]
+        },
+        "procrasturb8n": {
+            "schk0a": [
+                1
+            ]
+        },
+        "stfuandgovegan": {},
+        "Pretzelbasket": {
+            "schk0a": [
+                1,
+                1
+            ]
+        },
+        "LunaNik": {},
+        "ChemicalChard": {},
+        "mymeatpuppets": {},
+        "SWG_138": {},
+        "ThatOneDudeFromIowa": {},
+        "man_vs_trout": {},
+        "BurstEDO": {},
+        "droplivefred": {},
+        "fracturedpersona": {},
+        "InspectorRare4137": {}
+    },
+    "politics": {
+        "OregonTripleBeam": {
+            "scli15": [
+                1
+            ]
+        },
+        "AutoModerator": {},
+        "LeozMJilliumz": {},
+        "Christian-Slayer": {},
+        "SignificantTrout": {},
+        "Bastage21": {},
+        "PDXftw": {},
+        "A_Downboat_Is_A_Sub": {},
+        "PopcornInMyTeeth": {},
+        "girl__dad": {}
+    },
+    "science": {
+        "bo_hossuin_14": {
+            "sc9qx1": []
+        },
+        "AutoModerator": {}
+    }
+}

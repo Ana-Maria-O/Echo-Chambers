@@ -1,0 +1,281 @@
+{
+    "atheism": {
+        "KRxxOM": {
+            "sg5x6c": [
+                1
+            ]
+        },
+        "geophagus": {},
+        "CaptainCookie_2": {},
+        "Scribbler_797": {
+            "sg5x6c": [
+                1
+            ]
+        },
+        "TrustmeImaConsultant": {},
+        "ISeeADarkSail": {},
+        "benrinnes": {},
+        "diogenes_shadow": {}
+    },
+    "christianity": {
+        "abcedeabsidee": {
+            "sg65ny": []
+        },
+        "Sirexium": {},
+        "[deleted]": {},
+        "excitedboy234": {},
+        "willstrip4uplikes": {},
+        "anotherhawaiianshirt": {},
+        "Vitaminblu": {},
+        "ChubbsAndMaiAxe": {},
+        "IntrovertIdentity": {},
+        "life-is-pass-fail": {},
+        "teffflon": {}
+    },
+    "conservative": {
+        "Beliavsky": {
+            "sfsho2": []
+        }
+    },
+    "conspiracy": {
+        "ccAleta": {
+            "sge0yu": [
+                0
+            ]
+        },
+        "AutoModerator": {},
+        "Djeff_": {},
+        "sometimes_I_golf": {},
+        "Inspector_Krotch": {}
+    },
+    "exchristian": {
+        "-NarWallace-": {
+            "sg91az": [
+                1
+            ]
+        },
+        "imageday7": {},
+        "RevolutionaryFix1581": {},
+        "averjam": {},
+        "attoj559": {},
+        "Wilburtewilligerock": {},
+        "not-moses": {}
+    },
+    "flatearth": {
+        "qbertisback": {
+            "sgs23f": []
+        },
+        "RegebroRepairs": {},
+        "autotldr": {},
+        "WeirdFelonFoam": {}
+    },
+    "liberal": {
+        "D674CCE72D03091E": {
+            "sft3ei": []
+        },
+        "raistlin65": {}
+    },
+    "lockdownskepticism": {
+        "hurricaneharrykane": {
+            "sgdmxq": []
+        },
+        "bigmountain20": {},
+        "Ok_Necessary_5845": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "quantizationnoise": {},
+        "TheLittleSiSanction": {},
+        "cat3201": {},
+        "thislonelycoil": {},
+        "Mightyfree": {},
+        "Tarrenshaw": {
+            "sgdmxq": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "ShillerPE02": {},
+        "eh17368": {},
+        "bright__eyes": {
+            "sgdmxq": [
+                1,
+                1
+            ]
+        },
+        "MiddleAmericanAspie": {},
+        "MyFlurona": {},
+        "[deleted]": {},
+        "Ordinary_Lives": {},
+        "ashowofhands": {},
+        "PhillyPanda": {},
+        "ANCHORDORES": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "VKurtB": {},
+        "ShlomoIbnGabirol": {},
+        "Dolceluce": {},
+        "ebaycantstopmenow": {
+            "sgdmxq": [
+                1,
+                1
+            ]
+        },
+        "the_latest_greatest": {},
+        "Last_Decision_7055": {},
+        "i_dont_know13": {},
+        "Horniavocadofarmer11": {},
+        "7eromos": {},
+        "WassupSassySquatch": {
+            "sgdmxq": [
+                1,
+                1
+            ]
+        },
+        "BeepBeepYeah7789": {},
+        "mrmetstopheles": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "HurryTechnical7687": {},
+        "lucifer0915": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "Pitiful_Disaster1984": {},
+        "cochiseandcumbria": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "YouAreABigJerk": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "manglefoot": {},
+        "Asleep-8815": {},
+        "SymbioticWoods": {},
+        "redjimmy711": {},
+        "200319594": {},
+        "misctoys": {},
+        "Trick_Spirit_5615": {},
+        "Ok-Name7491": {},
+        "313ctro": {},
+        "Caticornpurr": {},
+        "DevilCoffee_415": {},
+        "aqueductpipe": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "the_nybbler": {},
+        "NoThanks2020butthole": {},
+        "dreamsyoudlovetosell": {},
+        "NaturalProof4359": {},
+        "5nd": {},
+        "Idaho_Potato": {},
+        "Polski1683": {},
+        "CryanReed": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "InfoMiddleMan": {},
+        "Ivehadlettuce": {},
+        "ButterscotchNo926": {},
+        "ProfessionalAd3596": {},
+        "ScripturalCoyote": {},
+        "Nobellian2567": {},
+        "spcslacker": {},
+        "olivetree344": {},
+        "Turbulent_Repair": {},
+        "terribletimingtoday": {},
+        "DrownTheBoat": {
+            "sgdmxq": [
+                1,
+                1
+            ]
+        },
+        "teingles": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "SothaSoul": {},
+        "EmphasisResolve": {},
+        "Crowntain": {},
+        "BeautifulMindRadio": {},
+        "saddensgirl": {},
+        "14thAndVine": {
+            "sgdmxq": [
+                1
+            ]
+        },
+        "funflannel": {},
+        "Excellent-Duty4290": {},
+        "DublOLi": {},
+        "CheddarCornChowder": {},
+        "goals92": {},
+        "Sundae_2004": {},
+        "RealKingNyan": {},
+        "hxldencaulfield": {},
+        "ferrelloma": {},
+        "Rekhyt_19": {},
+        "potato_salsa42": {},
+        "ThinkAboutThatFor1Se": {},
+        "nyc41213": {},
+        "International-Mine68": {},
+        "tehans": {},
+        "VaporizedPlanet": {},
+        "Bigbootybuttons": {},
+        "axxelle28": {},
+        "ChiefP21": {}
+    },
+    "news": {
+        "cynicalaa22": {
+            "sg85cb": []
+        },
+        "chigoonies": {},
+        "SagaStrider": {}
+    },
+    "politics": {
+        "Toadfinger": {
+            "sg7d2j": [
+                0,
+                1
+            ]
+        },
+        "AutoModerator": {},
+        "buttergun": {},
+        "DrMcJedi": {},
+        "bison1969": {},
+        "outerworldLV": {},
+        "InternetJerk4U": {},
+        "hwkns": {}
+    },
+    "science": {
+        "basmwklz": {
+            "sh167z": [
+                0
+            ]
+        },
+        "AutoModerator": {},
+        "mistephe": {},
+        "WutsDatBud": {},
+        "Diligent_Arrival_428": {},
+        "dazednconfused555": {
+            "sh167z": [
+                1
+            ]
+        },
+        "QuizhoidTheMediocre": {}
+    }
+}

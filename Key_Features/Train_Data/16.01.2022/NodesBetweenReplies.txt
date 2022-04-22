@@ -1,0 +1,532 @@
+{
+    "atheism": {
+        "mrsc0tty": {
+            "s50hki": []
+        },
+        "Dudesan": {},
+        "SlightlyMadAngus": {
+            "s50hki": [
+                1
+            ]
+        },
+        "SaintOctober": {
+            "s50hki": [
+                1
+            ]
+        },
+        "Pomond": {}
+    },
+    "christianity": {
+        "UnDead_Ted": {
+            "s4k4t7": []
+        },
+        "Dwitt01": {}
+    },
+    "conservative": {
+        "ThePoliticalHat": {
+            "s4tyas": []
+        },
+        "SummerMango": {},
+        "julianwolf": {},
+        "Verdict1923": {}
+    },
+    "conspiracy": {
+        "maxwell4k": {
+            "s4z4pd": [
+                2,
+                2,
+                1,
+                1
+            ]
+        },
+        "AutoModerator": {},
+        "Servedasmile": {},
+        "kaydeebaebee": {},
+        "Parcc_Narc": {
+            "s4z4pd": [
+                1
+            ]
+        }
+    },
+    "exchristian": {
+        "marisfox": {
+            "s4o6t3": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "Itsnotfull": {
+            "s4o6t3": [
+                1,
+                1,
+                1
+            ]
+        },
+        "BlackEyedAngel01": {
+            "s4o6t3": [
+                1
+            ]
+        },
+        "Jim-Jones": {},
+        "Fuzzyhat246": {
+            "s4o6t3": [
+                1
+            ]
+        },
+        "Morisal66": {},
+        "throwaways3847384": {},
+        "alexbrove": {},
+        "robco74": {},
+        "TallAmy75": {},
+        "Specialist-Elk-303": {},
+        "moreiam": {
+            "s4o6t3": [
+                1
+            ]
+        },
+        "alistair1537": {},
+        "NidiSnow": {}
+    },
+    "flatearth": {
+        "Lord_Johnny_Kidzer": {
+            "s50fyi": []
+        }
+    },
+    "liberal": {
+        "Maxcactus": {
+            "s593fy": []
+        }
+    },
+    "lockdownskepticism": {
+        "Mighty_L_LORT": {
+            "s579va": []
+        },
+        "algutev": {},
+        "AutoModerator": {},
+        "innerlemons_": {}
+    },
+    "news": {
+        "christmasbooyons": {
+            "s524nm": []
+        },
+        "arty4572": {},
+        "thephizzbot": {},
+        "tehmlem": {},
+        "MuckleMcDuckle": {},
+        "Upstairs-Radish1816": {},
+        "mrbriandavidanderson": {},
+        "imhereforthepuppies": {},
+        "delfinom": {},
+        "in-game_sext": {},
+        "Bignoah1997": {
+            "s524nm": [
+                1
+            ]
+        },
+        "JeaTaxy": {
+            "s524nm": [
+                1
+            ]
+        },
+        "ankerous": {
+            "s524nm": [
+                1
+            ]
+        },
+        "ratpies": {},
+        "nexusjuan": {},
+        "WebHead1287": {},
+        "kmj420": {
+            "s524nm": [
+                1
+            ]
+        },
+        "Cycode": {},
+        "Andre4kthegreengiant": {},
+        "CallipygousWombat": {},
+        "Er-Rashal": {},
+        "Captain_Jack_Daniels": {},
+        "thatsthefactsjack": {},
+        "meteltron2000": {},
+        "sjfiuauqadfj": {},
+        "bsd8andahalf_1": {
+            "s524nm": [
+                1,
+                1
+            ]
+        },
+        "zombie_katzu": {
+            "s524nm": [
+                1
+            ]
+        },
+        "OldBob10": {},
+        "MalcolmYoungForever": {},
+        "CuriousRelish": {},
+        "DanguhLange": {},
+        "penster1": {},
+        "BoiledPNutz": {},
+        "sky_rat": {},
+        "FAQUA": {},
+        "deftoner42": {},
+        "jippyzippylippy": {},
+        "colonelbyson": {},
+        "ill_wind": {},
+        "binklehoya": {},
+        "brianingram": {},
+        "bazz_and_yellow": {},
+        "[deleted]": {},
+        "sexisfun1986": {},
+        "Upbeat_Criticism_397": {},
+        "sleepiestOracle": {},
+        "10brasil": {},
+        "taptapper": {},
+        "dikycau": {},
+        "Travis_Maximus": {},
+        "TheGreatDenali": {}
+    },
+    "politics": {
+        "OregonTripleBeam": {
+            "s4nc8e": []
+        },
+        "AutoModerator": {},
+        "zhobelle": {
+            "s4nc8e": [
+                1,
+                1,
+                1
+            ]
+        },
+        "sekoku": {},
+        "EmotionallySqueezed": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "anyparties": {},
+        "NotReallyAlanTuring": {},
+        "HakarlSagan": {},
+        "Mcwormbearpig": {},
+        "FLTA": {
+            "s4nc8e": [
+                1,
+                6
+            ]
+        },
+        "ExtraLargeHusband": {},
+        "Learning024Growing": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "Shank5ter": {},
+        "a-c-moore": {},
+        "cbmam1228": {},
+        "ajckta": {},
+        "CAllD2B": {},
+        "sloopslarp": {},
+        "5DollarHitJob": {
+            "s4nc8e": [
+                1,
+                1,
+                1
+            ]
+        },
+        "TheTeeHoff": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "FriendlyDespot": {},
+        "VaultJumper": {},
+        "RectalSpawn": {},
+        "speedywyvern": {},
+        "dallasdude": {},
+        "ladylurkedalot": {},
+        "boriskin": {},
+        "unaskthequestion": {},
+        "ericerikkedod": {
+            "s4nc8e": [
+                1,
+                1
+            ]
+        },
+        "Captain_Stairs": {
+            "s4nc8e": [
+                1,
+                1
+            ]
+        },
+        "MundaysSuck": {},
+        "xfilesvault": {},
+        "neurosisxeno": {},
+        "vman_isyourhero": {},
+        "TheShadowKick": {},
+        "BurnsEMup29": {},
+        "MuySus": {},
+        "procrasturb8n": {},
+        "NIGHT_HAWK420": {},
+        "whitethunder57": {},
+        "jmukes97": {},
+        "big_wendigo": {},
+        "UnicornHostels": {},
+        "Apprehensive-Tea6339": {},
+        "Foucault_This": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "TriggasaurusRekt": {},
+        "aSchizophrenicCat": {},
+        "Sandpaper_Pants": {},
+        "stupidlyugly": {
+            "s4nc8e": [
+                1,
+                1
+            ]
+        },
+        "NamelessTacoShop": {},
+        "TheBigLeMattSki": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "coontietycoon": {},
+        "recess_chemist": {},
+        "Beefy_G": {},
+        "gramathy": {},
+        "NJdevil202": {},
+        "okwowandmore": {},
+        "TicTacKnickKnack": {},
+        "Merlin22": {},
+        "kvrdave": {},
+        "donottouchwillie1": {},
+        "OilfieldDrunk": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "BreadHead911": {},
+        "BigKokLui": {},
+        "StubbsTheWolf": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "hunnibear_girl": {},
+        "Longest_Inch": {},
+        "ChrysMYO": {},
+        "kaycaps": {},
+        "Kitties_titties420": {},
+        "thatminimumwagelife": {},
+        "momo88852": {},
+        "SilentBruh15": {},
+        "mrbaryonyx": {},
+        "digitecca": {},
+        "HabeneroMcCheese": {},
+        "plearn": {},
+        "fizzlefist": {
+            "s4nc8e": [
+                1,
+                1
+            ]
+        },
+        "Chris_Nash": {
+            "s4nc8e": [
+                1,
+                1
+            ]
+        },
+        "CellOmniscient": {},
+        "Akatosh_LORD_BEAN": {},
+        "gardenia42": {},
+        "foreskinfive": {
+            "s4nc8e": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "Republicant_Party": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "thepianoman456": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "JustPandering": {},
+        "runthepoint1": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "__________nah": {},
+        "Iseedeadtriangles": {},
+        "AcrolloPeed": {},
+        "bumblebeeairplane": {},
+        "Succulentmeditator": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "ThirdFloorNorth": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "Redpenguin00": {},
+        "Cal-Varnsen": {},
+        "HedonisticFrog": {
+            "s4nc8e": [
+                3,
+                1,
+                1
+            ]
+        },
+        "ZaganPlays": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "untamedHOTDOG": {},
+        "Johnscats": {},
+        "GreenOakland": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "merrickgarland2016": {},
+        "fistkick18": {},
+        "Rocketboy1313": {},
+        "Whitejesus0420": {},
+        "Asmor": {},
+        "hoopaholik91": {},
+        "MoneyHungryWorker": {},
+        "philium1": {},
+        "SoundHole": {},
+        "flamingfenux": {},
+        "Nuclear_Cadillacs": {},
+        "Cheesewheel12": {},
+        "WagerOfTheGods": {},
+        "Careful_Canary_9865": {},
+        "zdvet": {},
+        "michaelgreen9927": {},
+        "Hawvy": {},
+        "JMccovery": {},
+        "restloy": {},
+        "WhiskeyFF": {},
+        "sonic10158": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "TubbsontheCoast": {},
+        "dantheman_woot": {},
+        "stoic50": {},
+        "fuckboifoodie": {},
+        "accoladevideo": {},
+        "PartialToDairyThings": {},
+        "NeedToCalmDownSir": {},
+        "BizzyCrack": {},
+        "middleright92": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "Lol_maga_people": {},
+        "droi86": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "Grabthars_Coping_Saw": {},
+        "sniper91": {},
+        "PearBlossom": {},
+        "Unusual_Window_9584": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "The_GOAT_Username": {},
+        "beginpanic": {},
+        "Dirtybrd": {},
+        "Murderyoga": {},
+        "sobeitharry": {},
+        "DrLeoMarvin": {},
+        "whiteyfisk46": {},
+        "SkipLikeAStone": {},
+        "rlanthony": {},
+        "Steel9966": {},
+        "salazarraze": {},
+        "singlewall": {},
+        "TheOklahomaHippie": {},
+        "GreyFalcon-OW": {},
+        "Great_Preparation944": {},
+        "imyourkid": {},
+        "ButtfuckChampion_": {},
+        "badlikewolf": {},
+        "Fun-Friend-1568": {},
+        "leaction": {},
+        "burntreynoldz69": {},
+        "FTHomes": {},
+        "randomcanyon": {},
+        "Aggravating_Quote651": {},
+        "somebooty2223": {},
+        "Mzkazmi": {},
+        "kenien": {},
+        "Blahblahblorpdorp": {},
+        "Additional_Light_634": {},
+        "OldSlabSidez": {},
+        "SnooDonkeys5625": {},
+        "jc2821": {},
+        "oldeport": {},
+        "mackinoncougars": {},
+        "nyc831zek": {
+            "s4nc8e": [
+                1
+            ]
+        },
+        "cc-d": {},
+        "metooeither": {},
+        "fingersarelongtoes": {},
+        "RunTellDaat": {},
+        "Random_frankqito": {},
+        "theguy8432": {},
+        "gobigred5898": {},
+        "fartimmy22": {},
+        "Everlast7": {},
+        "Wild_Bill_Kickcock": {},
+        "TheRealPapaDan": {},
+        "majapapayaaa": {},
+        "serendipindy": {},
+        "JohnnyGFX": {},
+        "leachlurker": {},
+        "CoolTomatoh": {},
+        "trina-wonderful": {
+            "s4nc8e": [
+                1
+            ]
+        }
+    },
+    "science": {
+        "ashisht1122": {
+            "s4z9ci": []
+        },
+        "AutoModerator": {}
+    }
+}

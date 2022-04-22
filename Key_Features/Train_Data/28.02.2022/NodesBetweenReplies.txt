@@ -1,0 +1,109 @@
+{
+    "atheism": {
+        "Leeming": {
+            "t2rsx9": []
+        },
+        "vrosej10": {},
+        "Mission-Landscape-17": {},
+        "Im_Talking": {}
+    },
+    "christianity": {
+        "Xusura712": {
+            "t2oy09": []
+        }
+    },
+    "conservative": {
+        "AmericanPatriot_FLO": {
+            "t3d28h": [
+                0
+            ]
+        },
+        "Batbuckleyourpants": {},
+        "Anti-Pro-Cynic": {}
+    },
+    "conspiracy": {
+        "Accurate_Register238": {
+            "t2v9o9": [
+                0
+            ]
+        },
+        "AutoModerator": {},
+        "UFOS-ARE-DEMONIC": {}
+    },
+    "exchristian": {
+        "Angie-In-Az": {
+            "t2qy7d": []
+        },
+        "Smellynerfherder": {},
+        "not-moses": {}
+    },
+    "flatearth": {
+        "loganmacoy": {
+            "t2xsdy": []
+        }
+    },
+    "liberal": {
+        "Maxcactus": {
+            "t3i33r": [
+                0
+            ]
+        },
+        "IndianKiwi": {},
+        "Rickshmitt": {
+            "t3i33r": [
+                1
+            ]
+        },
+        "clonedspork": {},
+        "michaelb1": {
+            "t3i33r": [
+                1
+            ]
+        },
+        "dwkeith": {},
+        "MK5": {},
+        "ohiotechie": {},
+        "SlapHappyDude": {},
+        "Spiritual-Mechanic-4": {},
+        "ToxicLib": {},
+        "perfumefetish": {},
+        "TallBobcat": {},
+        "joephusweberr": {}
+    },
+    "lockdownskepticism": {
+        "NOuvelleBlonder": {
+            "t31ock": []
+        },
+        "NotFriendly1": {},
+        "RobinSpark1es": {},
+        "ericard116": {},
+        "AutoModerator": {}
+    },
+    "news": {
+        "lilbaddiewinters": {
+            "t3k9d1": []
+        },
+        "jeremygl09": {},
+        "mrbriandavidanderson": {}
+    },
+    "politics": {
+        "greenblue98": {
+            "t3n1df": []
+        },
+        "AutoModerator": {},
+        "hwgl": {},
+        "Obi7kenobi": {},
+        "KombuchaBurps": {},
+        "Former-Counter-9588": {},
+        "ianrl337": {},
+        "1whoa-man": {},
+        "Hot_Mathematician357": {},
+        "the_crabnebula": {}
+    },
+    "science": {
+        "nikan69": {
+            "t3kt1i": []
+        },
+        "AutoModerator": {}
+    }
+}

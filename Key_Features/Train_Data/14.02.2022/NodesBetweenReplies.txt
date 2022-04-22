@@ -1,0 +1,277 @@
+{
+    "atheism": {
+        "madeofstarsandstuff": {
+            "srfuku": [
+                1,
+                1
+            ]
+        },
+        "DoglessDyslexic": {
+            "srfuku": [
+                1
+            ]
+        },
+        "UsefulMortgage": {},
+        "AdBest2178": {},
+        "lovesmtns": {}
+    },
+    "christianity": {
+        "kiwiwiw": {
+            "srfm1a": []
+        },
+        "Not-what-I-was": {},
+        "Zestyclose_Dinner105": {},
+        "Myrina_M": {},
+        "SeminaryStudentARH": {},
+        "Savings_Season_9663": {}
+    },
+    "conservative": {
+        "kaiwernerrudi": {
+            "sroqkf": []
+        },
+        "Juillli": {},
+        "bears_love_hunny": {},
+        "kevlarr61": {}
+    },
+    "conspiracy": {
+        "littlestINTP": {
+            "srmmeg": [
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "AutoModerator": {},
+        "Fooomanchu": {},
+        "Tellin_Truths": {},
+        "Sallaranda": {},
+        "Odd_Wrangler3854": {},
+        "raizlin333": {},
+        "Tylerweisgerber": {},
+        "ironlioncan": {},
+        "ChrisDaviesStrongman": {},
+        "BoganFairdink": {},
+        "8StrokesofGenius": {},
+        "LittleBigTroll": {},
+        "ididitTHISTIME99": {},
+        "frivolous90": {},
+        "Least_Raspberry453": {}
+    },
+    "exchristian": {
+        "Ninetailedfox589": {
+            "srhpip": []
+        },
+        "dillydallyally97": {},
+        "beedubaya": {},
+        "Saphira9": {},
+        "one_byte_stand": {},
+        "PunkyBrister": {},
+        "KT_Evolved365": {},
+        "CrispyBoar": {},
+        "Furryhare375": {},
+        "CommercialBadger303": {}
+    },
+    "flatearth": {
+        "SkippyMcSkippster": {
+            "srjsjt": [
+                1,
+                1,
+                9,
+                8,
+                6,
+                3,
+                2,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "reficius1": {
+            "srjsjt": [
+                1,
+                1,
+                1
+            ]
+        },
+        "Water_in_the_desert": {},
+        "jtcribbs": {
+            "srjsjt": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "Revwhitewolf": {
+            "srjsjt": [
+                1,
+                1,
+                1
+            ]
+        },
+        "Kalamazoo1121": {},
+        "MiksBricks": {},
+        "EphemeralyTimeless": {
+            "srjsjt": [
+                1
+            ]
+        },
+        "beakflip": {},
+        "ChichCob": {}
+    },
+    "liberal": {
+        "1000000students": {
+            "srzmv4": []
+        },
+        "Tokidoki_Haru": {},
+        "JE_Friendly": {},
+        "Ambitious-Example-68": {},
+        "[deleted]": {},
+        "zoinks690": {},
+        "Gahockey3": {}
+    },
+    "lockdownskepticism": {
+        "lh7884": {
+            "srod4a": [
+                1
+            ]
+        },
+        "spcslacker": {},
+        "ed8907": {},
+        "ProfessionalBar8127": {
+            "srod4a": [
+                1
+            ]
+        },
+        "starksforever": {},
+        "orderentropycycle": {},
+        "ContributionAlive686": {},
+        "Crisis_Catastrophe": {},
+        "AutoModerator": {}
+    },
+    "news": {
+        "hhh888hhhh": {
+            "ssbhfb": []
+        },
+        "wiffleplop": {
+            "ssbhfb": [
+                1
+            ]
+        },
+        "Mycos_kinda_cyco": {},
+        "survive_los_angeles": {},
+        "rooftops": {
+            "ssbhfb": [
+                1
+            ]
+        },
+        "Catch-a-RIIIDE": {},
+        "MitsyEyedMourning": {},
+        "Tankmaster5000": {
+            "ssbhfb": [
+                1
+            ]
+        },
+        "HtownClassic": {},
+        "Xytak": {},
+        "AyeYoTek": {
+            "ssbhfb": [
+                1
+            ]
+        },
+        "TK_Nanerpuss": {},
+        "Paxoro": {},
+        "Awman36": {},
+        "Rednartso": {},
+        "thareddit": {},
+        "Eagle4317": {},
+        "tronzyboy": {},
+        "Isteppedinpoopy": {},
+        "CharlieBrown20XD6": {},
+        "carnivorous-Vagina": {},
+        "Darigaazrgb": {},
+        "Chance-Ad-9103": {},
+        "DangerSmooch": {},
+        "TarantinoFan23": {},
+        "manimal28": {},
+        "TaylorSwiftsClitoris": {},
+        "N8CCRG": {},
+        "IrishRepoMan": {},
+        "sambull": {},
+        "NetworkLlama": {},
+        "Bob_Sconce": {},
+        "samuelgato": {},
+        "lovestobitch-": {},
+        "meridian_smith": {},
+        "memberzs": {},
+        "Herbacult": {},
+        "CecilTheGod": {},
+        "harbeas": {},
+        "FusssyBritches": {},
+        "Mr_Torque": {},
+        "percy_faucet": {},
+        "bolivar-shagnasty": {},
+        "DBasterd": {},
+        "mrypopabtch": {},
+        "beachflow": {},
+        "ChemicalGovernment": {},
+        "Kbdiggity": {},
+        "Demastry": {},
+        "empfindsamkeit": {},
+        "CremasterReflex": {},
+        "[deleted]": {},
+        "Robo_Joe": {},
+        "Aziide": {},
+        "Divio42": {},
+        "neffnet": {},
+        "veringer": {},
+        "Dadalot": {},
+        "Appropriate-Alps7919": {
+            "ssbhfb": [
+                1
+            ]
+        },
+        "katievspredator": {},
+        "daniu": {},
+        "UCDC": {},
+        "PartialToDairyThings": {},
+        "LakeChaz": {},
+        "nnelson2330": {},
+        "mmanseuragain": {},
+        "SuperDangerDong69": {},
+        "pdxcranberry": {},
+        "fgarvin2019": {},
+        "BenTheDiamondback": {},
+        "Max-_-Power": {},
+        "Arruz": {},
+        "DonRicardo1958": {},
+        "Blueyourmyboy1": {},
+        "Carload31": {},
+        "TheRealDirtyTurkey": {}
+    },
+    "politics": {
+        "News2016": {
+            "ssbzhu": []
+        },
+        "AutoModerator": {}
+    },
+    "science": {
+        "flacao9": {
+            "ssak2i": []
+        },
+        "AutoModerator": {}
+    }
+}

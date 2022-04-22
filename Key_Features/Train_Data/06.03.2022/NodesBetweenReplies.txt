@@ -1,0 +1,135 @@
+{
+    "atheism": {
+        "RPMiller2k": {
+            "t7bd88": []
+        },
+        "mrbbrj": {},
+        "beedubaya": {},
+        "cjgardineer": {},
+        "Slight_Lunch4786": {},
+        "ParticularTurnip": {}
+    },
+    "christianity": {
+        "lior797": {
+            "t7ba93": []
+        },
+        "BeansTobogganten": {},
+        "ironicalusername": {
+            "t7ba93": [
+                1
+            ]
+        },
+        "BereanChristian": {},
+        "Charis_Humin": {},
+        "DJT_47": {
+            "t7ba93": [
+                1,
+                1
+            ]
+        },
+        "TableLampTree": {
+            "t7ba93": [
+                1,
+                1,
+                1
+            ]
+        },
+        "Tooter-Turtle": {},
+        "Zivon4": {}
+    },
+    "conservative": {
+        "JeepinArizona": {
+            "t807fo": [
+                1
+            ]
+        },
+        "NavyVet99": {},
+        "HugeBoobLover69": {},
+        "Sauvignon_Bleach": {
+            "t807fo": [
+                1
+            ]
+        },
+        "PB_Mack": {}
+    },
+    "conspiracy": {
+        "Elmatapollos3000": {
+            "t7sqzd": []
+        },
+        "AutoModerator": {},
+        "Wiltaire": {},
+        "linaustin5": {},
+        "Step-Only": {},
+        "VitaminD3goodforyou": {}
+    },
+    "exchristian": {
+        "andykndr": {
+            "t7eev4": []
+        },
+        "FullClockworkOddessy": {}
+    },
+    "flatearth": {
+        "micktravis": {
+            "t7ngtx": [
+                1,
+                1,
+                1
+            ]
+        },
+        "Wansumdiknao": {},
+        "SkippyMcSkippster": {},
+        "brygenon": {},
+        "RizDub": {},
+        "RegebroRepairs": {},
+        "SunGazing8": {},
+        "Mishtle": {},
+        "Hellspark08": {},
+        "Return_Of_The_Fly": {},
+        "EntyFlogeyTowty": {},
+        "IDreamOfSailing": {},
+        "itriedtoplaynice": {},
+        "M-O-O-P-S": {}
+    },
+    "liberal": {
+        "chugotleung2016": {
+            "t7wxt3": []
+        },
+        "RedneckLiberace": {}
+    },
+    "lockdownskepticism": {
+        "olivetree344": {
+            "t7tyuh": []
+        },
+        "david_bean_counter": {},
+        "Sundae_2004": {},
+        "lingua-sacra": {},
+        "mrnubuck": {},
+        "subsidiarity": {},
+        "Dapper_Ad5409": {},
+        "AutoModerator": {}
+    },
+    "news": {
+        "RestaurantNo8344": {
+            "t812hz": []
+        },
+        "dabartisLr": {},
+        "nimbusconflict": {},
+        "Bongressman": {},
+        "midnitte": {},
+        "DocHolidayiN": {}
+    },
+    "politics": {
+        "aslan_is_on_the_move": {
+            "t83o8b": []
+        },
+        "AutoModerator": {}
+    },
+    "science": {
+        "Truer_Thoughts": {
+            "t83wgi": [
+                0
+            ]
+        },
+        "AutoModerator": {}
+    }
+}

@@ -1,0 +1,231 @@
+{
+    "atheism": {
+        "BisexualCactusNoises": {
+            "td0wzj": [
+                1
+            ]
+        },
+        "cassydd": {},
+        "EmiliaBernkastel": {},
+        "diogenes_shadow": {},
+        "HorrorQuote1713": {},
+        "M_Junius_Bradshaw": {},
+        "Em42": {},
+        "Unindoctrinated": {},
+        "Siobhanshana": {}
+    },
+    "christianity": {
+        "Titan9999": {
+            "tch88t": []
+        },
+        "Howling2021": {}
+    },
+    "conservative": {
+        "xsader_4C": {
+            "tcip56": []
+        }
+    },
+    "conspiracy": {
+        "GangsterCapitalism": {
+            "tcrng2": [
+                1,
+                0
+            ]
+        },
+        "AutoModerator": {},
+        "TheCuntatReception": {},
+        "You_lil_gumper": {},
+        "TigerAccording9299": {}
+    },
+    "exchristian": {
+        "Spiritual_Wanderer95": {
+            "tcjnxm": []
+        },
+        "CentaurKhanum": {},
+        "thislittledwight": {},
+        "BirthdayTall5940": {},
+        "DonovanWrites": {},
+        "rikuskey": {},
+        "Jim-Jones": {},
+        "sunsetsandpalmtrees": {},
+        "Technusgirl": {},
+        "Ill-Ad282": {},
+        "Kayakchica": {},
+        "homestuckintraffic": {},
+        "lawyersgunsmoney": {},
+        "Sara2Bee": {},
+        "not-moses": {}
+    },
+    "flatearth": {
+        "ShoddyArt4484": {
+            "tcrupn": []
+        },
+        "RegebroRepairs": {}
+    },
+    "liberal": {
+        "advocat-diaboli": {
+            "tcxuep": []
+        },
+        "CosmicCharlie99": {},
+        "DukeBeekeepersKid": {},
+        "Ok_Bottle_2198": {},
+        "MandatoryFunEscapee": {},
+        "EyeOfTheBeast": {},
+        "sten45": {}
+    },
+    "lockdownskepticism": {
+        "TheVisualizED": {
+            "tcq4ic": [
+                2,
+                1
+            ]
+        },
+        "EmphasisResolve": {},
+        "SothaSoul": {},
+        "yanivbl": {},
+        "Dr-McLuvin": {},
+        "AutoModerator": {}
+    },
+    "news": {
+        "tarquinus871": {
+            "td8oxv": []
+        },
+        "Parkerbutler13": {
+            "td8oxv": [
+                1
+            ]
+        },
+        "LocalJim": {},
+        "EmreMightBeAbleTo": {},
+        "Jaded_Prompt_15": {
+            "td8oxv": [
+                1
+            ]
+        },
+        "GermanPayroll": {},
+        "Krinder": {},
+        "mariotx10": {},
+        "sliceandacoke": {},
+        "Dwayla": {},
+        "N8CCRG": {},
+        "The2500": {},
+        "noseymimi": {},
+        "ssquirt1": {},
+        "JohnRichJ2": {},
+        "gobblegobbleimafrog": {},
+        "redditin_at_work": {},
+        "Psycho5275": {},
+        "hausohn": {},
+        "vpi6": {},
+        "thesagaconts": {},
+        "Ares1935": {},
+        "sumuji": {},
+        "lilykitsune": {},
+        "OSU725": {},
+        "b_billy_bosco": {},
+        "Jayman95": {},
+        "notthatconcerned": {},
+        "BooksAreLuv": {
+            "td8oxv": [
+                1,
+                1,
+                1
+            ]
+        },
+        "MishkaShubaly": {
+            "td8oxv": [
+                1,
+                1
+            ]
+        },
+        "Outrageous_Bass_1328": {},
+        "EvidenceBase2000": {},
+        "GordonBongbay": {},
+        "63367Bob": {},
+        "Mccobsta": {},
+        "[deleted]": {
+            "td8oxv": [
+                0
+            ]
+        },
+        "iIdleHere": {},
+        "Paracodpieceactual": {},
+        "joedasee": {}
+    },
+    "politics": {
+        "PoliticiansAlwaysLie": {
+            "td9gfm": []
+        },
+        "Clammy-Knacker": {},
+        "AutoModerator": {},
+        "JFJinCO": {
+            "td9gfm": [
+                1
+            ]
+        },
+        "SelectAd1942": {
+            "td9gfm": [
+                1
+            ]
+        },
+        "ast01004": {},
+        "WhiffleBallWaffle": {},
+        "wish1977": {},
+        "M00n": {},
+        "fairoaks2": {},
+        "Stonedhillbilly6": {},
+        "8to24": {},
+        "BasisAggravating1672": {},
+        "drblah1": {},
+        "Godsarefakezz": {}
+    },
+    "science": {
+        "StoicOptom": {
+            "td50pl": [
+                0,
+                1,
+                0
+            ]
+        },
+        "AutoModerator": {},
+        "bigsmallpeepee": {
+            "td50pl": [
+                1
+            ]
+        },
+        "sekai_no_kami": {},
+        "SerialStateLineXer": {},
+        "gostesven": {
+            "td50pl": [
+                1
+            ]
+        },
+        "RedactedV": {},
+        "TA_faq43": {},
+        "MiscountViscount": {},
+        "HornyHindu": {},
+        "evranch": {},
+        "jetro30087": {},
+        "Houston_Here": {},
+        "marekforst": {
+            "td50pl": [
+                1,
+                1,
+                1
+            ]
+        },
+        "iwishiwas6again": {
+            "td50pl": [
+                1,
+                1,
+                1
+            ]
+        },
+        "FreeSpeechWorks": {},
+        "Staticblast": {},
+        "Ashamed-Travel6673": {},
+        "blueberriessmoothie": {},
+        "RedditSun1": {},
+        "chillypete99": {}
+    }
+}

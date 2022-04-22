@@ -1,0 +1,163 @@
+{
+    "atheism": {
+        "Leeming": {
+            "sm1z2n": []
+        },
+        "JesusChristsGayLover": {
+            "sm1z2n": [
+                1
+            ]
+        },
+        "cluelessafterall": {
+            "sm1z2n": [
+                1
+            ]
+        },
+        "Allmightypikachu": {},
+        "titsngiggles69": {},
+        "Furryhare375": {}
+    },
+    "christianity": {
+        "Necessary-Buyer-8276": {
+            "sm0yqn": []
+        },
+        "emuatemydingo": {},
+        "MiddleEuphoric": {},
+        "_justfriends_": {},
+        "Plus-Bus-6937": {},
+        "MrPhoenix77": {}
+    },
+    "conservative": {
+        "theradiostarz": {
+            "sm72zy": []
+        }
+    },
+    "conspiracy": {
+        "randomhorror99": {
+            "sm2po8": [
+                0
+            ]
+        },
+        "AutoModerator": {}
+    },
+    "exchristian": {
+        "poofykit": {
+            "sm0amp": []
+        },
+        "MrFuckingDinkles": {},
+        "Individual-Cap941": {},
+        "Apart-Gap9826": {},
+        "theburro22": {},
+        "alt_spaceghoti": {},
+        "NearbyWallaby": {},
+        "a_verysharp_edge17": {},
+        "icphx95": {}
+    },
+    "flatearth": {
+        "gliptic": {
+            "sm547l": [
+                1
+            ]
+        },
+        "reficius1": {},
+        "M______-": {}
+    },
+    "liberal": {
+        "Maxcactus": {
+            "smq4vt": []
+        }
+    },
+    "lockdownskepticism": {
+        "the_latest_greatest": {
+            "sm9io4": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "AutoModerator": {},
+        "olivetree344": {},
+        "55tinker": {},
+        "Jkid": {
+            "sm9io4": [
+                1
+            ]
+        },
+        "crt894": {},
+        "MiddleAmericanAspie": {
+            "sm9io4": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        "mitchdwx": {},
+        "GopherPA": {
+            "sm9io4": [
+                1
+            ]
+        },
+        "thislonelycoil": {},
+        "breaker-one-9": {},
+        "JaqentheFacelessOne": {},
+        "BallHangin": {},
+        "EmergencyCandy": {},
+        "EmphasisResolve": {},
+        "slow-mickey-dolenz": {},
+        "born_2_ski": {},
+        "kingescher": {},
+        "aiwntrmute": {
+            "sm9io4": [
+                1
+            ]
+        },
+        "terribletimingtoday": {},
+        "Dubrovski": {},
+        "NoThanks2020butthole": {},
+        "Ok-Swordfish6788": {},
+        "Jijimuge8": {
+            "sm9io4": [
+                1
+            ]
+        },
+        "2PacAn": {},
+        "jfchops2": {},
+        "ProfessionalBar8127": {
+            "sm9io4": [
+                1
+            ]
+        },
+        "professionalfriendd": {},
+        "psych_rheum": {},
+        "Hillarys_Brown_Eye": {}
+    },
+    "news": {
+        "Gasp_The_Real_Deal": {
+            "smpb7e": []
+        }
+    },
+    "politics": {
+        "Majnum": {
+            "smpb8w": []
+        },
+        "AutoModerator": {},
+        "Big_Estate7101": {},
+        "ohjeaa": {},
+        "eugene20": {},
+        "MegaSexualMoose": {}
+    },
+    "science": {
+        "basmwklz": {
+            "smq882": [
+                0
+            ]
+        },
+        "AutoModerator": {},
+        "Mcozy333": {}
+    }
+}
