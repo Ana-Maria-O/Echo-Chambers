@@ -8,7 +8,6 @@
 from collections import defaultdict
 import pandas as pd
 import pickle
-import json
 
 time = ''
 posts = {}
@@ -39,24 +38,15 @@ class Node:
     def __init__(self, data, auth, score, controversial, depth=-1):
         self.id = data
         self.auth = auth
+        self.user = auth
         self.score = score
         self.controversial = controversial
         self.depth = depth
         self.next = []
 
     def __repr__(self):
-        return (self.id + " by " + self.user + " score: " + self.score)
-
-def pretty_print(thingy, name):
-    fil = open('Key_Features//Train_Data//' + time + '//' + name + '.txt', 'w')
-
-    if type(thingy) is dict:
-        json.dump(thingy, fil, sort_keys = False, indent = 4)
-    if type(thingy) is list:
-        json.dump(thingy, fil,  indent = 4)
-
-    fil.close()
-
+        #return (self.id + " by " + self.user + " score: " + self.score)
+        return 'this sure be a fancy node'
 # returns a dictionary of dataframes with all the posts from the mentioned subreddits
 def allPosts(subs):
     all_posts = {}
@@ -167,9 +157,9 @@ def getTime(num):
     return switcher.get(num, 'Invalid')
 
 # returns a dictionary with all the post dataframes
-def importPosts():
+def importPosts(kind):
     # replace this with the path for your own files
-    path = '//home//aoltenicea//Downloads//Train Data//' + time + '//Reddit Data//Posts//'
+    path = 'C://Users//20190819//Reddit Data//Posts//'
 
     postDF = {
         'atheism': None,
@@ -202,7 +192,7 @@ def importPosts():
 # returns a dictionary with all the comment dataframes
 def importComments(time):
     # replace this with the path for your own files
-    path = '//home//aoltenicea//Downloads//Train Data//' + time + '//Reddit Data//Comments//'
+    path = 'C://Users//20190819//Reddit Data//Comments//'
 
     commentDF = {
         'atheism': None,
@@ -319,9 +309,6 @@ def addCommentScores(ct_scores, cn_posts, node):
 
         # for each reply to the current node, update the comment score and comment count of the reply's author
         for comment in node.next:
-            if ct_scores[comment.auth] == None:
-                ct_scores[comment.auth] = 0
-                
             ct_scores[comment.auth] += comment.score
             cn_posts[comment.auth] += 1
 
@@ -346,10 +333,10 @@ def totalScore(subs):
 
     for sub in subs:
         # dictionary with all users' post scores
-        pt_scores[sub] = dict.fromkeys(users[sub], None)
+        pt_scores[sub] = dict.fromkeys(users[sub], 0)
 
         # dictionary with all users' comment scores
-        ct_scores[sub] = dict.fromkeys(users[sub], None)
+        ct_scores[sub] = dict.fromkeys(users[sub], 0)
 
         # dictionary with number of all users' posts
         pn_posts[sub] = dict.fromkeys(users[sub], 0)
@@ -363,10 +350,6 @@ def totalScore(subs):
         # gather all post scores and update all post counts
         for post in post_ids:
             node = forest[sub][post]
-
-            if pt_scores[sub][node.auth] == None:
-                pt_scores[sub][node.auth] = 0
-
             pt_scores[sub][node.auth] += node.score
             pn_posts[sub][node.auth] += 1
 
@@ -378,13 +361,10 @@ def totalScore(subs):
 # takes as input a dictionary of all users and their scores and a dictionary of all users and the number of comments and posts they made
 # returns dicitonary avg such that avg[sub][user] is the average score of that user
 def averageScore(p_scores, c_scores, p_number, c_number, subs):
-    p_avg = {}
-    c_avg = {}
+    p_avg = defaultdict(dict)
+    c_avg = defaultdict(dict)
 
     for sub in subs:
-        p_avg[sub] = {}
-        c_avg[sub] = {}
-
         for user in users[sub]:
             if p_number[sub][user] == 0:
                 p_avg[sub][user] = None
@@ -500,10 +480,9 @@ def treeDepthWidth(subs):
 # returns a dictionary pcRatio such that pcRatio[sub][user] is the post/comment ratio of user on the subreddit sub
 def ratioPostComment(n_posts, n_comments, subs):
     #initialize pcRatio
-    pcRatio = {}
+    pcRatio = defaultdict(dict)
 
     for sub in subs:
-        pcRatio[sub] = {}
         for user in users[sub]:
             if n_comments[sub][user] == 0:
                 pcRatio[sub][user] = 1
@@ -515,9 +494,6 @@ def ratioPostComment(n_posts, n_comments, subs):
 # returns the modified dictionary nodes_between such that the numbers of nodes between each user's replies in the thread starting at node
 # are talen into account
 def addNodes(nodes_between, last_nodes, node, post):
-    if node.auth not in nodes_between:
-        nodes_between[node.auth] = {}
-
     # if the author of the current node has written another comment earlier in the thread
     if node.auth in last_nodes:
         prev = last_nodes[node.auth]
@@ -551,17 +527,14 @@ def addNodes(nodes_between, last_nodes, node, post):
 # returns a dictionary nodes such that nodes[sub][user][post] is a list of the different amount of nodes
 # in a thread between user's replies on post in the subreddit sub
 def nodesBetweenReplies(subs):
-    nodes_between = {}
+    nodes_between = defaultdict(dict)
 
     # for each subreddit
     for sub in subs:
         # for each post in the sub, check every thread under the post and update nodes_between
         for post in psts[sub]['id']:
             last_nodes = {}
-            nodes_between[sub] = {}
-
-            if forest[sub][post].auth not in nodes_between[sub]:
-                nodes_between[sub][forest[sub][post].auth] = {}
+            nodes_between[sub] = defaultdict(dict)
 
             nodes_between[sub][forest[sub][post].auth][post] = []
             nodes_between[sub] = addNodes(nodes_between[sub], last_nodes, forest[sub][post], post)
@@ -570,7 +543,7 @@ def nodesBetweenReplies(subs):
 
 def forestExportTrain():
     # create file
-    pfile = open('Forests//forest_train_' + time + '.p', 'wb')
+    pfile = open('forest_train.p', 'wb')
 
     # dump forest to file
     pickle.dump(forest, pfile)
@@ -601,37 +574,36 @@ def dicttest(df):
         else:
             return False
 
-def active_list(df):
-    #returns a list of users in a comment thread
-    if not dicttest(df):
-        pass
-    else:
-        df = pd.concat([df[i] for i in df.keys()]).drop_duplicates().reset_index(drop=True)
-
-    auth_unique = list(df.author.unique())
-
-    if '[deleted]' in auth_unique:
-        auth_unique.remove('[deleted]')
-
-    active = []
-
-    for i in auth_unique:
-        active.append((i, len(df[df['author'] == i])))
-
-    return sorted(active, key = lambda x: x[1], reverse = True)
+def active_users(forst):
+    #returns a nested dictionary:
+    #in the first level are all the subreddits in the forest
+    #in the second level are the users and the number of posts they made
+    #the keys of the first level are the subreddits
+    #the keys on the second level are the usernames 
+    reddt = {} 
+    for i in forst:
+        forsti = forst[i]
+        auau = [forsti[j].auth for j in forsti]
+        active = sorted([(k, auau.count(k)) for k in set(auau)], key = lambda x: x[1], reverse = True)
+        out = {}
+        for a in active:
+            out[a[0]] = a[1]
+        # return out
+        reddt[i] = out
+    return reddt
 
 def score_metrics(df):
+    #returns score metrics as a tuple of three elements
+    #the first is the average score
+    #the second the maximum score, the third the minimum score
+    #all per subreddit
     if not dicttest(df):
         pass
     else:
         df = pd.concat([df[i] for i in df.keys()]).drop_duplicates().reset_index(drop=True)
-        
     avg = sum(df['score'])/len(df)
-
     maxs = sorted(df.score, reverse = True)[0]
-
     mins = sorted(df.score)[0]
-    #print('Average score of subreddit: {}\nMaximum Score: {}\nMinimum Score: {}'.format(avg, maxs, mins))
     return avg, maxs, mins
 
 def activity_distribution(data):
@@ -651,13 +623,12 @@ def activity_distribution(data):
                 pass
             else:
                 reddict[i] = 0
-                
         for auth in df.author:
             reddict[auth] += 1
 
     return user_dist
 
-def setup(count):
+def setup():
     global time
     global posts
     global psts
@@ -665,7 +636,7 @@ def setup(count):
     global users
     global forest
     # time slice that the program processes
-    time = getTime(count)
+    time = getTime(0)
 
     if time == 'Invalid':
        raise KeyError('The requested timeslice file does not exist.')
@@ -674,7 +645,7 @@ def setup(count):
     print("Start setup ........")
     print("Start importing posts ........")
 
-    posts = importPosts()
+    posts = importPosts(time)
     psts = allPosts(posts.keys())
 
     print("Posts imported!")
@@ -692,10 +663,10 @@ def setup(count):
     print("Forest created!")
     print("Setup done!")
 
-def computeFeatures(count):
+def main():
 
     # setup for the rest of these fucntions to work
-    setup(count)
+    setup()
     forestExportTrain()
     # subreddit
     sub = posts.keys()
@@ -703,31 +674,24 @@ def computeFeatures(count):
     print("Replies between users started............")
     # number of replies from one user to another
     replies = repliesBetweenUsers(sub)
-    pretty_print(replies, 'RepliesBetweenUsers')
     print("Replies between users done!")
     #print(replies)
 
     print("In degree started............")
     # in degree
     in_degree = in_out_Degree(sub, replies, True)
-    pretty_print(in_degree, 'InDeegree')
     print("In degree done!")
     #print(in_degree)
 
     print("Out degree started............")
     # out degree
     out_degree = in_out_Degree(sub, replies, False)
-    pretty_print(out_degree, 'OutDegree')
     print("Out degree done!")
     #print(out_degree)
 
     print("Total scores started............")
     # total scores
     n_posts, n_comments, t_score_posts, t_score_comments = totalScore(sub)
-    pretty_print(n_posts, 'NumberPosts')
-    pretty_print(n_comments, 'NumberComments')
-    pretty_print(t_score_posts, 'TotalPostScores')
-    pretty_print(t_score_comments, 'TotalCommentScores')
     print("Total scores done!")
     #print(t_score)
     #print(n_comments)
@@ -735,56 +699,50 @@ def computeFeatures(count):
     print("Average scores started............")
     # average score
     a_score_posts, a_score_comments = averageScore(t_score_posts, t_score_comments, n_posts, n_comments, sub)
-    pretty_print(a_score_posts, 'AveragePostScores')
-    pretty_print(a_score_comments, 'AverageCommentScores')
     print("Average scores done!")
     #print(a_score)
 
     print("Controversiality started............")
     # controversiality
     p_con, c_con = controversiality(sub)
-    pretty_print(p_con, 'PostControversial')
-    pretty_print(c_con, 'CommentControversial')
     print("Controversiality done!")
     #print(p_con)
 
+    #sorted list of subreddits active on
+
+    # distribution of subreddits active on
+
+    # most used words
+
     # tree depth & width
     depths, widths = treeDepthWidth(sub)
-    pretty_print(depths, 'TreeDepths')
-    pretty_print(widths, 'TreeWidths')
     #print(depths)
     #print(widths)
 
     print("Post/comment ratio started............")
     # post/comment ratio
     p_c_ratio = ratioPostComment(n_posts, n_comments, sub)
-    pretty_print(p_c_ratio, 'PostCommentRatio')
     print("Post/comment ratio done!")
     #print(p_c_ratio)
 
     # number of levels in post trees between users' replies
     nodes = nodesBetweenReplies(sub)
-    pretty_print(nodes, 'NodesBetweenReplies')
     #print(nodes)
+    
+    print(posts, type(posts))
+    print()
+    print(sub, type(sub))
     
 # average score of posts/comments per subreddit
     averagescore = [(su, score_metrics(posts[su])[0]) for su in sub]
-    pretty_print(averagescore, 'AverageScorePerSub')
     print('when the average is scored')
 
 # distribution of posts/comments per subreddit
     averagedist = [activity_distribution(posts[su]) for su in sub]
-    pretty_print(averagedist, 'DistributionPostComment')
     print('distributed the posts/comments')
-
 # most active users per subreddit
-    aclist = [active_list(posts[df]) for df in posts]
-    pretty_print(aclist, 'ActiveUsers')
+    aclist = active_users(forest)
     print('active listed')
-
-def main():
-    for i in range(0, 11):
-        computeFeatures(i)
-
+    
 if __name__ == "__main__":
     main()
