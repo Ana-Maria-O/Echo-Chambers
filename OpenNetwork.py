@@ -1,41 +1,44 @@
 import pickle
-from keyFeatures import Tree, Node
-from userNetwork import Comment, User, Network, createDirectory
+from keyFeatures import Tree, Node, getTime
+from userNetworkFunction import Comment, User, Network, createDirectory
 from networkx.algorithms import community
 import matplotlib.pyplot as plt
 import seaborn as sns
-from time import perf_counter
 
-# jjjjjjjj
 # Visualise UN
 import networkx as nx
 from pyvis.network import Network as PyvisNetwork
 
+# Filter the users that are displayed in the UN
+def filterUsers(user: User) -> bool:
+    """Determines whether user will be shown in the network"""
+    # postThreshold = 500
+    # commentThreshold = 500
+    # return user.postScore > postThreshold or user.commentScore > commentThreshold
+    totalScore = 0
+    return user.postScore + user.commentScore > totalScore
 
-# Path to store the visualisations
-pathNetwork = "Networks/"
+# Filter the edges that are displayed
+def filterEdges(user1: User, user2ID: str) -> bool:
+    """Determines whether the edge from user1 to user2 will be shown"""
+    replyThreshold = 1
+    replyWeight = user1.outArcs[user2ID][0]
+    return replyWeight >= replyThreshold
 
-subreddit = "news"
 
-plots = False
-
-
-
-time1 = perf_counter()
-
-if __name__ == "__main__":
+def computeKeyFeaturesUN(subreddit, num, plots = False):
+    # Path to store the visualisations
+    pathNetwork = f"Networks/{getTime(num)}/"
 
     with open(pathNetwork + f'{subreddit}.pickle', 'rb') as f:
         network = pickle.load(f)
     
     users = network.users
 
-    print(len(users))
-
     userDict = {user.id : user for user in users}
 
     # Path to store the visualisations
-    path = f"Figures/{subreddit}/"
+    path = f"Figures/{getTime(num)}/{subreddit}/"
 
     createDirectory(path)
 
@@ -145,22 +148,7 @@ if __name__ == "__main__":
 
     ### Visualize the UN
 
-    # Filter the users that are displayed in the UN
-    def filterUsers(user: User) -> bool:
-        """Determines whether user will be shown in the network"""
-        # postThreshold = 500
-        # commentThreshold = 500
-        # return user.postScore > postThreshold or user.commentScore > commentThreshold
-        totalScore = 0
-        return user.postScore + user.commentScore > totalScore
-
-    # Filter the edges that are displayed
-    def filterEdges(user1: User, user2ID: str) -> bool:
-        """Determines whether the edge from user1 to user2 will be shown"""
-        replyThreshold = 1
-        replyWeight = user1.outArcs[user2ID][0]
-        return replyWeight >= replyThreshold
-
+    
     # Create a Graph object
     user_graph = nx.DiGraph()
 
@@ -239,16 +227,10 @@ if __name__ == "__main__":
     communities = community.greedy_modularity_communities(user_graph)
     centralityDict["Communities"] = communities
 
-    resultsPath = "Results/"
+    resultsPath = f"Results/{getTime(num)}/"
     createDirectory(resultsPath)
 
     # Save the key features
     with open(resultsPath + f'{subreddit}_key_features.pickle', 'wb') as f:
         pickle.dump(centralityDict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-
-    time2 = perf_counter()
-
-    print(time2 - time1)
-
-    print("DONE")

@@ -10,6 +10,7 @@ comments = {}
 users = []
 forest = {}
 
+
 # Linked list to represent a tree
 # tree.root is the root of a tree
 # tree.root.id is the id of the post at the root
