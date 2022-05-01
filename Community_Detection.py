@@ -7,6 +7,11 @@ from userNetworkFunction import Network, User
 alpha = 1
 sgraph_nodes = {}
 
+# returns a list of all changes that were made to graph in order to become graph_new
+# if changes['type'] == 'remove node' or 'add node' then changes['node'] is the 
+# name of the node that was removed/added
+# if changes['type'] == 'remove edge' or 'add edge' then changes['node'] and
+# changes['node2'] are the names of the nodes that the edge connects
 def PullOutChanges(graph: nx.classes.graph.Graph, graph_new: nx.classes.graph.Graph) -> list:
     changes = []
 
@@ -24,68 +29,84 @@ def PullOutChanges(graph: nx.classes.graph.Graph, graph_new: nx.classes.graph.Gr
             changes.append({'type': 'add node', 'node': node})
 
     for edge in graph_new.edges:
-        if not graph.has_edge(edge):
+        if not graph.has_edge(edge[0], edge[1]):
             changes.append({'type': 'add edge', 'node': edge[0], 'node2': edge[1]})
     
     return changes
 
 def AddSuperEdges(graph: nx.classes.graph.Graph, supergraph: nx.classes.graph.Graph) -> nx.classes.graph.Graph:
+    comms = {}
     for comm1 in supergraph.nodes:
-        for comm2 in supergraph.nodes and comm2 != comm1:
-            for node1 in supergraph.nodes[comm1]['dt']:
-                for node2 in supergraph.nodes[comm2]['dt']:
-                    if graph.has_edge(node1, node2):
-                        if supergraph.has_edge(comm1, comm2):
-                            supergraph.add_edge(comm1, comm2, weight=supergraph[comm1][comm2]['weight'] + graph[comm1][comm2]['weight'])
-                        else:
-                            supergraph.add_edge(comm1, comm2, weight = graph[comm1][comm2]['weight'])
+        comms[comm1] = 1
+        for comm2 in supergraph.nodes:
+            if comm2 not in comms:
+                for node1 in supergraph.nodes[comm1]['nodes']:
+                    for node2 in supergraph.nodes[comm2]['nodes']:
+                        if graph.has_edge(node1, node2):
+                            # print(graph[node1][node2]['weight'])
+                            if supergraph.has_edge(comm1, comm2):
+                                supergraph.add_edge(comm1, comm2, weight=supergraph[comm1][comm2]['weight'] + graph[node1][node2]['weight'])
+                            else:
+                                supergraph.add_edge(comm1, comm2, weight = graph[node1][node2]['weight'])
 
     return supergraph
-            
 
-def RemoveNode(node: str, communities: list, graph: nx.classes.graph.Graph, supergraph: nx.classes.graph.Graph):
+def removeFromSupergraph(supergraph, node):
+    found = False
+    # print(node)
+    for nodes in list(supergraph.nodes(data="nodes")):
+        # print(set(nodes[1])
+        # print(set(node))
+        if not found:
+                if len(list(set(node) & set(nodes[1]))) > 0:
+                    # print("before remove: " + str(supergraph.nodes(data=True)))
+                    supergraph.remove_node(nodes[0])
+                    # print("after remove: " + str(supergraph.nodes(data=True)))
+                    found = True
+        else:
+            nx.relabel_nodes(supergraph, {nodes[0]: nodes[0] - 1})
+
+    return supergraph
+
+def RemoveNode(node: str, communities: dict, graph: nx.classes.graph.Graph, supergraph: nx.classes.graph.Graph):
     global sgraph_nodes
 
-    # if this node was already accounted for in the supergraph ir its community was already broken, don't do this function again
-    if node in sgraph_nodes or (communities(node), True) in sgraph_nodes.values():
+    # list of nodes in the community of node
+    community = [key for key in communities if communities[key] == communities[node] and key != node]
+    
+    # if this node was already accounted for in the supergraph or its community 
+    # was already broken, don't do this function again
+    if node in sgraph_nodes or (communities[node], True) in sgraph_nodes.values():
         return supergraph
     else:
-        if not(node in sgraph_nodes):
+        if not((communities[node], False) in sgraph_nodes.values()):
+            key = supergraph.number_of_nodes()
+            supergraph.add_node(key, nodes=community)
             sgraph_nodes[node] = (communities[node], False)
 
     # get degree of the node
     deg = graph.degree(node)
 
-    # list of nodes in the community of node
-    community = [key for key in communities if communities[key] == communities[node]]
-
     # sum of degrees in the community
-    comm_deg_sum = 0
+    comm_deg_sum = deg
     for item in community:
         comm_deg_sum += graph.degree(item)
     
     # average degree in community
-    deg_c = comm_deg_sum / len(community)
+    deg_c = comm_deg_sum / (len(community) + 1)
 
     if deg >= alpha * deg_c:
         # update sgraph_nodes that this community was broken
-        og_node = sgraph_nodes.keys()[sgraph_nodes.values().index((communities[node], False))]
+        og_node = list(sgraph_nodes.keys())[list(sgraph_nodes.values()).index((communities[node], False))]
         sgraph_nodes[og_node] = (communities[node], True)
         
         # if the whole community was already in the supergraph, remove it and re-update the label for every following node
-        found = False
-        for nodes in list(supergraph.nodes(data="nodes")):
-
-            if not found:
-                if node in nodes[1]:
-                    supergraph.remove_node(nodes[0])
-                    found = True
-            else:
-                nx.relabel_nodes(supergraph, {nodes[0]: nodes[0] - 1})
+        supergraph = removeFromSupergraph(supergraph, community)
 
         # get the subcommunities in community
         subcom = Louvain(graph.subgraph(community))
-        subcom_values = list(subcom.values())
+        # print(subcom)
+        subcom_values = set(subcom.values())
 
         # add each subcommunity(supernode) to an integer
         for item in subcom_values:
@@ -95,12 +116,8 @@ def RemoveNode(node: str, communities: list, graph: nx.classes.graph.Graph, supe
             # link the nodes from the subcommunity to an integer
             key = supergraph.number_of_nodes()
             supergraph.add_node(key, nodes=c_list)
-    else:
-        key = supergraph.number_of_nodes()
-        supergraph.add_node(key, nodes=community)
 
     return supergraph
-
 
 # DONE: add superedges function -> joi
 # TODO: test everything -> vineri + sambata
@@ -137,9 +154,10 @@ def ConstructCompressedGraph(graph: nx.classes.graph.Graph, graph_new: nx.classe
             n = supergraph.number_of_nodes()
             in_sg = False
 
-            for node in supergraph.nodes(data="nodes") and not in_sg:
+            for node in supergraph.nodes(data="nodes"):
                 if u in node[1] or v in node[1]:
                     in_sg = True
+                    break
 
             if not in_sg:
                 supergraph.add_edge((n, [u]), (n + 1, [v]), graph_new[u][v]["weight"])
@@ -156,7 +174,7 @@ def ConstructCompressedGraph(graph: nx.classes.graph.Graph, graph_new: nx.classe
 
 def Louvain(graph = nx.classes.graph.Graph) -> dict:
     G = community_louvain.best_partition(graph)
-    print(type(G))
+    # print(type(G))
     return G
 
 def C_Blondel(graph, graph_new, communities) -> dict:
