@@ -24,4 +24,4 @@ timeSlices = list(range(11))
 for num in timeSlices:
     for subreddit in subreddits:
         print(f"Subreddit: {subreddit} at time {getTime(num)}")
-        computeKeyFeaturesUN(subreddit, num, True)
+        createPlots(subreddit, num)
