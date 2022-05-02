@@ -32,7 +32,7 @@ timeSlices = list(range(11))
 #         print(f"Subreddit: {subreddit} at time {getTime(num)}")
 #         computeKeyFeaturesUN(subreddit, num, True)
 
-path = "Forests/forest_pushshift_better" + ".pickle"
+path = "Forests//PushShift//forest_new" + ".pickle"
 # read the file
 pfile = open(path, 'rb')
 

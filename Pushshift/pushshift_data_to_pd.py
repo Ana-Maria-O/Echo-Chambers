@@ -8,14 +8,14 @@ import pandas as pd
 import pickle
 import os
 
-The_Donald_comments = pd.read_csv('The_Donald_comments.csv')
-The_Donald_posts = pd.read_csv('The_Donald_posts.csv')
+The_Donald_comments = pd.read_csv('The_Donald/The_Donald_comments.csv')
+The_Donald_posts = pd.read_csv('The_Donald/The_Donald_posts.csv')
 
-News_comments = pd.read_csv('News_comments.csv')
-News_posts = pd.read_csv('News_posts.csv')
+News_comments = pd.read_csv('News/News_comments.csv')
+News_posts = pd.read_csv('News/News_posts.csv')
 
-CMV_comments = pd.read_csv('Changemyview_comments.csv')
-CMV_posts = pd.read_csv('Changemyview_posts.csv')
+CMV_comments = pd.read_csv('Changemyview/Changemyview_comments.csv')
+CMV_posts = pd.read_csv('Changemyview/Changemyview_posts.csv')
 
 # path = os.path.dirname(__file__) + '/Pickle/'
 

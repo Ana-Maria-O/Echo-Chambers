@@ -77,9 +77,6 @@ def computeKeyFeaturesUN(subreddit, num, plots = False, pushshift=False):
             weight2List.append(weight2)
             weight3List.append(weight3)
 
-    print(weight1List)
-    print(weight2List)
-    print(weight3List)
     # Save the weight lists
     centralityDict["ReplyWeights"] = weight1List
     centralityDict["Sandwiches"] = weight2List

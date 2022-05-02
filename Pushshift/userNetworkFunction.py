@@ -185,7 +185,6 @@ def createUN(subreddit, num, pushshift = False, forest=None):
 
     # Create Network object
     network = Network(list(users.values()))
-    print([i for i in users.values()])
 
     # Save the network
     with open(pathNetwork + f'{subreddit}.pickle', 'wb') as f:
