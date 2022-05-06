@@ -6,13 +6,14 @@ from sympy import false
 
 def convertTimes():
     times = []
-    for i in range(1, 9):
+    for i in range(1, 19):
         times.append(int(datetime.datetime(2016, 12, i, 12, 0, 0, 0).timestamp()))
 
     return times
 
 def getSubs():
-    return ['News', 'Changemyview']
+    #return ['News', 'Changemyview']
+    return ['News']
 
 timestamps = convertTimes()
 subs = getSubs()
