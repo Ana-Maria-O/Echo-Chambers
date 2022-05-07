@@ -6,7 +6,7 @@ from sympy import false
 
 def convertTimes():
     times = []
-    for i in range(1, 19):
+    for i in range(1, 19): # was `range(1,9)`
         times.append(int(datetime.datetime(2016, 12, i, 12, 0, 0, 0).timestamp()))
 
     return times
@@ -47,7 +47,7 @@ def pullPosts():
     for sub in subs:
         posts = pd.DataFrame()
         base_posts = 'https://api.pushshift.io/reddit/search/submission/?sort=asc&size=500&subreddit=' + sub
-        for index in range(7):
+        for index in range(17): # was `range(7)`
             link = base_posts + '&after=' + str(timestamps[index]) + '&before=' + str(timestamps[index + 1])
             time = timestamps[index]
             size = len(posts) -1
@@ -87,7 +87,7 @@ def getComments():
         posts = pd.DataFrame()
         posts= pd.read_csv('Pushshift//' + sub + '//' + sub + '_posts.csv')
 
-        for index in range(7):
+        for index in range(17): # was `range(7)`
             link = base_comments + '&after=' + str(timestamps[index]) + '&before=' + str(timestamps[index + 1])
             old_created = 0
             created = -1
@@ -121,6 +121,7 @@ def getComments():
         comments.to_csv(fil)
 
 def main():
+    pullPosts()
     getComments()
 
         
