@@ -66,6 +66,15 @@ def rudimentary_sentiment(string):
     #pos: the percentage of positive sentiment
     #compound: the 'overall' sentiment
     
+    #more info on compound
+    
+#     the compound score is a normalized score of sum_s;
+#     sum_s is the sum of valence computed based on some heuristics and 
+#     a sentiment lexicon (aka. Sentiment Intensity); 
+#     the normalized score is simply the sum_s divided by its square plus 
+#     an alpha parameter that increases the denominator of the normalization function.
+
+    
     for i in '.,;:[{()}]`-~=+_?!\'':
         string = string.replace(i, '')
     tokens = string.split(' ')
