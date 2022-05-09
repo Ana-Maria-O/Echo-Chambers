@@ -8,14 +8,14 @@ import pandas as pd
 import pickle
 import os
 
-The_Donald_comments = pd.read_csv('The_Donald/The_Donald_comments.csv')
-The_Donald_posts = pd.read_csv('The_Donald/The_Donald_posts.csv')
+The_Donald_comments = pd.read_csv('Pushshift/The_Donald/The_Donald_comments.csv')
+The_Donald_posts = pd.read_csv('Pushshift/The_Donald/The_Donald_posts.csv')
 
-News_comments = pd.read_csv('News/News_comments.csv')
-News_posts = pd.read_csv('News/News_posts.csv')
+News_comments = pd.read_csv('Pushshift/News/News_comments.csv')
+News_posts = pd.read_csv('Pushshift/News/News_posts.csv')
 
-CMV_comments = pd.read_csv('Changemyview/Changemyview_comments.csv')
-CMV_posts = pd.read_csv('Changemyview/Changemyview_posts.csv')
+CMV_comments = pd.read_csv('Pushshift/Changemyview/Changemyview_comments.csv')
+CMV_posts = pd.read_csv('Pushshift/Changemyview/Changemyview_posts.csv')
 
 # path = os.path.dirname(__file__) + '/Pickle/'
 
@@ -42,6 +42,8 @@ comments = {'The_Donald': The_Donald_comments, 'News': News_comments, 'CMV': CMV
 users = []
 forest = {}
 subs = ['The_Donald', 'News', 'CMV']
+print(len(posts['News']))
+print(len(posts['CMV']))
 
 
 # Linked list to represent a tree
@@ -226,5 +228,5 @@ if not existsPath:
     os.makedirs(path)
 
 # Save the network
-with open(path + f'forest_new.pickle', 'wb') as f:
+with open(path + f'forest_newest_larger.pickle', 'wb') as f:
     pickle.dump(forest, f, protocol=pickle.HIGHEST_PROTOCOL)
