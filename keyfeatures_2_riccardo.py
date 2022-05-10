@@ -293,11 +293,25 @@ def in_out_Degree(subs, replies, ind):
         deg[sub] = dict.fromkeys(users[sub], 0)
 
         for user1 in replies[sub].keys():
-            for user2 in replies[sub][user1]:
-                if ind:
-                 deg[sub][user2] += replies[sub][user1][user2]
-                else:
-                    deg[sub][user1] += replies[sub][user1][user2]
+            # user1 = 't3_' + user1
+            # print(f"user1 is {user1}")
+            for user2 in replies[sub][user1].keys():
+                # user2 = 't3_' + user2
+                # print(f"user2 is {user2}")
+                # if user2 == 'iglidante':
+                #     print(deg[sub])
+                #     print(user1)
+                #     print(deg[sub][user2])
+                try:   # for 'iglidante'
+                    if ind:
+                        deg[sub][user2] += replies[sub][user1][user2]
+                    else:
+                        deg[sub][user1] += replies[sub][user1][user2]
+                except:
+                    if ind:
+                        deg[sub][user2] = replies[sub][user1][user2]
+                    else:
+                        deg[sub][user1] = replies[sub][user1][user2]
 
     return deg
 
@@ -309,8 +323,12 @@ def addCommentScores(ct_scores, cn_posts, node):
 
         # for each reply to the current node, update the comment score and comment count of the reply's author
         for comment in node.next:
-            ct_scores[comment.auth] += comment.score
-            cn_posts[comment.auth] += 1
+            try:
+                ct_scores[comment.auth] += comment.score
+                cn_posts[comment.auth] += 1
+            except:
+                ct_scores[comment.auth] = comment.score
+                cn_posts[comment.auth] = 1 
 
             # update the comment scores and the comment counts of the authors who wrote the comments in the rest of the current comment thread
             ct_scores, cn_posts = addCommentScores(ct_scores, cn_posts, comment)
@@ -345,7 +363,9 @@ def totalScore(subs):
         cn_posts[sub] = dict.fromkeys(users[sub], 0)
 
         # get the ids of all the posts in the subreddit
-        post_ids = psts[sub]['id']
+        post_ids = psts[sub]['full_id']
+        print(post_ids)
+        print(forest[sub].keys())
 
         # gather all post scores and update all post counts
         for post in post_ids:
@@ -385,8 +405,10 @@ def addControversial(c_con, node):
     if len(node.next) > 0:
         for reply in node.next:
             # update the controversial score of the reply's author
-            c_con[node.auth] += node.controversial
-
+            try:
+                c_con[node.auth] += node.controversial
+            except:
+                pass
             # update the controversial scores of the authors of all comments following node in the comment thread
             c_con = addControversial(c_con, reply)
     
@@ -405,7 +427,7 @@ def controversiality(subs):
         c_con[sub] = dict.fromkeys(users[sub], 0)
 
         for post in forest[sub]:
-            p_con[sub][forest[sub][post].auth] += forest[sub][post].controversial
+            # p_con[sub][forest[sub][post].auth] += forest[sub][post].controversial
 
             c_con[sub] = addControversial(c_con[sub], forest[sub][post])
 
@@ -532,7 +554,7 @@ def nodesBetweenReplies(subs):
     # for each subreddit
     for sub in subs:
         # for each post in the sub, check every thread under the post and update nodes_between
-        for post in psts[sub]['id']:
+        for post in psts[sub]['full_id']:
             last_nodes = {}
             nodes_between[sub] = defaultdict(dict)
 
@@ -569,10 +591,11 @@ def dicttest(df):
         #i could think of to differentiate between 
         #the posts and comments. 
         #just so I don't write everything twice
-        if 'hot' in df.keys():
-            return True
-        else:
-            return False
+        # if 'hot' in df.keys():
+        #     return True
+        # else:
+        #     return False
+        return "# comments" in df.keys()
 
 def active_users(forst):
     #returns a nested dictionary:
@@ -597,10 +620,13 @@ def score_metrics(df):
     #the first is the average score
     #the second the maximum score, the third the minimum score
     #all per subreddit
+    print(dicttest(df))
     if not dicttest(df):
         pass
-    else:
-        df = pd.concat([df[i] for i in df.keys()]).drop_duplicates().reset_index(drop=True)
+    # else:
+    #     df = pd.concat([df[i] for i in df.keys()]).drop_duplicates().reset_index(drop=True)
+    
+    print(df)
     avg = sum(df['score'])/len(df)
     maxs = sorted(df.score, reverse = True)[0]
     mins = sorted(df.score)[0]
@@ -617,51 +643,78 @@ def activity_distribution(data):
             df = pd.concat(sub[i] for i in sub).drop_duplicates().reset_index(drop=True)
         else:
             df = sub
-
+ 
         for i in df.author.unique():
             if i in reddict.keys():
                 pass
             else:
                 reddict[i] = 0
+
         for auth in df.author:
             reddict[auth] += 1
 
     return user_dist
 
-def setup():
+def setup(tim, post, pst, comment, user, fores):
+    
+    
     global time
+    time = tim
     global posts
+    posts = post
     global psts
+    psts = pst
     global comments
+    comments = comment
     global users
+    users = user
     global forest
-    # time slice that the program processes
-    time = getTime(0)
+    forest = fores
+    
+    # global time
+    # global posts
+    # global psts
+    # global comments
+    # global users
+    # global forest
+    
+    # # time slice that the program processes
+    # time = getTime(0)
 
-    if time == 'Invalid':
-       raise KeyError('The requested timeslice file does not exist.')
+    # if time == 'Invalid':
+    #     raise KeyError('The requested timeslice file does not exist.')
 
-    # import post and comment dataframes
-    print("Start setup ........")
-    print("Start importing posts ........")
+    # # import post and comment dataframes
+    # print("Start setup ........")
+    # print("Start importing posts ........")
 
-    posts = importPosts(time)
-    psts = allPosts(posts.keys())
+    # posts = importPosts(time)
+    # psts = allPosts(posts.keys())
 
-    print("Posts imported!")
-    print("Start importing comments ........")
+    # print("Posts imported!")
+    # print("Start importing comments ........")
 
-    comments = importComments(time)
-    users = allUsers(posts.keys())
+    # comments = importComments(time)
+    # users = allUsers(posts.keys())
 
-    print("Comments imported!")
-    print("Start creating forest ........")
+    # print("Comments imported!")
+    # print("Start creating forest ........")
 
-    # forest dictionary
-    forest = createForest()
+    # # forest dictionary
+    # #forest = createForest()
+    # path = "Forests//forest_train_02.01.2022.p"
+    # # read the file
+    
+    # pfile = open(path, 'rb')
+    
+    # # unpickle the file
+    # forest = pickle.load(pfile)
+    
+    # # close the file
+    # pfile.close()
 
-    print("Forest created!")
-    print("Setup done!")
+    # print("Forest created!")
+    # print("Setup done!")
 
 def main():
 
