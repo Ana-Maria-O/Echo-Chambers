@@ -1,5 +1,4 @@
-from keyFeatures import Tree, Node
-from keyFeatures import getTime
+from keyfeatures_2_riccardo import Tree, Node, getTime
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle

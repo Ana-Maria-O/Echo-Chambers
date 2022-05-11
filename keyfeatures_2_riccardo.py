@@ -364,8 +364,6 @@ def totalScore(subs):
 
         # get the ids of all the posts in the subreddit
         post_ids = psts[sub]['full_id']
-        print(post_ids)
-        print(forest[sub].keys())
 
         # gather all post scores and update all post counts
         for post in post_ids:
@@ -620,13 +618,11 @@ def score_metrics(df):
     #the first is the average score
     #the second the maximum score, the third the minimum score
     #all per subreddit
-    print(dicttest(df))
     if not dicttest(df):
         pass
     # else:
     #     df = pd.concat([df[i] for i in df.keys()]).drop_duplicates().reset_index(drop=True)
     
-    print(df)
     avg = sum(df['score'])/len(df)
     maxs = sorted(df.score, reverse = True)[0]
     mins = sorted(df.score)[0]
