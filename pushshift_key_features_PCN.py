@@ -280,7 +280,7 @@ print("Controversiality done!")
 # most used words
 
 # tree depth & width
-depths, widths = treeDepthWidth(sub)
+depth, width, width_dist, depth_dist = treeDepthWidth(sub)
 #print(depths)
 #print(widths)
 
@@ -317,8 +317,10 @@ kfDict['out-degree'] = out_degree
 kfDict['nrPosts, nrComments, totalScorePosts, totalScoreComments'] = n_posts, n_comments, t_score_posts, t_score_comments
 kfDict['avgScorePosts, avgScoreComments'] = a_score_posts, a_score_comments
 kfDict['postControversiality, commentControversiality'] = p_con, c_con
-kfDict['tree depth'] = depths
-kfDict['tree width'] = widths
+kfDict['tree depth'] = depth
+kfDict['tree width'] = width
+kfDict['tree depth dist'] = depth_dist
+kfDict['tree width dist'] = width_dist
 kfDict['postCommentRatio'] = p_c_ratio
 kfDict["nr levels in post trees between users' replies"] = nodes
 kfDict['average post/comment score'] = averagescore
@@ -327,5 +329,8 @@ kfDict['most active users per subreddit'] = aclist
 resultsPath = f"Results/Pushshift/"
 createDirectory(resultsPath)
 
-with open(resultsPath + f'key_features_pushshift.pickle', 'wb') as f:
+print(list(kfDict.keys()))
+print(kfDict['average post/comment score'])
+
+with open(resultsPath + f'key_features_pushshift_dist.pickle', 'wb') as f:
     pickle.dump(kfDict, f, protocol=pickle.HIGHEST_PROTOCOL)

@@ -438,12 +438,16 @@ def controversiality(subs):
 # depth which is the depth of the root and widths which is a dictionary of all the widths of the tree
 # returns the depth of the subtree with id as its root and the dictionary witdths such that such that
 # widths[index] is the number of nodes of depth index
-def Depth(node, depth, widths):
+def Depth(node, depth, widths, depth_dist_posts):
+
     # extract all direct replies to the current node
     replies = node.next
 
     # update the node's depth
     node.depth = depth
+
+
+    depth_dist_posts[depth] += 1
 
     # update the witdh of the current depth level
     if depth in widths:
@@ -457,7 +461,7 @@ def Depth(node, depth, widths):
 
         # compute depth of each subtree
         for nextNode in replies:
-            tree_depth, widths = Depth(nextNode, depth + 1, widths)
+            tree_depth, widths = Depth(nextNode, depth + 1, widths, depth_dist_posts)
 
             # update the largest depth
             if tree_depth > sub_depth:
@@ -475,6 +479,8 @@ def treeDepthWidth(subs):
     # initiate the depth and width dictionaries
     depth = {}
     width = {}
+    width_dist = {}
+    depth_dist = {}
 
     for sub in subs:
         # all ids of all posts in subreddit
@@ -483,17 +489,35 @@ def treeDepthWidth(subs):
         depth[sub] = dict.fromkeys(post_ids, 0)
         width[sub] = dict.fromkeys(post_ids, 1)
 
+        depth_dist_posts = defaultdict(int)
+
+        width_dist[sub] = defaultdict(dict)
+
         # for each post, compute the depth and widtyh of its tree
         for post in post_ids:
             widths = defaultdict(dict)
+            
+            
 
             # compute the depth of the post tree and all its different widths
-            depth[sub][post], widths = Depth(forest[sub][post], 0, widths)
+            depth[sub][post], widths = Depth(forest[sub][post], 0, widths, depth_dist_posts)
 
             # find the maximum width of the post tree
             width[sub][post] = max(widths.values())
 
-    return depth, width
+            for layer, w in widths.items():
+                if w in width_dist[sub][layer].keys():
+                    width_dist[sub][layer][w] += 1
+                else:
+                    width_dist[sub][layer][w] = 1
+
+        depth_dist[sub] = depth_dist_posts
+        # depth_dist[sub] = [node.depth for node in forest[sub].values()]
+        
+
+
+
+    return depth, width, width_dist, depth_dist
 
 # returns a dictionary with every active user on a subreddit and their post/comment ratio
 # takes as input a string sub which is the name of the subreddit
