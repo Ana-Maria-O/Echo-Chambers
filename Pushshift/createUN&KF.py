@@ -42,10 +42,10 @@ f = pickle.load(pfile)
 # close the file
 pfile.close()
 
-for subreddit in subreddits:
-    print(f"Subreddit: {subreddit} of PushShift")
-    createUN(subreddit, 0, True, f)
+# for subreddit in subreddits:
+#     print(f"Subreddit: {subreddit} of PushShift")
+#     createUN(subreddit, 0, True, f)
 
 for subreddit in subreddits:
     print(f"Subreddit: {subreddit} of PushShift")
-    computeKeyFeaturesUN(subreddit, 0, True, True)
+    computeKeyFeaturesUN(subreddit, 0, False, True)

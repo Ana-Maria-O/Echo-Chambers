@@ -40,7 +40,7 @@ def saveHistogram(data, plotTitle, lowerLimit = False):
         plotData = data[sub].values()
         if type(lowerLimit) == int:
             plotData = list(filter(lambda x: x > lowerLimit, plotData))
-        sns.histplot(data= plotData,  bins = getBins(plotData), ax=axs[i], stat = "percent")
+        sns.histplot(data= plotData,  bins = getBins(plotData), ax=axs[i], stat = "percent", log_scale=useLogScale)
         axs[i].set_title(f"{plotTitle} for {sub}")
     plt.tight_layout()
     fig.savefig(saveFolder + plotTitle + ".png", bbox_inches="tight")
@@ -59,7 +59,9 @@ keyToTitle = \
 
 print(set(PushShift_PCN_KF['most active users per subreddit']["CMV"].values()))
 
-
+for sub in subreddits_PushShift:
+    print(sub)
+    print(len(PushShift_PCN_KF['replies between users'][sub].keys()))
 
 specialCases = ['average post/comment score', 'average post/comment score',"nr levels in post trees between users' replies","tree width dist","in-degree", 'out-degree', 'replies between users', "tree width", "tree depth", 'nrPosts, nrComments, totalScorePosts, totalScoreComments', "avgScorePosts, avgScoreComments", 'postControversiality, commentControversiality']
 

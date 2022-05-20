@@ -16,13 +16,14 @@ def filterUsers(user: User) -> bool:
     # postThreshold = 500
     # commentThreshold = 500
     # return user.postScore > postThreshold or user.commentScore > commentThreshold
-    totalScore = 0
-    return user.postScore + user.commentScore > totalScore
+    totalScore = 1000
+    goodScore = user.postScore + user.commentScore > totalScore
+    return goodScore and user.id != "[deleted]"
 
 # Filter the edges that are displayed
 def filterEdges(user1: User, user2ID: str) -> bool:
     """Determines whether the edge from user1 to user2 will be shown"""
-    replyThreshold = 1
+    replyThreshold = 2
     replyWeight = user1.outArcs[user2ID][0]
     return replyWeight >= replyThreshold
 
@@ -181,6 +182,8 @@ def computeKeyFeaturesUN(subreddit, num, plots = False, pushshift=False):
     user_network.barnes_hut(gravity=-80000, central_gravity=1.5, spring_length=250, spring_strength=0.0001, damping=0.09, overlap=0)
 
     # Save the network
+    print("saving")
+    print(path)
     user_network.save_graph(path + f"UN_{subreddit}.html")
 
     # Additional options for visualisation
@@ -210,29 +213,29 @@ def computeKeyFeaturesUN(subreddit, num, plots = False, pushshift=False):
 
 
     # Compute remaining centrality measures
-    inDegreeCentrality = nx.in_degree_centrality(user_graph)
-    centralityDict["InDegree"] = inDegreeCentrality
+    # inDegreeCentrality = nx.in_degree_centrality(user_graph)
+    # centralityDict["InDegree"] = inDegreeCentrality
 
-    outDegreeCentrality = nx.out_degree_centrality(user_graph)
-    centralityDict["OutDegree"] = outDegreeCentrality
+    # outDegreeCentrality = nx.out_degree_centrality(user_graph)
+    # centralityDict["OutDegree"] = outDegreeCentrality
 
-    eigenVectorCentrality = nx.eigenvector_centrality(user_graph)
-    centralityDict["EigenVector"] = eigenVectorCentrality
+    # eigenVectorCentrality = nx.eigenvector_centrality(user_graph)
+    # centralityDict["EigenVector"] = eigenVectorCentrality
 
-    # try:
-    #     katzCentrality = nx.katz_centrality(user_graph)
-    #     centralityDict["Katz"] = katzCentrality
-    # except:
-    #     pass
+    # # try:
+    # #     katzCentrality = nx.katz_centrality(user_graph)
+    # #     centralityDict["Katz"] = katzCentrality
+    # # except:
+    # #     pass
 
-    harmonicCentrality = nx.harmonic_centrality(user_graph)
-    centralityDict["Harmonic"] = harmonicCentrality
+    # harmonicCentrality = nx.harmonic_centrality(user_graph)
+    # centralityDict["Harmonic"] = harmonicCentrality
 
-    voteRankCentrality = nx.voterank(user_graph)
-    centralityDict["VoteRank"] = voteRankCentrality
+    # voteRankCentrality = nx.voterank(user_graph)
+    # centralityDict["VoteRank"] = voteRankCentrality
 
-    communities = community.greedy_modularity_communities(user_graph)
-    centralityDict["Communities"] = communities
+    # communities = community.greedy_modularity_communities(user_graph)
+    # centralityDict["Communities"] = communities
 
     if pushshift:
         resultsPath = f"Results/Pushshift/"
