@@ -67,7 +67,9 @@ for KF, data in PushShift_PCN_KF.items():
     if KF not in specialCases:
         saveHistogram(data, keyToTitle[KF])
         if KF == 'most active users per subreddit':
-            lowerLim = 50
+            lowerLim = 1000
+        elif KF == "postCommentRatio":
+            lowerLim = 3
         saveHistogram(data, f"lowerLim={lowerLim}_" +keyToTitle[KF], lowerLim)
     elif KF == 'postControversiality, commentControversiality':
         saveHistogram(data[1], keyToTitle[KF])
