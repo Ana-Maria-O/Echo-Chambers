@@ -73,7 +73,7 @@ for KF, data in PushShift_PCN_KF.items():
         saveHistogram(data[1], keyToTitle[KF])
         saveHistogram(data[1], f"lowerLim={lowerLim}_" +keyToTitle[KF], lowerLim)
     elif KF == 'tree width dist':
-        lowerLim = 5
+        lowerLim = 50
         dataOverLayers = {sub: {} for sub in subreddits_PushShift}
         for sub, layerDict in data.items():
             for layer, widthDict in layerDict.items():
