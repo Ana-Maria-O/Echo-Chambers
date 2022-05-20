@@ -59,23 +59,28 @@ keyToTitle = \
 
 print(set(PushShift_PCN_KF['most active users per subreddit']["CMV"].values()))
 
+
+
 specialCases = ['average post/comment score', 'average post/comment score',"nr levels in post trees between users' replies","tree width dist","in-degree", 'out-degree', 'replies between users', "tree width", "tree depth", 'nrPosts, nrComments, totalScorePosts, totalScoreComments', "avgScorePosts, avgScoreComments", 'postControversiality, commentControversiality']
 
+useLogScale = False
 for KF, data in PushShift_PCN_KF.items():
     print(KF)
     lowerLim = 0
     if KF not in specialCases:
-        saveHistogram(data, keyToTitle[KF])
+        saveHistogram(data, f"logScale={useLogScale}_" + keyToTitle[KF])
         if KF == 'most active users per subreddit':
             lowerLim = 1000
         elif KF == "postCommentRatio":
             lowerLim = 3
-        saveHistogram(data, f"lowerLim={lowerLim}_" +keyToTitle[KF], lowerLim)
+        elif KF == "tree depth dist":
+            lowerLim = 30000
+        saveHistogram(data, f"lowerLim={lowerLim}_logScale={useLogScale}_" +keyToTitle[KF], lowerLim)
     elif KF == 'postControversiality, commentControversiality':
         saveHistogram(data[1], keyToTitle[KF])
-        saveHistogram(data[1], f"lowerLim={lowerLim}_" +keyToTitle[KF], lowerLim)
+        saveHistogram(data[1], f"lowerLim={lowerLim}_logScale={useLogScale}_" +keyToTitle[KF], lowerLim)
     elif KF == 'tree width dist':
-        lowerLim = 50
+        lowerLim = 12000
         dataOverLayers = {sub: {} for sub in subreddits_PushShift}
         for sub, layerDict in data.items():
             for layer, widthDict in layerDict.items():
@@ -85,8 +90,8 @@ for KF, data in PushShift_PCN_KF.items():
                     else:
                         dataOverLayers[sub][w] = n
 
-        saveHistogram(dataOverLayers, "Width")
-        saveHistogram(dataOverLayers, f"lowerLim={lowerLim}_Width", lowerLim)
+        saveHistogram(dataOverLayers, "logScale={useLogScale}_Width")
+        saveHistogram(dataOverLayers, f"lowerLim={lowerLim}_WidthlogScale={useLogScale}_", lowerLim)
 
     
 
