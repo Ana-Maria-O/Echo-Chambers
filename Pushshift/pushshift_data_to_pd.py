@@ -8,14 +8,19 @@ import pandas as pd
 import pickle
 import os
 
-The_Donald_comments = pd.read_csv('Pushshift/The_Donald/The_Donald_comments.csv')
-The_Donald_posts = pd.read_csv('Pushshift/The_Donald/The_Donald_posts.csv')
+test_data_subs = ['conspiracy', 'enoughtrumpspam', 'fuckthealtright', 'incels'] #CHANGE!!!!
 
-News_comments = pd.read_csv('Pushshift/News/News_comments.csv')
-News_posts = pd.read_csv('Pushshift/News/News_posts.csv')
+#conspiracy_comments = pd.read_csv('Pushshift/conspiracy/conspiracy_comments.csv')
+#conspiracy_posts = pd.read_csv('Pushshift/conspiracy/conspiracy_posts.csv')
 
-CMV_comments = pd.read_csv('Pushshift/Changemyview/Changemyview_comments.csv')
-CMV_posts = pd.read_csv('Pushshift/Changemyview/Changemyview_posts.csv')
+#enoughtrumpspam_comments = pd.read_csv('Pushshift/enoughtrumpspam/enoughtrumpspam_comments.csv')
+#enoughtrumpspam_posts = pd.read_csv('Pushshift/enoughtrumpspam/enoughtrumpspam_posts.csv')
+
+#fuckthealtright_comments = pd.read_csv('Pushshift/fuckthealtright/fuckthealtright_comments.csv')
+#fuckthealtright_posts = pd.read_csv('Pushshift/fuckthealtright/fuckthealtright_posts.csv')
+
+#incels_comments = pd.read_csv('Pushshift/incels/incels_comments.csv')
+#incels_posts = pd.read_csv('Pushshift/incels/incels_posts.csv')
 
 # path = os.path.dirname(__file__) + '/Pickle/'
 
@@ -36,14 +41,21 @@ import pickle
 import json
 
 time = ''
-posts = {'The_Donald': The_Donald_posts, 'News': News_posts, 'CMV': CMV_posts}
+
+posts = {}
+comments = {}
+for sub in test_data_subs:
+    filename = 'Pushshift/' + sub + '/' + sub
+    posts[sub] = pd.read_csv(filename + '_posts.csv')
+    comments[sub] = pd.read_csv(filename + '_comments.csv')
+    #posts = {'The_Donald': The_Donald_posts, 'News': News_posts, 'CMV': CMV_posts}
+    #comments = {'The_Donald': The_Donald_comments, 'News': News_comments, 'CMV': CMV_comments}
+    print(f"sub {sub} nr posts: {len(posts[sub])}")
 psts = {}
-comments = {'The_Donald': The_Donald_comments, 'News': News_comments, 'CMV': CMV_comments}
+    
 users = []
 forest = {}
-subs = ['The_Donald', 'News', 'CMV']
-print(len(posts['News']))
-print(len(posts['CMV']))
+subs = test_data_subs
 
 
 # Linked list to represent a tree
@@ -85,9 +97,11 @@ def allPosts(subs):
         psts = posts[sub]
         all_posts[sub] = posts[sub]
 
+        print(f"before dropping duplicates {sub}: {len(all_posts[sub])} posts")
         # get rid of duplicate entries
         all_posts[sub] = all_posts[sub].drop_duplicates(subset='id', keep='last')
-
+        print(f"after dropping duplicates {sub}: {len(all_posts[sub])} posts")
+        
     return all_posts
 
 # add all comments from a post to its tree
@@ -228,5 +242,5 @@ if not existsPath:
     os.makedirs(path)
 
 # Save the network
-with open(path + f'forest_newest_larger.pickle', 'wb') as f:
+with open(path + f'forest_for_testing_dataset1.pickle', 'wb') as f: #CHANGE FILE NAME!!!!!!!
     pickle.dump(forest, f, protocol=pickle.HIGHEST_PROTOCOL)
