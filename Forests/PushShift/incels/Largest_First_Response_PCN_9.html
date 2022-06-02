@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>PCN of subreddit r/incels</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 90%;
+            background-color: white;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "black"}, "id": "incellington", "label": "incellington", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "knajjd11", "label": "knajjd11", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Valos01", "label": "Valos01", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "NJS331", "label": "NJS331", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "asoiahats", "label": "asoiahats", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "dead_eyed_mofo", "label": "dead_eyed_mofo", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Notonefuckwasgiven88", "label": "Notonefuckwasgiven88", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "AmariTenebra", "label": "AmariTenebra", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Thechadbaker", "label": "Thechadbaker", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "gregsmith93", "label": "gregsmith93", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "EmilyMaybe", "label": "EmilyMaybe", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "violent_delights1", "label": "violent_delights1", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "_poptart", "label": "_poptart", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "PurWhip", "label": "PurWhip", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "PorgiAmor", "label": "PorgiAmor", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Bodgie7878", "label": "Bodgie7878", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "isthisevenreallife1", "label": "isthisevenreallife1", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Ennyish", "label": "Ennyish", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Upvoteandchill", "label": "Upvoteandchill", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "3lvy", "label": "3lvy", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "SwordOfIncels", "label": "SwordOfIncels", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "UserN-me", "label": "UserN-me", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "damnsong", "label": "damnsong", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "ICWCloud", "label": "ICWCloud", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Menaciing", "label": "Menaciing", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "livinginpain101", "label": "livinginpain101", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "chillenyo", "label": "chillenyo", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "yotv32", "label": "yotv32", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "SaintElliot", "label": "SaintElliot", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Toplesspark", "label": "Toplesspark", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "LibStealingSpic", "label": "LibStealingSpic", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "themightywagon", "label": "themightywagon", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "GreatLoadsOfFun", "label": "GreatLoadsOfFun", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "Xx_incel_xX", "label": "Xx_incel_xX", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "drunkendisarray", "label": "drunkendisarray", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "5-2BaldIndianJanitor", "label": "5-2BaldIndianJanitor", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "VentiMochaTRex", "label": "VentiMochaTRex", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": "incellington", "to": "knajjd11", "weight": 1}, {"from": "incellington", "to": "Valos01", "weight": 1}, {"from": "incellington", "to": "NJS331", "weight": 1}, {"from": "incellington", "to": "asoiahats", "weight": 1}, {"from": "incellington", "to": "dead_eyed_mofo", "weight": 1}, {"from": "incellington", "to": "Notonefuckwasgiven88", "weight": 1}, {"from": "incellington", "to": "AmariTenebra", "weight": 1}, {"from": "incellington", "to": "Thechadbaker", "weight": 1}, {"from": "incellington", "to": "gregsmith93", "weight": 1}, {"from": "incellington", "to": "EmilyMaybe", "weight": 1}, {"from": "incellington", "to": "violent_delights1", "weight": 1}, {"from": "incellington", "to": "_poptart", "weight": 1}, {"from": "incellington", "to": "PurWhip", "weight": 1}, {"from": "incellington", "to": "PorgiAmor", "weight": 1}, {"from": "incellington", "to": "Bodgie7878", "weight": 1}, {"from": "incellington", "to": "isthisevenreallife1", "weight": 1}, {"from": "incellington", "to": "Ennyish", "weight": 1}, {"from": "incellington", "to": "Upvoteandchill", "weight": 1}, {"from": "incellington", "to": "3lvy", "weight": 1}, {"from": "incellington", "to": "SwordOfIncels", "weight": 1}, {"from": "incellington", "to": "UserN-me", "weight": 1}, {"from": "incellington", "to": "damnsong", "weight": 1}, {"from": "incellington", "to": "ICWCloud", "weight": 1}, {"from": "incellington", "to": "Menaciing", "weight": 1}, {"from": "incellington", "to": "livinginpain101", "weight": 1}, {"from": "incellington", "to": "chillenyo", "weight": 1}, {"from": "incellington", "to": "yotv32", "weight": 1}, {"from": "incellington", "to": "SaintElliot", "weight": 1}, {"from": "knajjd11", "to": "Toplesspark", "weight": 1}, {"from": "knajjd11", "to": "violent_delights1", "weight": 1}, {"from": "Toplesspark", "to": "LibStealingSpic", "weight": 1}, {"from": "LibStealingSpic", "to": "violent_delights1", "weight": 1}, {"from": "asoiahats", "to": "themightywagon", "weight": 1}, {"from": "AmariTenebra", "to": "AmariTenebra", "weight": 1}, {"from": "gregsmith93", "to": "GreatLoadsOfFun", "weight": 1}, {"from": "gregsmith93", "to": "Upvoteandchill", "weight": 1}, {"from": "Upvoteandchill", "to": "Xx_incel_xX", "weight": 1}, {"from": "violent_delights1", "to": "drunkendisarray", "weight": 1}, {"from": "violent_delights1", "to": "Menaciing", "weight": 1}, {"from": "violent_delights1", "to": "5-2BaldIndianJanitor", "weight": 1}, {"from": "5-2BaldIndianJanitor", "to": "VentiMochaTRex", "weight": 1}, {"from": "Bodgie7878", "to": "PorgiAmor", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 1.5,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.0001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
