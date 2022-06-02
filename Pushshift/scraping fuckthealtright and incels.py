@@ -9,20 +9,20 @@ def convertTimes():
     times = []
     
     # first 2016
-    monthDays = [32, 30, 32, 31, 32, 31, 32, 32, 31, 32, 31, 32] # days in each month + 1 because Python
-    for month in range(1, 13): 
+    monthDays = [32, 30, 32] # days in each month + 1 because Python
+    for month in range(1, 4): 
         for day in range(1, monthDays[month-1]): # for each month
             times.append(int(datetime.datetime(2016, month, day, 0, 0, 0).timestamp()))
     # then 2017
-    monthDays = [32, 29, 32, 31, 32, 31, 32, 32, 31, 32, 31, 32] # days in each month + 1 because Python
-    for month in range(1, 13): 
-        for day in range(1, monthDays[month-1]): # for each month
-            times.append(int(datetime.datetime(2017, month, day, 0, 0, 0).timestamp()))
+    #monthDays = [32, 29, 32, 31, 32, 31, 32, 32, 31, 32, 31, 32] # days in each month + 1 because Python
+    #for month in range(1, 13): 
+    #    for day in range(1, monthDays[month-1]): # for each month
+    #        times.append(int(datetime.datetime(2017, month, day, 0, 0, 0).timestamp()))
  
     return times
 
 def getSubs():
-    return ['fuckthealtright', 'incels']
+    return ['explainlikeimfive', 'askscience']
     #return ['Changemyview']
 
 timestamps = convertTimes()
@@ -57,7 +57,7 @@ def pullPosts():
     for sub in subs:
         posts = pd.DataFrame()
         base_posts = 'https://api.pushshift.io/reddit/search/submission/?sort=asc&size=500&subreddit=' + sub
-        for index in range(730): # was `range(7)`
+        for index in range(90): # was `range(7)`
             link = base_posts + '&after=' + str(timestamps[index]) + '&before=' + str(timestamps[index + 1])
             time = timestamps[index]
             size = len(posts) -1
@@ -105,7 +105,7 @@ def getComments():
         posts = pd.DataFrame()
         posts= pd.read_csv('Pushshift//' + sub + '//' + sub + '_posts.csv')
 
-        for index in range(730): # was `range(7)`
+        for index in range(90): # was `range(7)`
             link = base_comments + '&after=' + str(timestamps[index]) + '&before=' + str(timestamps[index + 1])
             old_created = 0
             created = -1
