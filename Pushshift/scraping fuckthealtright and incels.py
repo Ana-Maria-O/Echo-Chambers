@@ -83,7 +83,10 @@ def pullPosts():
 
                     posts = pd.concat([posts, d], ignore_index=True)
                 
-                time = posts['created_utc'].iloc[-1]
+                try:
+                    time = posts['created_utc'].iloc[-1]
+                except:
+                    break # out of while loop since no posts during this first timeslice
                 link = base_posts + '&after=' + str(time) + '&before=' + str(timestamps[index + 1])
         path = 'Pushshift//' + sub + '//'
         fil = path + sub + '_posts.csv'
