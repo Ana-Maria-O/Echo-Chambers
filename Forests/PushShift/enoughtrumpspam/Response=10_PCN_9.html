@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>PCN of subreddit r/enoughtrumpspam</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 90%;
+            background-color: white;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "black"}, "id": "t3_5fwxts", "label": "t3_5fwxts", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danoczy", "label": "t1_danoczy", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danol7t", "label": "t1_danol7t", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danv0ih", "label": "t1_danv0ih", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danvk6c", "label": "t1_danvk6c", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danwssl", "label": "t1_danwssl", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao2t80", "label": "t1_dao2t80", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao2xme", "label": "t1_dao2xme", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao3h8d", "label": "t1_dao3h8d", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoc6or", "label": "t1_daoc6or", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dap8tg5", "label": "t1_dap8tg5", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dantoqx", "label": "t1_dantoqx", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danxo8k", "label": "t1_danxo8k", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dap5tvg", "label": "t1_dap5tvg", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dapc443", "label": "t1_dapc443", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dapxgka", "label": "t1_dapxgka", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danpfpk", "label": "t1_danpfpk", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danvxa8", "label": "t1_danvxa8", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danpn3m", "label": "t1_danpn3m", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danso2v", "label": "t1_danso2v", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dantj76", "label": "t1_dantj76", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daobe5n", "label": "t1_daobe5n", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_danxjz9", "label": "t1_danxjz9", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao0wmi", "label": "t1_dao0wmi", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao29jl", "label": "t1_dao29jl", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao3bf9", "label": "t1_dao3bf9", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoa962", "label": "t1_daoa962", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao5d4d", "label": "t1_dao5d4d", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoj86o", "label": "t1_daoj86o", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dany922", "label": "t1_dany922", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao0jin", "label": "t1_dao0jin", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao2o6z", "label": "t1_dao2o6z", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao9gx9", "label": "t1_dao9gx9", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoftvf", "label": "t1_daoftvf", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daokl8m", "label": "t1_daokl8m", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao7fne", "label": "t1_dao7fne", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao9zyd", "label": "t1_dao9zyd", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoa85s", "label": "t1_daoa85s", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoz28r", "label": "t1_daoz28r", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dap5hlv", "label": "t1_dap5hlv", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoc2fa", "label": "t1_daoc2fa", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daol2mw", "label": "t1_daol2mw", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daocxhf", "label": "t1_daocxhf", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_dao5zcy", "label": "t1_dao5zcy", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_daoaphh", "label": "t1_daoaphh", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": "t3_5fwxts", "to": "t1_danoczy", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_danol7t", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_danv0ih", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_danvk6c", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_danwssl", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_dao2t80", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_dao2xme", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_dao3h8d", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_daoc6or", "weight": 1}, {"from": "t3_5fwxts", "to": "t1_dap8tg5", "weight": 1}, {"from": "t1_danoczy", "to": "t1_dantoqx", "weight": 1}, {"from": "t1_dantoqx", "to": "t1_danxo8k", "weight": 1}, {"from": "t1_danxo8k", "to": "t1_dap5tvg", "weight": 1}, {"from": "t1_danxo8k", "to": "t1_dapc443", "weight": 1}, {"from": "t1_dap5tvg", "to": "t1_dapxgka", "weight": 1}, {"from": "t1_danol7t", "to": "t1_danpfpk", "weight": 1}, {"from": "t1_danol7t", "to": "t1_danvxa8", "weight": 1}, {"from": "t1_danpfpk", "to": "t1_danpn3m", "weight": 1}, {"from": "t1_danpn3m", "to": "t1_danso2v", "weight": 1}, {"from": "t1_danso2v", "to": "t1_dantj76", "weight": 1}, {"from": "t1_danv0ih", "to": "t1_daobe5n", "weight": 1}, {"from": "t1_danvk6c", "to": "t1_danxjz9", "weight": 1}, {"from": "t1_danvk6c", "to": "t1_dao0wmi", "weight": 1}, {"from": "t1_dao0wmi", "to": "t1_dao29jl", "weight": 1}, {"from": "t1_dao0wmi", "to": "t1_dao3bf9", "weight": 1}, {"from": "t1_dao0wmi", "to": "t1_daoa962", "weight": 1}, {"from": "t1_dao3bf9", "to": "t1_dao5d4d", "weight": 1}, {"from": "t1_daoa962", "to": "t1_daoj86o", "weight": 1}, {"from": "t1_danwssl", "to": "t1_dany922", "weight": 1}, {"from": "t1_danwssl", "to": "t1_dao0jin", "weight": 1}, {"from": "t1_danwssl", "to": "t1_dao2o6z", "weight": 1}, {"from": "t1_danwssl", "to": "t1_dao9gx9", "weight": 1}, {"from": "t1_danwssl", "to": "t1_daoftvf", "weight": 1}, {"from": "t1_danwssl", "to": "t1_daokl8m", "weight": 1}, {"from": "t1_dany922", "to": "t1_dao7fne", "weight": 1}, {"from": "t1_dany922", "to": "t1_dao9zyd", "weight": 1}, {"from": "t1_dany922", "to": "t1_daoa85s", "weight": 1}, {"from": "t1_dany922", "to": "t1_daoz28r", "weight": 1}, {"from": "t1_dany922", "to": "t1_dap5hlv", "weight": 1}, {"from": "t1_dao7fne", "to": "t1_daoc2fa", "weight": 1}, {"from": "t1_dao7fne", "to": "t1_daol2mw", "weight": 1}, {"from": "t1_daoc2fa", "to": "t1_daocxhf", "weight": 1}, {"from": "t1_dao2t80", "to": "t1_dao5zcy", "weight": 1}, {"from": "t1_dao3h8d", "to": "t1_daoaphh", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
 <center>
-<h1>User Network of subreddit enoughtrumpspam</h1>
+<h1>Post-Comment Network of subreddit r/enoughtrumpspam</h1>
 </center>
 
 <!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
@@ -50,8 +50,8 @@
         
 
         // parsing and collecting nodes and edges from the python
-        nodes = new vis.DataSet([{"font": {"color": "black"}, "id": "[deleted]", "label": "[deleted]", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "SnapshillBot", "label": "SnapshillBot", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "HollowUkuleleChords", "label": "HollowUkuleleChords", "shape": "dot", "size": 10}]);
-        edges = new vis.DataSet([{"from": "[deleted]", "to": "SnapshillBot", "weight": 1}, {"from": "[deleted]", "to": "HollowUkuleleChords", "weight": 1}]);
+        nodes = new vis.DataSet([{"font": {"color": "black"}, "id": "t3_5ft77y", "label": "t3_5ft77y", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_damukkz", "label": "t1_damukkz", "shape": "dot", "size": 10}, {"font": {"color": "black"}, "id": "t1_damxfik", "label": "t1_damxfik", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": "t3_5ft77y", "to": "t1_damukkz", "weight": 1}, {"from": "t3_5ft77y", "to": "t1_damxfik", "weight": 1}]);
 
         // adding nodes and edges to the graph
         data = {nodes: nodes, edges: edges};

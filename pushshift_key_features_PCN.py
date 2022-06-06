@@ -4,14 +4,21 @@ import os
 from keyfeatures_2_riccardo import *
 from userNetworkFunction import createDirectory
 
-The_Donald_comments = pd.read_csv('Pushshift/The_Donald/The_Donald_comments.csv')
-The_Donald_posts = pd.read_csv('Pushshift/The_Donald/The_Donald_posts.csv')
+# The_Donald_comments = pd.read_csv('Pushshift/The_Donald/The_Donald_comments.csv')
+# The_Donald_posts = pd.read_csv('Pushshift/The_Donald/The_Donald_posts.csv')
 
-News_comments = pd.read_csv('Pushshift/News/News_comments.csv')
-News_posts = pd.read_csv('Pushshift/News/News_posts.csv')
+# News_comments = pd.read_csv('Pushshift/News/News_comments.csv', low_memory=False)
+# News_posts = pd.read_csv('Pushshift/News/News_posts.csv',low_memory=False)
 
-CMV_comments = pd.read_csv('Pushshift/Changemyview/Changemyview_comments.csv')
-CMV_posts = pd.read_csv('Pushshift/Changemyview/Changemyview_posts.csv')
+# CMV_comments = pd.read_csv('Pushshift/Changemyview/Changemyview_comments.csv')
+# CMV_posts = pd.read_csv('Pushshift/Changemyview/Changemyview_posts.csv', low_memory=False)
+
+ELI5_comments = pd.read_csv('Pushshift/explainlikeimfive/explainlikeimfive_comments.csv')
+ELI5_posts = pd.read_csv('Pushshift/explainlikeimfive/explainlikeimfive_posts.csv')
+
+AskScience_comments = pd.read_csv('Pushshift/askscience/askscience_comments.csv', low_memory=False)
+AskScience_posts = pd.read_csv('Pushshift/askscience/askscience_posts.csv',low_memory=False)
+
 
 # path = os.path.dirname(__file__) + '/Pickle/'
 
@@ -32,14 +39,14 @@ import pickle
 import json
 
 time = ''
-posts = {'The_Donald': The_Donald_posts, 'News': News_posts, 'CMV': CMV_posts}
+posts = {'explainlikeimfive': ELI5_posts, 'askscience': AskScience_posts}
 psts = {}
-comments = {'The_Donald': The_Donald_comments, 'News': News_comments, 'CMV': CMV_comments}
+comments = {'explainlikeimfive': ELI5_comments, 'askscience': AskScience_comments}
 users = []
 forest = {}
-subs = ['The_Donald', 'News', 'CMV']
-print(len(posts['News']))
-print(len(posts['CMV']))
+subs = ['askscience', 'explainlikeimfive']
+# print(len(posts['News']))
+# print(len(posts['CMV']))
 
 
 # Linked list to represent a tree
@@ -264,10 +271,10 @@ for sub in subs:
 users = allUsers(posts.keys())
 
 
-print("Comments imported!")
+# print("Comments imported!")
 print("Start creating forest ........")
 
-path = "Forests//PushShift//forest_newest_larger" + ".pickle"
+path = "Forests//PushShift//forest_askscience_explainlikeimfive" + ".pickle"
 # read the file
 
 pfile = open(path, 'rb')
@@ -393,5 +400,5 @@ createDirectory(resultsPath)
 
 print(list(kfDict.keys()))
 
-with open(resultsPath + f'KFs_PCN_GroundTruth.pickle', 'wb') as f:
+with open(resultsPath + f'KFs_PCN_askscience_explainlikeimfive.pickle', 'wb') as f:
     pickle.dump(kfDict, f, protocol=pickle.HIGHEST_PROTOCOL)
