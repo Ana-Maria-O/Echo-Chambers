@@ -95,7 +95,7 @@ pyvis_Tree = PyvisNetwork(height="90%", width="100%", bgcolor="white", font_colo
 pyvis_Tree.from_nx(temp)
 
 # Show the network
-pyvis_Tree.barnes_hut(gravity=-80000, central_gravity=1.5, spring_length=250, spring_strength=0.0001, damping=0.09, overlap=0)
+# pyvis_Tree.barnes_hut(gravity=-80000, central_gravity=1.5, spring_length=250, spring_strength=0.0001, damping=0.09, overlap=0)
 
 createDirectory(saveFolder + sub + "/")
 
@@ -103,4 +103,4 @@ createDirectory(saveFolder + sub + "/")
 pyvis_Tree.save_graph(saveFolder + sub + "/Largest_First_Response_" + f"PCN_{treeIndex}.html")
 
 # Additional options for visualisation
-# pyvis_Tree.show_buttons(filter_=['physics'])
+pyvis_Tree.show_buttons(filter_=['physics'])

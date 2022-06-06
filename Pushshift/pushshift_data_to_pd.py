@@ -8,7 +8,9 @@ import pandas as pd
 import pickle
 import os
 
-test_data_subs = ['conspiracy', 'enoughtrumpspam', 'fuckthealtright', 'incels'] #CHANGE!!!!
+# test_data_subs = ['conspiracy', 'enoughtrumpspam', 'fuckthealtright', 'incels'] #CHANGE!!!!
+
+test_data_subs = ['the_donald', 'changemyview', 'news']
 
 #conspiracy_comments = pd.read_csv('Pushshift/conspiracy/conspiracy_comments.csv')
 #conspiracy_posts = pd.read_csv('Pushshift/conspiracy/conspiracy_posts.csv')
@@ -242,5 +244,5 @@ if not existsPath:
     os.makedirs(path)
 
 # Save the network
-with open(path + f'forest_for_testing_dataset1.pickle', 'wb') as f: #CHANGE FILE NAME!!!!!!!
+with open(path + f'KFs_PCN_groundtruth.pickle', 'wb') as f: 
     pickle.dump(forest, f, protocol=pickle.HIGHEST_PROTOCOL)

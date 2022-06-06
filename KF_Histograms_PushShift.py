@@ -24,7 +24,7 @@ subreddits_PushShift = ["CMV", "News", "The_Donald"]
 
 resultsPath = f"Results/Pushshift/"
 # PushShift
-with open(resultsPath + f'key_features_pushshift_dist.pickle', 'rb') as f:
+with open(resultsPath + f'KFs_PCN_GroundTruth.pickle', 'rb') as f:
     PushShift_PCN_KF = pickle.load(f)
 
     # for KF, val in data.items():
@@ -57,9 +57,8 @@ keyToTitle = \
 keyToTitleHeat = \
     {
         "tree width": "Tree width",
-        "tree depth": "Tree depth",
-        "nr levels in post trees between users' replies": "Reply distance",
-        'most active users per subreddit': "User activity"
+        "sandwichesValues": "Sandwiches",
+        "tree depth": "Tree depth"
     }
 
 for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
@@ -81,7 +80,7 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
                 yval = yvalues[post]
 
 
-                if xval != 0 and yval != 0:
+                if xval != 0 and yval != 0 and xval != None and yval != None:
                     x.append(xval)
                     y.append(yval)
 
@@ -93,17 +92,32 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
             x = [e[0] for e in res]
             y = [e[1] for e in res]
 
-
-            h = axs[i].hist2d(x, y, bins = (max(x) - min(x), max(y) - min(y)), cmap = "inferno", norm=mcolors.PowerNorm(0.2))
+            # Works only for integer values
+            xbins = max(x) - min(x)
+            ybins = max(y) - min(y)
+            # if type(xbins) == int and type(ybins) == float:
+            #     ybins = xbins
+            # elif type(xbins) == float and type(ybins) == int:
+            #     xbins = ybins
+            # elif type(xbins) == float and type(ybins) == float:
+            #     xbins = 10
+            #     ybins = 10
+            if type(xbins) == float:
+                xbins = 20
+            if type(ybins) == float:
+                ybins = 20
+            h = axs[i].hist2d(x, y, bins = (xbins, ybins), cmap = "inferno", norm=mcolors.PowerNorm(0.2))
             fig.colorbar(h[3], ax=axs[i])
             axs[i].set_title(sub)
-            title = keyToTitleHeat[KF1] + " against " + keyToTitleHeat[KF2]
+            axs[i].set_xlabel(keyToTitleHeat[KF1])
+            axs[i].set_ylabel(keyToTitleHeat[KF2])
+            title = keyToTitleHeat[KF2] + " against " + keyToTitleHeat[KF1]
             fig.suptitle(title)
 
             fig.savefig(heatFolder + title.replace(" ", "_") + "_sharedAxes=" + str(shareAxes) + ".png", bbox_inches="tight")
 
 
-plt.show()
+# plt.show()
 
 
 # nbins = 3000
