@@ -2,7 +2,7 @@ import pickle
 from keyfeatures_2_riccardo import getTime
 from statistics import mean, stdev
 import matplotlib.pyplot as plt
-from itertools import product
+
 
 # Only for one time slice
 timeSlice = 0
