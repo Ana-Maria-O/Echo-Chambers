@@ -18,13 +18,15 @@ import matplotlib.colors as mcolors
 from itertools import combinations
 
 
+plt.rcParams.update({'font.size': 20})
+
 
 # Path to key features
-subreddits_PushShift = ["CMV", "News", "The_Donald"]
+subreddits_PushShift = ["askscience", "explainlikeimfive"]
 
 resultsPath = f"Results/Pushshift/"
 # PushShift
-with open(resultsPath + f'key_features_pushshift_dist.pickle', 'rb') as f:
+with open(resultsPath + f'KFs_PCN_askscience_explainlikeimfive.pickle', 'rb') as f:
     PushShift_PCN_KF = pickle.load(f)
 
     # for KF, val in data.items():
@@ -36,8 +38,18 @@ with open(resultsPath + f'key_features_pushshift_dist.pickle', 'rb') as f:
 
 # sub = subreddits_PushShift[2]
 
+KFs = ["final avg comment controversiality", "final avg comment score"]
+
+try:
+    for KF in KFs:
+        PushShift_PCN_KF[KF + " val"] = {s: dict() for s in subreddits_PushShift}
+        for sub in subreddits_PushShift:
+            PushShift_PCN_KF[KF + " val"][sub] = {postID: PushShift_PCN_KF[KF][sub][postID][0] for postID in PushShift_PCN_KF[KF][sub].keys()}
+except:
+    pass
 
 
+# print(PushShift_PCN_KF["final avg comment controversiality val"])
 
 percentile = 99
 
@@ -57,15 +69,28 @@ keyToTitle = \
 keyToTitleHeat = \
     {
         "tree width": "Tree width",
-        "tree depth": "Tree depth",
-        "nr levels in post trees between users' replies": "Reply distance",
-        'most active users per subreddit': "User activity"
+        # "final avg comment controversiality val": "Average comment controversiality",
+        # "final avg comment score val": "Average comment score",
+        "sandwichesValues": "Sandwiches",
+        "tree depth": "Tree depth"
     }
 
 for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
     print(KF1, KF2)
     for shareAxes in (True, False):
-        fig, axs = plt.subplots(ncols=3, sharey=shareAxes, sharex = shareAxes, figsize=(20, 10))
+        fig, axs = plt.subplots(ncols=len(subreddits_PushShift), sharey=shareAxes, sharex = shareAxes, figsize=(20, 7))
+
+        xmax = 0
+        ymax = 0
+
+        xmin = 0
+        ymin = 0
+
+        xbins = []
+        ybins = []
+
+        xlist = []
+        ylist = []
 
         for i in range(len(subreddits_PushShift)):
             sub = subreddits_PushShift[i]
@@ -75,35 +100,75 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
 
             x = []
             y = []
-
+            
             for post in xvalues.keys():
-                xval = xvalues[post]
-                yval = yvalues[post]
+                try:
+                    xval = xvalues[post]
+                    yval = yvalues[post]
 
 
-                if xval != 0 and yval != 0:
-                    x.append(xval)
-                    y.append(yval)
+                    if xval != 0 and yval != 0 and xval != None and yval != None:
+                        x.append(xval)
+                        y.append(yval)
+                except Exception as e:
+                    pass
 
+            # x_perc_val = np.percentile(x, percentile)
+            # y_perc_val = np.percentile(y, percentile)
 
-            x_perc_val = np.percentile(x, percentile)
-            y_perc_val = np.percentile(y, percentile)
+            # res = list(filter(lambda e: e[0] < x_perc_val and e[1] < y_perc_val, list(zip(x,y))))
+            # x = [e[0] for e in res]
+            # y = [e[1] for e in res]
 
-            res = list(filter(lambda e: e[0] < x_perc_val and e[1] < y_perc_val, list(zip(x,y))))
-            x = [e[0] for e in res]
-            y = [e[1] for e in res]
+            xmax = max(xmax, max(x))
+            ymax = max(ymax, max(y))
 
+            xmin = min(xmin, min(x))
+            ymin = min(ymin, min(y))
 
-            h = axs[i].hist2d(x, y, bins = (max(x) - min(x), max(y) - min(y)), cmap = "inferno", norm=mcolors.PowerNorm(0.2))
+            # Works only for integer values
+            xbinsval = max(x) - min(x)
+            ybinsval = max(y) - min(y)
+            # if type(xbins) == int and type(ybins) == float:
+            #     ybins = xbins
+            # elif type(xbins) == float and type(ybins) == int:
+            #     xbins = ybins
+            # elif type(xbins) == float and type(ybins) == float:
+            #     xbins = 10
+            #     ybins = 10
+            if type(xbinsval) == float:
+                xbinsval = 20
+            if type(ybinsval) == float:
+                ybinsval = 20
+                
+            xlist.append(x)
+            ylist.append(y)
+        
+            xbins.append(xbinsval)
+            ybins.append(ybinsval)
+
+        xbinsval = max(xbins)
+        ybinsval = max(ybins)
+
+        for i in range(len(subreddits_PushShift)):
+
+            x = xlist[i]
+            y = ylist[i]
+            
+            sub = subreddits_PushShift[i]
+
+            h = axs[i].hist2d(x, y, bins = (20, 20), cmap = "inferno", range = [[xmin, xmax], [ymin, ymax]], norm=mcolors.PowerNorm(0.3))
             fig.colorbar(h[3], ax=axs[i])
             axs[i].set_title(sub)
-            title = keyToTitleHeat[KF1] + " against " + keyToTitleHeat[KF2]
+            axs[i].set_xlabel(keyToTitleHeat[KF1])
+            axs[i].set_ylabel(keyToTitleHeat[KF2])
+            title = keyToTitleHeat[KF2] + " against " + keyToTitleHeat[KF1]
             fig.suptitle(title)
 
-            fig.savefig(heatFolder + title.replace(" ", "_") + "_sharedAxes=" + str(shareAxes) + ".png", bbox_inches="tight")
+            fig.savefig(heatFolder + title.replace(" ", "_") + "_subs=" + "-".join(subreddits_PushShift) + "_sharedAxes=" + str(shareAxes) + ".png", bbox_inches="tight")
 
 
-plt.show()
+# plt.show()
 
 
 # nbins = 3000
