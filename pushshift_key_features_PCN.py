@@ -1,17 +1,20 @@
 import pandas as pd
 import pickle
+import numpy as np
 import os
 from keyfeatures_2_riccardo import *
 from userNetworkFunction import createDirectory
 
-The_Donald_comments = pd.read_csv('Pushshift/The_Donald/The_Donald_comments.csv')
-The_Donald_posts = pd.read_csv('Pushshift/The_Donald/The_Donald_posts.csv')
+subs = ['conspiracy', 'enoughtrumpspam']
 
-News_comments = pd.read_csv('Pushshift/News/News_comments.csv')
-News_posts = pd.read_csv('Pushshift/News/News_posts.csv')
+#The_Donald_comments = pd.read_csv('Pushshift/The_Donald/The_Donald_comments.csv')
+#The_Donald_posts = pd.read_csv('Pushshift/The_Donald/The_Donald_posts.csv')
 
-CMV_comments = pd.read_csv('Pushshift/Changemyview/Changemyview_comments.csv')
-CMV_posts = pd.read_csv('Pushshift/Changemyview/Changemyview_posts.csv')
+#News_comments = pd.read_csv('Pushshift/News/News_comments.csv')
+#News_posts = pd.read_csv('Pushshift/News/News_posts.csv')
+
+#CMV_comments = pd.read_csv('Pushshift/Changemyview/Changemyview_comments.csv')
+#CMV_posts = pd.read_csv('Pushshift/Changemyview/Changemyview_posts.csv')
 
 # path = os.path.dirname(__file__) + '/Pickle/'
 
@@ -32,14 +35,34 @@ import pickle
 import json
 
 time = ''
-posts = {'The_Donald': The_Donald_posts, 'News': News_posts, 'CMV': CMV_posts}
+
+posts = {}
+comments = {}
+for sub in subs:
+    filename = 'Pushshift/' + sub + '/' + sub
+    if sub == 'Changemyview':
+        posts['CMV'] = pd.read_csv(filename + '_posts.csv')
+        comments['CMV'] = pd.read_csv(filename + '_comments.csv')
+    else:
+        posts[sub] = pd.read_csv(filename + '_posts.csv')
+        comments[sub] = pd.read_csv(filename + '_comments.csv')
+    #posts = {'The_Donald': The_Donald_posts, 'News': News_posts, 'CMV': CMV_posts}
+    #comments = {'The_Donald': The_Donald_comments, 'News': News_comments, 'CMV': CMV_comments}
+
 psts = {}
-comments = {'The_Donald': The_Donald_comments, 'News': News_comments, 'CMV': CMV_comments}
+
+
+for sub in subs:
+    print(f"sub {sub} nr posts: {len(posts[sub])}")
+#posts = {'The_Donald': The_Donald_posts, 'News': News_posts, 'CMV': CMV_posts}
+#psts = {}
+#comments = {'The_Donald': The_Donald_comments, 'News': News_comments, 'CMV': CMV_comments}
+
 users = []
 forest = {}
-subs = ['The_Donald', 'News', 'CMV']
-print(len(posts['News']))
-print(len(posts['CMV']))
+
+for sub in subs:
+    print(len(posts[sub]))
 
 
 # Linked list to represent a tree
@@ -221,13 +244,17 @@ users = allUsers(posts.keys())
 print("Comments imported!")
 print("Start creating forest ........")
 
-path = "Forests//PushShift//forest_newest_larger" + ".pickle"
+path = "Forests//PushShift//forest_for_testing_dataset" + ".pickle"
 # read the file
 
 pfile = open(path, 'rb')
 
 # unpickle the file
 forest = pickle.load(pfile)
+forest1 = {}
+for sub in subs:
+    forest1[sub] = forest[sub]
+forest = forest1
 
 # close the file
 pfile.close()
@@ -238,38 +265,38 @@ setup(time, posts, psts, comments, users, forest)
 
 print("Replies between users started............")
 # number of replies from one user to another
-replies = repliesBetweenUsers(sub)
+# replies = repliesBetweenUsers(sub)
 print("Replies between users done!")
 #print(replies)
 
 print("In degree started............")
 # in degree
-in_degree = in_out_Degree(sub, replies, True)
+# in_degree = in_out_Degree(sub, replies, True)
 print("In degree done!")
 #print(in_degree)
 
 print("Out degree started............")
 # out degree
-out_degree = in_out_Degree(sub, replies, False)
+# out_degree = in_out_Degree(sub, replies, False)
 print("Out degree done!")
 #print(out_degree)
 
 print("Total scores started............")
 # total scores
-n_posts, n_comments, t_score_posts, t_score_comments = totalScore(sub)
+# n_posts, n_comments, t_score_posts, t_score_comments = totalScore(sub)
 print("Total scores done!")
 #print(t_score)
 #print(n_comments)
 
 print("Average scores started............")
 # average score
-a_score_posts, a_score_comments = averageScore(t_score_posts, t_score_comments, n_posts, n_comments, sub)
+# a_score_posts, a_score_comments = averageScore(t_score_posts, t_score_comments, n_posts, n_comments, sub)
 print("Average scores done!")
 #print(a_score)
 
 print("Controversiality started............")
 # controversiality
-p_con, c_con = controversiality(sub)
+# p_con, c_con = controversiality(sub)
 print("Controversiality done!")
 #print(p_con)
 
@@ -286,12 +313,12 @@ depth, width, width_dist, depth_dist = treeDepthWidth(sub)
 
 print("Post/comment ratio started............")
 # post/comment ratio
-p_c_ratio = ratioPostComment(n_posts, n_comments, sub)
+# p_c_ratio = ratioPostComment(n_posts, n_comments, sub)
 print("Post/comment ratio done!")
 #print(p_c_ratio)
 
 # number of levels in post trees between users' replies
-nodes = nodesBetweenReplies(sub)
+# nodes = nodesBetweenReplies(sub)
 #print(nodes)
 
 print(posts, type(posts))
@@ -299,38 +326,139 @@ print()
 print(sub, type(sub))
 
 # average score of posts/comments per subreddit
-averagescore = [(su, score_metrics(posts[su])[0]) for su in sub]
+# averagescore = [(su, score_metrics(posts[su])[0]) for su in sub]
 print('when the average is scored')
 
 # distribution of posts/comments per subreddit
 # averagedist = [activity_distribution(posts[su]) for su in sub]
 print('distributed the posts/comments')
 # most active users per subreddit
-aclist = active_users(forest)
+# aclist = active_users(forest)
 print('active listed')
+
+def final_KFs(sub):
+    sub_comments = comments[sub]
+    sub_posts = posts[sub]
+    comment_controversiality = {}
+    comment_score = {}
+    post_nr_comments = {}
+    post_scores = {}
+    for postID in list(sub_posts['full_id'].unique()):
+        post_score = sub_posts[sub_posts['full_id']==postID]['score'] 
+        post_comments = sub_comments[sub_comments['post id']==postID]
+        nr_comments = len(post_comments)
+        if nr_comments > 0:
+            controversiality = post_comments[post_comments.controversial.isin([0,1])]['controversial']  #[post_comments['controversial'] ]['controversial']  # not always defined
+            avg_comment_controversiality = np.mean(controversiality)
+            median_comment_controversiality = np.median(controversiality)
+            score = post_comments['score']
+            avg_comment_score = np.mean(score)
+            median_comment_score = np.median(score)
+
+            comment_controversiality[postID] = (avg_comment_controversiality, median_comment_controversiality)
+            comment_score[postID] = (avg_comment_score, median_comment_score)
+            post_nr_comments[postID] = nr_comments
+            post_scores[postID] = post_score
+        else:
+            pass
+    return nr_comments, comment_score, comment_controversiality, post_scores
+
+def countSandwiches(node):
+
+    sandwhichCounter = 0
+    possibleSandwiches = 0
+
+    if len(node.next) != 0:
+        for child in node.next:
+            for grandChild in child.next:
+
+                possibleSandwiches += 1
+
+                # Check if sandwich occurs
+                if grandChild.auth == node.auth:
+                    sandwhichCounter += 1
+
+    return sandwhichCounter, possibleSandwiches
+
+def countTotalSandwiches(root):
+    totalSandwhichCounter, totalPossibleSandwiches = countSandwiches(root)
+
+    for child in root.next:
+        temp = countTotalSandwiches(child)
+        totalSandwhichCounter += temp[0]
+        totalPossibleSandwiches += temp[1]
+
+
+    return totalSandwhichCounter, totalPossibleSandwiches
+
+
+def sandwiches(forest):
+    # forestDict[subreddit][post]
+    sandwichDictionary = {sub: dict() for sub in subs}
+
+    for sub in subs:
+        for post in forest[sub].keys():
+            root = forest[sub][post]
+            temp = countTotalSandwiches(root)
+
+            sandwichDictionary[sub][post] = dict()
+            sandwichDictionary[sub][post]["counted"] = temp[0]
+            sandwichDictionary[sub][post]["possible"] = temp[1]
+
+
+
+    return sandwichDictionary
+
+print("Sandwiches between users started............")
+sandwichesDict = sandwiches(forest)
+
+# Convert to decimal values for plotting
+sandwichesDictValues = {s: dict() for s in subs}
+for s in subs:
+    for post in sandwichesDict[s].keys():
+        if sandwichesDict[s][post]["possible"] == 0:
+            sandwichesDictValues[s][post] = None
+        else:
+            sandwichesDictValues[s][post] = sandwichesDict[s][post]["counted"]/sandwichesDict[s][post]["possible"]
+
+print("Sandwiches between users done!")
+
+# finalNrComments, finalCommentScore, finalCommentControversiality, finalPostScores = {}, {}, {}, {}
+# for sub in subs:
+#     subNrComments, subFinalCommentScore, subFinalCommentControversiality, subFinalPostScores = final_KFs(sub)
+#     finalNrComments[sub] = subNrComments
+#     finalCommentScore[sub] = subFinalCommentScore
+#     finalCommentControversiality[sub] = subFinalCommentControversiality
+#     finalPostScores[sub] = subFinalPostScores
 
 kfDict = {}
 
-kfDict['replies between users'] = replies
-kfDict['in-degree'] = in_degree
-kfDict['out-degree'] = out_degree
-kfDict['nrPosts, nrComments, totalScorePosts, totalScoreComments'] = n_posts, n_comments, t_score_posts, t_score_comments
-kfDict['avgScorePosts, avgScoreComments'] = a_score_posts, a_score_comments
-kfDict['postControversiality, commentControversiality'] = p_con, c_con
+kfDict['sandwiches'] = sandwichesDict
+kfDict['sandwichesValues'] = sandwichesDictValues
+# kfDict['replies between users'] = replies
+# kfDict['in-degree'] = in_degree
+# kfDict['out-degree'] = out_degree
+# kfDict['nrPosts, nrComments, totalScorePosts, totalScoreComments'] = n_posts, n_comments, t_score_posts, t_score_comments
+# kfDict['avgScorePosts, avgScoreComments'] = a_score_posts, a_score_comments
+# kfDict['postControversiality, commentControversiality'] = p_con, c_con
 kfDict['tree depth'] = depth
 kfDict['tree width'] = width
 kfDict['tree depth dist'] = depth_dist
 kfDict['tree width dist'] = width_dist
-kfDict['postCommentRatio'] = p_c_ratio
-kfDict["nr levels in post trees between users' replies"] = nodes
-kfDict['average post/comment score'] = averagescore
-kfDict['most active users per subreddit'] = aclist
+# kfDict['postCommentRatio'] = p_c_ratio
+# kfDict["nr levels in post trees between users' replies"] = nodes
+# kfDict['average post/comment score'] = averagescore
+# kfDict['most active users per subreddit'] = aclist
+# kfDict['final avg comment controversiality'] = finalCommentControversiality # dict with as keys first sub, then post id and with values the avg comment controversiality
+# kfDict['final avg comment score'] = finalCommentScore # dict with as keys first sub, then the post id and with values (avg comments score, post score)
+# kfDict['final nr comments'] = finalNrComments # dict with as keys first sub, then post id and with values the nr of comments
+# kfDict['final post score'] = finalPostScores
 
 resultsPath = f"Results/Pushshift/"
 createDirectory(resultsPath)
 
 print(list(kfDict.keys()))
-print(kfDict['average post/comment score'])
+# print(kfDict['average post/comment score'])
 
-with open(resultsPath + f'key_features_pushshift_dist.pickle', 'wb') as f:
+with open(resultsPath + f'key_features_pushshift_consp_enought.pickle', 'wb') as f:
     pickle.dump(kfDict, f, protocol=pickle.HIGHEST_PROTOCOL)
