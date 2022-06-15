@@ -16,17 +16,23 @@ from scipy.stats import gaussian_kde
 from matplotlib.colors import LogNorm
 import matplotlib.colors as mcolors
 from itertools import combinations
+from math import sqrt, ceil, floor
 
 
 plt.rcParams.update({'font.size': 20})
 
 
 # Path to key features
-subreddits_PushShift = ["askscience", "explainlikeimfive"]
+# subreddits_PushShift = ["CMV", "The_Donald"]
+subreddits_PushShift = ['Changemyview', 'News', 'The_Donald', 'AMA', 'conspiracy', 'askscience', 'enoughtrumpspam',  'fuckthealtright', 'explainlikeimfive', 'incels', 'politicaldiscussion']
 
 resultsPath = f"Results/Pushshift/"
+
+# fileName = 'KFs_PCN_GroundTruth.pickle'
+fileName = 'KFs_PCN_NEW_all_subs.pickle'
+
 # PushShift
-with open(resultsPath + f'KFs_PCN_askscience_explainlikeimfive.pickle', 'rb') as f:
+with open(resultsPath + fileName, 'rb') as f:
     PushShift_PCN_KF = pickle.load(f)
 
     # for KF, val in data.items():
@@ -49,7 +55,7 @@ except:
     pass
 
 
-# print(PushShift_PCN_KF["final avg comment controversiality val"])
+print(list(PushShift_PCN_KF['tree depth dist'].keys()))
 
 percentile = 99
 
@@ -77,8 +83,18 @@ keyToTitleHeat = \
 
 for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
     print(KF1, KF2)
-    for shareAxes in (True, False):
-        fig, axs = plt.subplots(ncols=len(subreddits_PushShift), sharey=shareAxes, sharex = shareAxes, figsize=(20, 7))
+    for shareAxes in [False]:
+        n = len(subreddits_PushShift)
+        cols = ceil(sqrt(n))
+        rows = floor(sqrt(n))
+        fig, axsMult = plt.subplots(ncols= cols, nrows = rows, sharey=shareAxes, sharex = shareAxes, figsize=(7 * cols, 7 * rows))
+
+        axs = []
+        for xi in range(cols):
+            for yi in range(rows):
+                # make sure that a plot is present
+                if xi + yi * rows < n:
+                    axs.append(axsMult[yi][xi])
 
         xmax = 0
         ymax = 0
@@ -92,7 +108,7 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
         xlist = []
         ylist = []
 
-        for i in range(len(subreddits_PushShift)):
+        for i in range(n):
             sub = subreddits_PushShift[i]
 
             xvalues = PushShift_PCN_KF[KF1][sub]
@@ -113,12 +129,12 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
                 except Exception as e:
                     pass
 
-            # x_perc_val = np.percentile(x, percentile)
-            # y_perc_val = np.percentile(y, percentile)
+            x_perc_val = np.percentile(x, percentile)
+            y_perc_val = np.percentile(y, percentile)
 
-            # res = list(filter(lambda e: e[0] < x_perc_val and e[1] < y_perc_val, list(zip(x,y))))
-            # x = [e[0] for e in res]
-            # y = [e[1] for e in res]
+            res = list(filter(lambda e: e[0] < x_perc_val and e[1] < y_perc_val, list(zip(x,y))))
+            x = [e[0] for e in res]
+            y = [e[1] for e in res]
 
             xmax = max(xmax, max(x))
             ymax = max(ymax, max(y))
@@ -150,6 +166,9 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
         xbinsval = max(xbins)
         ybinsval = max(ybins)
 
+        folder = heatFolder + "subs=" + "-".join(subreddits_PushShift) + "/"
+        createDirectory(folder)
+
         for i in range(len(subreddits_PushShift)):
 
             x = xlist[i]
@@ -165,7 +184,18 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
             title = keyToTitleHeat[KF2] + " against " + keyToTitleHeat[KF1]
             fig.suptitle(title)
 
-            fig.savefig(heatFolder + title.replace(" ", "_") + "_subs=" + "-".join(subreddits_PushShift) + "_sharedAxes=" + str(shareAxes) + ".png", bbox_inches="tight")
+            # Save figure
+            fig.tight_layout()
+            
+            
+            fig.savefig(folder + title.replace(" ", "_") + "_sharedAxes=" + str(shareAxes) + ".png")
+
+
+
+
+
+
+
 
 
 # plt.show()
