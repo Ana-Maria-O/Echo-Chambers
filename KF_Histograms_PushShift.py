@@ -24,7 +24,13 @@ plt.rcParams.update({'font.size': 20})
 
 # Path to key features
 # subreddits_PushShift = ["CMV", "The_Donald"]
-subreddits_PushShift = ['Changemyview', 'News', 'The_Donald', 'AMA', 'conspiracy', 'askscience', 'enoughtrumpspam',  'fuckthealtright', 'explainlikeimfive', 'incels', 'politicaldiscussion']
+# subreddits_PushShift = ['Changemyview', 'News', 'The_Donald', 'AMA', 'conspiracy', 'askscience', 'enoughtrumpspam',  'fuckthealtright', 'explainlikeimfive', 'incels', 'politicaldiscussion']
+
+ground_truth = ['Changemyview', 'News', 'The_Donald']
+echo_chamber_subreddits = ['conspiracy', 'enoughtrumpspam',  'fuckthealtright', 'incels']
+anti_echo_chamber_subreddits = ['AMA', 'askscience', 'explainlikeimfive', 'politicaldiscussion']
+
+subreddits_PushShift = ground_truth
 
 resultsPath = f"Results/Pushshift/"
 
@@ -81,20 +87,31 @@ keyToTitleHeat = \
         "tree depth": "Tree depth"
     }
 
-for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
+# combs = combinations(keyToTitleHeat.keys(), 2)
+
+combs = [("tree width", "sandwichesValues"), ("tree depth", "sandwichesValues")]
+
+for KF1, KF2 in combs:
     print(KF1, KF2)
     for shareAxes in [False]:
         n = len(subreddits_PushShift)
         cols = ceil(sqrt(n))
-        rows = floor(sqrt(n))
+        rows = ceil(sqrt(n))
+        cols, rows = 3, 1
         fig, axsMult = plt.subplots(ncols= cols, nrows = rows, sharey=shareAxes, sharex = shareAxes, figsize=(7 * cols, 7 * rows))
 
-        axs = []
-        for xi in range(cols):
-            for yi in range(rows):
-                # make sure that a plot is present
-                if xi + yi * rows < n:
-                    axs.append(axsMult[yi][xi])
+        try:
+            axs = []
+            for xi in range(cols):
+                for yi in range(rows):
+                    # make sure that a plot is present
+                    if xi + yi * rows < n:
+                        axs.append(axsMult[yi][xi])
+        except Exception as e:
+            axs = axsMult
+
+        if n == 1:
+            axs = [axs]
 
         xmax = 0
         ymax = 0
@@ -175,7 +192,7 @@ for KF1, KF2 in combinations(keyToTitleHeat.keys(), 2):
             y = ylist[i]
             
             sub = subreddits_PushShift[i]
-
+            
             h = axs[i].hist2d(x, y, bins = (20, 20), cmap = "inferno", range = [[xmin, xmax], [ymin, ymax]], norm=mcolors.PowerNorm(0.3))
             fig.colorbar(h[3], ax=axs[i])
             axs[i].set_title(sub)
