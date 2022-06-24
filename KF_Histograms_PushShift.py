@@ -1,4 +1,5 @@
 from configparser import Interpolation
+from fileinput import filename
 import pickle
 from keyfeatures_2_riccardo import getTime
 from statistics import mean, stdev
@@ -26,16 +27,17 @@ plt.rcParams.update({'font.size': 20})
 # subreddits_PushShift = ["CMV", "The_Donald"]
 # subreddits_PushShift = ['Changemyview', 'News', 'The_Donald', 'AMA', 'conspiracy', 'askscience', 'enoughtrumpspam',  'fuckthealtright', 'explainlikeimfive', 'incels', 'politicaldiscussion']
 
-ground_truth = ['Changemyview', 'News', 'The_Donald']
+ground_truth = ['Changemyview', 'The_Donald']
 echo_chamber_subreddits = ['conspiracy', 'enoughtrumpspam',  'fuckthealtright', 'incels']
 anti_echo_chamber_subreddits = ['AMA', 'askscience', 'explainlikeimfive', 'politicaldiscussion']
 
-subreddits_PushShift = ground_truth
+subreddits_PushShift = ["The_Donald"]
 
 resultsPath = f"Results/Pushshift/"
 
 # fileName = 'KFs_PCN_GroundTruth.pickle'
-fileName = 'KFs_PCN_NEW_all_subs.pickle'
+# fileName = 'KFs_PCN_NEW_all_subs.pickle'
+fileName = "KFs_PCN_NEW_all_subs_scores_same_size.pickle"
 
 # PushShift
 with open(resultsPath + fileName, 'rb') as f:
@@ -63,7 +65,7 @@ except:
 
 print(list(PushShift_PCN_KF['tree depth dist'].keys()))
 
-percentile = 99
+
 
 heatFolder = "HeatMaps/"
 
@@ -84,20 +86,33 @@ keyToTitleHeat = \
         # "final avg comment controversiality val": "Average comment controversiality",
         # "final avg comment score val": "Average comment score",
         "sandwichesValues": "Sandwiches",
-        "tree depth": "Tree depth"
+        "tree depth": "Tree depth",
+        "scores avg": "Average comment score",
+        'post scores': "Post score",
+        "scores var": "Variance of comment score"
     }
 
 # combs = combinations(keyToTitleHeat.keys(), 2)
 
-combs = [("tree width", "sandwichesValues"), ("tree depth", "sandwichesValues")]
-
+combs = [("tree width", "sandwichesValues"), ("tree depth", "sandwichesValues"), \
+    ('post scores', "tree depth"), ('post scores', "tree width"), ('post scores', "sandwichesValues"),\
+    ("scores var", "tree depth"), ("scores var", "sandwichesValues"),\
+    ("scores var", "scores avg")]
+shareAxes = False
 for KF1, KF2 in combs:
     print(KF1, KF2)
-    for shareAxes in [False]:
+    for usePowerLaw in [True, False]:
+        percentile = 99.5
+
+        if usePowerLaw:
+            gamma = 0.3
+        else:
+            gamma = 1
+
         n = len(subreddits_PushShift)
         cols = ceil(sqrt(n))
         rows = ceil(sqrt(n))
-        cols, rows = 3, 1
+        # cols, rows = 2, 1
         fig, axsMult = plt.subplots(ncols= cols, nrows = rows, sharey=shareAxes, sharex = shareAxes, figsize=(7 * cols, 7 * rows))
 
         try:
@@ -140,7 +155,7 @@ for KF1, KF2 in combs:
                     yval = yvalues[post]
 
 
-                    if xval != 0 and yval != 0 and xval != None and yval != None:
+                    if xval > 0 and xval != None and yval != None:
                         x.append(xval)
                         y.append(yval)
                 except Exception as e:
@@ -160,8 +175,8 @@ for KF1, KF2 in combs:
             ymin = min(ymin, min(y))
 
             # Works only for integer values
-            xbinsval = max(x) - min(x)
-            ybinsval = max(y) - min(y)
+            xbinsval = min(max(x) - min(x), 50)
+            ybinsval = min(max(y) - min(y), 50)
             # if type(xbins) == int and type(ybins) == float:
             #     ybins = xbins
             # elif type(xbins) == float and type(ybins) == int:
@@ -173,6 +188,10 @@ for KF1, KF2 in combs:
                 xbinsval = 20
             if type(ybinsval) == float:
                 ybinsval = 20
+            if type(xbinsval) == np.float64:
+                xbinsval = int(xbinsval)
+            if type(ybinsval) == np.float64:
+                ybinsval = int(ybinsval)
                 
             xlist.append(x)
             ylist.append(y)
@@ -192,12 +211,14 @@ for KF1, KF2 in combs:
             y = ylist[i]
             
             sub = subreddits_PushShift[i]
-            
-            h = axs[i].hist2d(x, y, bins = (20, 20), cmap = "inferno", range = [[xmin, xmax], [ymin, ymax]], norm=mcolors.PowerNorm(0.3))
+            vmin = 0
+            vmax = 1000
+            h = axs[i].hist2d(x, y, bins = (xbinsval, ybinsval), cmap = "gnuplot2_r", range = [[xmin, xmax], [ymin, ymax]], norm=mcolors.PowerNorm(gamma, vmin=vmin, vmax=vmax))
             fig.colorbar(h[3], ax=axs[i])
             axs[i].set_title(sub)
             axs[i].set_xlabel(keyToTitleHeat[KF1])
             axs[i].set_ylabel(keyToTitleHeat[KF2])
+            # fig.clim(0, 500) 
             title = keyToTitleHeat[KF2] + " against " + keyToTitleHeat[KF1]
             fig.suptitle(title)
 
@@ -205,7 +226,7 @@ for KF1, KF2 in combs:
             fig.tight_layout()
             
             
-            fig.savefig(folder + title.replace(" ", "_") + "_sharedAxes=" + str(shareAxes) + ".png")
+            fig.savefig(folder + title.replace(" ", "_") + "_usePowerLaw=" + str(usePowerLaw) + ".png")
 
 
 
