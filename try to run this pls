@@ -1,0 +1,160 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+import pandas as pd #reading files
+
+# import ijson #imporing data
+import timeit
+from os import listdir
+
+import nltk #sentiment model
+from nltk import classify
+from nltk import NaiveBayesClassifier
+
+import random #for shuffeling
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+from nltk.tokenize import word_tokenize
+
+from nltk.sentiment import SentimentIntensityAnalyzer
+nltk.download('vader_lexicon') #needed for analysis
+sia = SentimentIntensityAnalyzer()
+
+def longer_sentiment(sent: str):
+    #SIA score only works well for shorter sentences
+    #so for longer ones we split the sentence in smaller
+    #sentences, and we take the 'average' sentiment overall
+    #takes as input a string, returns a dictionary
+    #details in the rudimentary_sentiment() function as they're the same
+    jump = 0
+    meancntr = 1
+    count = 144
+    out = {'neg': 0, 'neu': 0, 'pos': 0, 'compound': 0}
+    temps = None
+    smallsent = None
+    while count <= len(sent):
+        added = False
+        # temps = [i for i in sent][count:count+10]
+        # temps = remake_sentence(temps)
+        try:
+            while sent[count] != ' ':
+                count -= 1
+                temps = sent[jump:count]
+        except IndexError:
+            temps = sent[jump:len(sent)]
+        finally:
+            if temps:
+                smallsent = sia.polarity_scores(temps)
+            else:
+                smallsent = {'neg': 0, 'neu': 0, 'pos': 0, 'compound': 0}
+        for i in out.keys():
+            if smallsent[i] != 0:
+                added = True
+            out[i] += (smallsent[i])
+        jump += count
+        count += 144
+        if added:
+            meancntr += 1
+    for i in out:
+        out[i] = out[i] / meancntr
+    return out
+
+def rudimentary_sentiment(string):
+    string = str(string)
+    for i in '.,;:[{()}]`-~=+_?!\'':
+        string = string.replace(i, '')
+    out = ''
+    if len(string) <= 144:
+        out = sia.polarity_scores(string)
+    else:
+        out = longer_sentiment(string)
+    return out
+
+
+
+#makedict(keys = post_ids, vals = sentiment)
+#for id in post_ids:
+#GET comments WITH comments.post_id = id
+#THEN dict[key] = rudimentary_sentiment(post, comments)
+
+def clean_stuff(inn):
+    out = [i for i in inn if i != '[removed]']
+    out = [i for i in out if type(i) == str]
+    out = [i for i in out if 'Your post has been removed' not in i]
+    return out
+
+
+r = 123456
+reddits = {}
+sentdict = {}
+errors = []
+dfc, dfp = None, None 
+used = []
+continuevar = False
+#here we initialize a bunch of stuff: 
+#r is the random state for sampling
+# reddits is the big dictionary with all the subreddits as keys
+# sentdict is what you imagine, the dictionary with sentiment values for all 
+## posts and comments
+# errors is a list to check if everything is working, could be removed now
+## but since I haven't been able to run this I can't really check...
+# dfc -> dataframe comments, comments of the subreddit in question
+# dfp -> dataframe posts, posts of the subreddit in question
+# used -> list of subreddits we already used, cause otherwise we run 
+## them twice
+# continuevar is what we use with the 'used' list above to check if 
+## we already visited a subreddit
+
+check_continue = lambda x, y: x not in y #checks if we already used this subreddit
+
+
+path = '/home/rtorlaini/Downloads/Datasets/' #path to get csv's from
+
+for file in os.listdir(path):
+    if '.csv' in file: #otherwise we don't care
+        print(file) #this is the 'ok how much have we done'
+        
+        #the below is mostly to assign dfc and dfp correctly
+        if 'comments' in file: 
+            ind = file.index('comments')
+            name = (file[:ind])
+            try: 
+                dfc = pd.read_csv(path + name + 'comments.csv').sample(n = 3000, random_state = r)
+                dfp = pd.read_csv(path + name + 'posts.csv').sample(n = 3000, random_state = r)
+                continuevar = check_continue(name, used)
+                used.append(name)
+            except: #Iiii do not remember why but there was an error I had to fix with this
+                continuevar = False
+        elif 'posts' in file:
+            ind = file.index('posts')
+            name = (file[:ind])
+            dfc = pd.read_csv(path + name + 'comments.csv').sample(n = 3000, random_state = r)
+            dfp = pd.read_csv(path + name + 'posts.csv').sample(n = 3000, random_state = r)
+            used.append(name)
+            continuevar = check_continue(name, used)
+            
+    if continuevar:
+        for id in dfp.full_id:
+            smalldf = dfc[dfc['post id'] == id]
+            sentdict[id] = []
+            for post in clean_stuff(list(smalldf.body)):
+                try:
+                    sentdict[id].append(rudimentary_sentiment(post))
+                except:
+                    errors.append(id)
+                    if len(errors) > 5:
+                        raise StopIteration
+        reddits[name] = sentdict
+
+
+# %%
+
+
+
