@@ -28,10 +28,10 @@ plt.rcParams.update({'font.size': 20})
 # subreddits_PushShift = ['Changemyview', 'News', 'The_Donald', 'AMA', 'conspiracy', 'askscience', 'enoughtrumpspam',  'fuckthealtright', 'explainlikeimfive', 'incels', 'politicaldiscussion']
 
 ground_truth = ['Changemyview', 'The_Donald']
-echo_chamber_subreddits = ['conspiracy', 'enoughtrumpspam',  'fuckthealtright', 'incels']
-anti_echo_chamber_subreddits = ['AMA', 'askscience', 'explainlikeimfive', 'politicaldiscussion']
+echo_chamber_subreddits = ['enoughtrumpspam',  'fuckthealtright'] # ['conspiracy', 'enoughtrumpspam',  'fuckthealtright', 'incels']
+anti_echo_chamber_subreddits = ['AMA', 'politicaldiscussion'] # ['AMA', 'askscience', 'explainlikeimfive', 'politicaldiscussion']
 
-subreddits_PushShift = ["The_Donald"]
+subreddits_PushShift = echo_chamber_subreddits
 
 resultsPath = f"Results/Pushshift/"
 
@@ -112,7 +112,7 @@ for KF1, KF2 in combs:
         n = len(subreddits_PushShift)
         cols = ceil(sqrt(n))
         rows = ceil(sqrt(n))
-        # cols, rows = 2, 1
+        cols, rows = 1, 2
         fig, axsMult = plt.subplots(ncols= cols, nrows = rows, sharey=shareAxes, sharex = shareAxes, figsize=(7 * cols, 7 * rows))
 
         try:
@@ -213,6 +213,8 @@ for KF1, KF2 in combs:
             sub = subreddits_PushShift[i]
             vmin = 0
             vmax = 1000
+            xmax = 29
+            # xbinsval=xmax
             h = axs[i].hist2d(x, y, bins = (xbinsval, ybinsval), cmap = "gnuplot2_r", range = [[xmin, xmax], [ymin, ymax]], norm=mcolors.PowerNorm(gamma, vmin=vmin, vmax=vmax))
             fig.colorbar(h[3], ax=axs[i])
             axs[i].set_title(sub)
